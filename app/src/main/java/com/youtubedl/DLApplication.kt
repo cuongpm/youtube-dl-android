@@ -13,7 +13,7 @@ import dagger.android.DaggerApplication
 
 open class DLApplication : DaggerApplication() {
 
-    lateinit var androidInjector: AndroidInjector<out DaggerApplication>
+    private lateinit var androidInjector: AndroidInjector<out DaggerApplication>
 
     override fun onCreate() {
         super.onCreate()
