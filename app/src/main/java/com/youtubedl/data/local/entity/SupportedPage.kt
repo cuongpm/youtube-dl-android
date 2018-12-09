@@ -11,8 +11,8 @@ import java.util.*
  * Created by cuongpm on 12/8/18.
  */
 
-@Entity(tableName = "PageSupported")
-data class PageSupported constructor(
+@Entity(tableName = "SupportedPage")
+data class SupportedPage constructor(
     @PrimaryKey
     @ColumnInfo(name = "id")
     var id: String = UUID.randomUUID().toString()

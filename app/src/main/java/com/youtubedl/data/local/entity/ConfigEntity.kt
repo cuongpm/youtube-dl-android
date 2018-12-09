@@ -31,7 +31,7 @@ data class ConfigEntity constructor(
 
     @SerializedName("pages_supported")
     @Expose
-    var pagesSupported: List<PageSupported>? = null
+    var pagesSupported: List<SupportedPage>? = null
 
     @SerializedName("pages_general")
     @Expose

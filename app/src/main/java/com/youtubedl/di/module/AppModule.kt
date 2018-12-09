@@ -2,7 +2,7 @@ package com.youtubedl.di.module
 
 import android.content.Context
 import com.youtubedl.DLApplication
-import com.youtubedl.di.ApplicationContext
+import com.youtubedl.di.qualifier.ApplicationContext
 import dagger.Binds
 import dagger.Module
 

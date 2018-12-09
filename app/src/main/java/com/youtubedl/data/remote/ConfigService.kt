@@ -1,6 +1,7 @@
 package com.youtubedl.data.remote
 
 import com.youtubedl.data.local.entity.ConfigEntity
+import com.youtubedl.data.local.entity.SupportedPage
 import io.reactivex.Observable
 import retrofit2.http.GET
 
@@ -11,5 +12,8 @@ import retrofit2.http.GET
 interface ConfigService {
 
     @GET("config.json")
-    fun getconfigData(): Observable<ConfigEntity>
+    fun getconfig(): Observable<ConfigEntity>
+
+    @GET("supported_pages.json")
+    fun getSupportedPages(): Observable<List<SupportedPage>>
 }

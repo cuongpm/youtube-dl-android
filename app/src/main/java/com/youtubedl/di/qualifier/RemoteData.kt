@@ -1,12 +1,12 @@
-package com.youtubedl.di
+package com.youtubedl.di.qualifier
 
 import javax.inject.Qualifier
 
 /**
- * Created by cuongpm on 12/6/18.
+ * Created by cuongpm on 12/8/18.
  */
 
 @Qualifier
 @MustBeDocumented
 @Retention(AnnotationRetention.RUNTIME)
-annotation class ActivityContext
+annotation class RemoteData

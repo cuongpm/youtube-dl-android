@@ -1,10 +1,7 @@
 package com.youtubedl.di.component
 
 import com.youtubedl.DLApplication
-import com.youtubedl.di.module.ActivityBindingModule
-import com.youtubedl.di.module.AppModule
-import com.youtubedl.di.module.NetworkModule
-import com.youtubedl.di.module.ViewModelModule
+import com.youtubedl.di.module.*
 import dagger.BindsInstance
 import dagger.Component
 import dagger.android.AndroidInjector
@@ -18,7 +15,7 @@ import javax.inject.Singleton
 @Singleton
 @Component(
     modules = [AndroidSupportInjectionModule::class, AppModule::class, ActivityBindingModule::class,
-        NetworkModule::class, ViewModelModule::class]
+        NetworkModule::class, RepositoryModule::class, ViewModelModule::class]
 )
 interface AppComponent : AndroidInjector<DLApplication> {
 
