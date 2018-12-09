@@ -1,13 +1,24 @@
 package com.youtubedl.ui.main.home
 
-import android.support.v7.app.AppCompatActivity
+import android.databinding.DataBindingUtil
 import android.os.Bundle
 import com.youtubedl.R
+import com.youtubedl.databinding.ActivityMainBinding
+import com.youtubedl.ui.component.adapter.MainAdapter
+import com.youtubedl.ui.main.base.BaseActivity
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : BaseActivity() {
+
+    private lateinit var dataBinding: ActivityMainBinding
+
+    private lateinit var mainAdapter: MainAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+
+        dataBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+
+        mainAdapter = MainAdapter(supportFragmentManager)
+        dataBinding.viewPager.adapter = mainAdapter
     }
 }

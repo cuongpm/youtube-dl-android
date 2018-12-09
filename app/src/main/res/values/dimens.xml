@@ -19,5 +19,6 @@
     // View size
     <dimen name="splash_progress_size">50dp</dimen>
     <dimen name="splash_icon_size">80dp</dimen>
+    <dimen name="home_bottom_bar_size">60dp</dimen>
 
 </resources>

@@ -2,6 +2,7 @@ package com.youtubedl.di.module
 
 import com.youtubedl.di.ActivityScoped
 import com.youtubedl.ui.main.home.MainActivity
+import com.youtubedl.ui.main.home.MainModule
 import com.youtubedl.ui.main.splash.SplashActivity
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
@@ -18,6 +19,6 @@ internal abstract class ActivityBindingModule {
     internal abstract fun bindSplashActivity(): SplashActivity
 
     @ActivityScoped
-    @ContributesAndroidInjector
+    @ContributesAndroidInjector(modules = [MainModule::class])
     internal abstract fun bindMainActivity(): MainActivity
 }

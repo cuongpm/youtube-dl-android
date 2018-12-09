@@ -22,7 +22,7 @@ import javax.inject.Singleton
 @Module
 class NetworkModule {
 
-    fun buildOkHttpClient(application: Application): OkHttpClient =
+    private fun buildOkHttpClient(application: Application): OkHttpClient =
         OkHttpClient.Builder()
             .addNetworkInterceptor(StethoInterceptor())
             .connectTimeout(10L, TimeUnit.SECONDS)

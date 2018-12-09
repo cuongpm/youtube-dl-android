@@ -1,10 +1,10 @@
-package com.youtubedl.ui.main.progress
+package com.youtubedl.ui.main.home
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.youtubedl.databinding.FragmentProgressBinding
+import com.youtubedl.databinding.FragmentBrowserBinding
 import com.youtubedl.di.ActivityScoped
 import com.youtubedl.ui.main.base.BaseFragment
 import javax.inject.Inject
@@ -14,16 +14,16 @@ import javax.inject.Inject
  */
 
 @ActivityScoped
-class ProgressFragment @Inject constructor() : BaseFragment() {
+class BrowserFragment @Inject constructor() : BaseFragment() {
 
     companion object {
-        fun newInstance() = ProgressFragment()
+        fun newInstance() = BrowserFragment()
     }
 
-    private lateinit var dataBinding: FragmentProgressBinding
+    private lateinit var dataBinding: FragmentBrowserBinding
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        dataBinding = FragmentProgressBinding.inflate(inflater, container, false).apply {
+        dataBinding = FragmentBrowserBinding.inflate(inflater, container, false).apply {
             //            viewModel = (activity as TaskActivity).taskViewModel
         }
 
