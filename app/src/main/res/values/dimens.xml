@@ -6,6 +6,7 @@
     <dimen name="padding_small">8dp</dimen>
     <dimen name="padding_normal">16dp</dimen>
     <dimen name="padding_large">32dp</dimen>
+    <dimen name="browser_title_padding">40dp</dimen>
 
     // Text size
     <dimen name="text_tiny">12sp</dimen>
@@ -20,5 +21,7 @@
     <dimen name="splash_progress_size">50dp</dimen>
     <dimen name="splash_icon_size">80dp</dimen>
     <dimen name="home_bottom_bar_size">60dp</dimen>
+    <dimen name="browser_title_size">45dp</dimen>
+    <dimen name="browser_progress_size">2dp</dimen>
 
 </resources>

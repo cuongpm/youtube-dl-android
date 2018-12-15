@@ -24,7 +24,7 @@ class BrowserFragment @Inject constructor() : BaseFragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         dataBinding = FragmentBrowserBinding.inflate(inflater, container, false).apply {
-            //            viewModel = (activity as TaskActivity).taskViewModel
+            viewModel = (activity as MainActivity).browserViewModel
         }
 
         return dataBinding.root

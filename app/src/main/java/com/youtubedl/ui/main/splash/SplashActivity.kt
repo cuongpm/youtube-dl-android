@@ -30,11 +30,7 @@ class SplashActivity : BaseActivity() {
 
         dataBinding = DataBindingUtil.setContentView(this, R.layout.activity_splash)
 
-        splashViewModel = ViewModelProviders.of(this, viewModelFactory).get(SplashViewModel::class.java).apply {
-            //            addTaskEvent.observe(this@TaskActivity, Observer {
-//                startActivity(Intent(this@TaskActivity, AddTaskActivity::class.java))
-//            })
-        }
+        splashViewModel = ViewModelProviders.of(this, viewModelFactory).get(SplashViewModel::class.java)
 
         Handler().postDelayed({
             startActivity(Intent(this@SplashActivity, MainActivity::class.java))

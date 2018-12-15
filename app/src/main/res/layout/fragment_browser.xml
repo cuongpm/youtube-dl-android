@@ -1,20 +1,132 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto">
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
 
-    <android.support.constraint.ConstraintLayout
+    <data>
+
+        <import type="android.view.View"/>
+
+        <variable
+                name="viewModel"
+                type="com.youtubedl.ui.main.home.BrowserViewModel"/>
+
+    </data>
+
+    <android.support.design.widget.CoordinatorLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-        <TextView
+        <android.support.design.widget.AppBarLayout
+                android:id="@+id/app_bar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/colorPrimary">
+
+            <android.support.v7.widget.Toolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/color_gray_1"
+                    app:layout_scrollFlags="scroll|enterAlways|snap">
+
+                <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                    <android.support.v7.widget.CardView
+                            android:layout_width="0dp"
+                            android:layout_height="@dimen/browser_title_size"
+                            android:layout_weight="1"
+                            android:background="@android:color/transparent"
+                            app:cardCornerRadius="3dp"
+                            app:cardElevation="3dp"
+                            app:cardUseCompatPadding="true">
+
+                        <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                            <android.support.v7.widget.AppCompatAutoCompleteTextView
+                                    android:id="@+id/et_search"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:background="@android:color/white"
+                                    android:focusable="false"
+                                    android:focusableInTouchMode="false"
+                                    android:hint="@string/browser_search_hint"
+                                    android:inputType="textNoSuggestions"
+                                    android:lines="1"
+                                    android:paddingLeft="@dimen/padding_small"
+                                    android:paddingRight="@dimen/browser_title_padding"
+                                    android:singleLine="true"
+                                    android:textSize="@dimen/text_small"/>
+
+                            <android.support.v7.widget.AppCompatImageView
+                                    android:id="@+id/iv_close_refresh"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentRight="true"
+                                    android:layout_centerVertical="true"
+                                    android:layout_marginRight="@dimen/padding_small"
+                                    app:srcCompat="@drawable/ic_refresh_gray_24dp"
+                                    tools:ignore="VectorDrawableCompat"/>
+
+                        </RelativeLayout>
+
+                    </android.support.v7.widget.CardView>
+
+                </LinearLayout>
+            </android.support.v7.widget.Toolbar>
+
+        </android.support.design.widget.AppBarLayout>
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                <com.browser.downloader.ui.widget.NestedScrollWebView
+                        android:id="@+id/webview"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:visibility="gone"/>
+
+                <ProgressBar
+                        android:id="@+id/progressBar"
+                        style="?android:attr/progressBarStyleHorizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/browser_progress_size"
+                        android:background="@android:color/transparent"
+                        android:progressDrawable="@drawable/progress_load_data"
+                        android:visibility="gone"/>
+
+                <android.support.v7.widget.RecyclerView
+                        android:id="@+id/rv_top_sites"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"/>
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+        <android.support.design.widget.FloatingActionButton
+                android:id="@+id/fab"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                android:text="Browser Fragment"/>
-
-    </android.support.constraint.ConstraintLayout>
+                android:layout_gravity="bottom|end"
+                android:layout_margin="@dimen/padding_large"
+                android:src="@drawable/ic_download_white_24dp"
+                android:visibility="gone"
+                tools:visibility="visible"/>
+    </android.support.design.widget.CoordinatorLayout>
 
 </layout>

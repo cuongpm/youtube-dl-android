@@ -17,6 +17,8 @@ class MainActivity : BaseActivity() {
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
+    lateinit var browserViewModel: BrowserViewModel
+
     private lateinit var dataBinding: ActivityMainBinding
 
     private lateinit var mainAdapter: MainAdapter
@@ -25,12 +27,14 @@ class MainActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
 
         dataBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
-        dataBinding.viewModel = ViewModelProviders.of(this, viewModelFactory).get(MainViewModel::class.java)
-        dataBinding.viewPagerListener = onPageChangeListener
-        dataBinding.bottomBarListener = onTabSelectListener
 
         mainAdapter = MainAdapter(supportFragmentManager)
-        dataBinding.viewPager.adapter = mainAdapter
+        dataBinding.adapter = mainAdapter
+        dataBinding.viewPagerListener = onPageChangeListener
+        dataBinding.bottomBarListener = onTabSelectListener
+        dataBinding.viewModel = ViewModelProviders.of(this, viewModelFactory).get(MainViewModel::class.java)
+
+        browserViewModel = ViewModelProviders.of(this, viewModelFactory).get(BrowserViewModel::class.java)
     }
 
     private val onPageChangeListener = object : ViewPager.OnPageChangeListener {
