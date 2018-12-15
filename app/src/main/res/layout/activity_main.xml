@@ -2,6 +2,24 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <data>
+
+        <import type="android.view.View"/>
+
+        <variable
+                name="viewModel"
+                type="com.youtubedl.ui.main.home.MainViewModel"/>
+
+        <variable
+                name="viewPagerListener"
+                type="android.support.v4.view.ViewPager.OnPageChangeListener"/>
+
+        <variable
+                name="bottomBarListener"
+                type="com.roughike.bottombar.OnTabSelectListener"/>
+
+    </data>
+
     <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -10,6 +28,8 @@
                 android:id="@+id/view_pager"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
+                app:currentItem="@{viewModel.currentItem}"
+                app:onPageChangeListener="@{viewPagerListener}"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toTopOf="@id/bottom_bar"/>
 
@@ -19,6 +39,8 @@
                 android:layout_height="@dimen/home_bottom_bar_size"
                 android:layout_alignParentBottom="true"
                 android:background="@android:color/white"
+                app:defaultTabPosition="@{viewModel.currentItem}"
+                app:onTabSelectListener="@{bottomBarListener}"
                 app:bb_activeTabColor="@color/colorPrimary"
                 app:bb_behavior="shifting"
                 app:bb_inActiveTabColor="@color/color_gray"

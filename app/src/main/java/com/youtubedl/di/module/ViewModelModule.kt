@@ -3,6 +3,7 @@ package com.youtubedl.di.module
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
 import com.youtubedl.di.ViewModelKey
+import com.youtubedl.ui.main.home.MainViewModel
 import com.youtubedl.ui.main.splash.SplashViewModel
 import com.youtubedl.util.ViewModelFactory
 import dagger.Binds
@@ -25,5 +26,10 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(SplashViewModel::class)
     abstract fun bindSplashViewModel(viewModel: SplashViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(MainViewModel::class)
+    abstract fun bindMainViewModel(viewModel: MainViewModel): ViewModel
 
 }
