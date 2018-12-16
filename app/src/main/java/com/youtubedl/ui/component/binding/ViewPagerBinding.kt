@@ -10,12 +10,6 @@ import android.support.v4.view.ViewPager
 
 object ViewPagerBinding {
 
-    @BindingAdapter("app:setAdapter")
-    @JvmStatic
-    fun setAdapter(viewPager: ViewPager, pagerAdapter: PagerAdapter) {
-        viewPager.adapter = pagerAdapter
-    }
-
     @BindingAdapter("app:currentItem")
     @JvmStatic
     fun setCurrentItem(viewPager: ViewPager, currentItem: Int) {

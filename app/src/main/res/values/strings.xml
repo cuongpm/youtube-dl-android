@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">youtube-dl-android</string>
+
     <string name="browser_search_hint">Search or enter url</string>
+
+    <string name="settings_general">GENERAL</string>
 </resources>

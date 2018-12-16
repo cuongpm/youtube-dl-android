@@ -1,7 +1,7 @@
 package com.youtubedl.data.remote
 
-import com.youtubedl.data.local.entity.ConfigEntity
-import com.youtubedl.data.local.entity.SupportedPage
+import com.youtubedl.data.local.room.ConfigEntity
+import com.youtubedl.data.local.room.SupportedPage
 import com.youtubedl.data.repository.ConfigDataSource
 import io.reactivex.Flowable
 import javax.inject.Inject

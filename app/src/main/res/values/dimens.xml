@@ -23,5 +23,6 @@
     <dimen name="home_bottom_bar_size">60dp</dimen>
     <dimen name="browser_title_size">45dp</dimen>
     <dimen name="browser_progress_size">2dp</dimen>
+    <dimen name="settings_divider_size">2dp</dimen>
 
 </resources>

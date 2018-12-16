@@ -1,4 +1,4 @@
-package com.youtubedl.data.local.entity
+package com.youtubedl.data.local.room
 
 import android.arch.persistence.room.ColumnInfo
 import android.arch.persistence.room.Entity

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View"/>
+
+        <variable
+                name="pageInfo"
+                type="com.youtubedl.data.local.model.PageInfo"/>
+
+        <!--<variable-->
+        <!--name="listener"-->
+        <!--type="com.brightgate.ui.component.callback.SelectNetworkListener"-->
+        <!--/>-->
+    </data>
+
+    <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="?android:attr/listPreferredItemHeight"
+            android:background="?attr/selectableItemBackground"
+            android:paddingLeft="@dimen/padding_normal"
+            android:paddingRight="@dimen/padding_normal">
+
+        <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@{pageInfo.link}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="https://youtube.com"/>
+
+    </android.support.constraint.ConstraintLayout>
+</layout>

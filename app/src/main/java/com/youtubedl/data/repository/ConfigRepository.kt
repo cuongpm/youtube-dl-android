@@ -1,7 +1,7 @@
 package com.youtubedl.data.repository
 
-import com.youtubedl.data.local.entity.ConfigEntity
-import com.youtubedl.data.local.entity.SupportedPage
+import com.youtubedl.data.local.room.ConfigEntity
+import com.youtubedl.data.local.room.SupportedPage
 import com.youtubedl.di.qualifier.LocalData
 import com.youtubedl.di.qualifier.RemoteData
 import io.reactivex.Flowable
