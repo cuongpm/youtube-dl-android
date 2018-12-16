@@ -1,7 +1,11 @@
 # youtube-dl-android
+
+[![CircleCI](https://circleci.com/gh/cuongpm/youtube-dl-android.svg?style=svg)](https://circleci.com/gh/cuongpm/youtube-dl-android)
+
 📦 An Android client for youtube-dl: https://github.com/rg3/youtube-dl
 
 ## Features
+
 - Download videos from Youtube, Facebook, Twitter, Instagram, Dailymotion, Vimeo and more than [other 1000 sites](http://rg3.github.io/youtube-dl/supportedsites.html)
 - Browse videos with the built-in browser
 - Download videos with the built-in download manager
@@ -10,6 +14,7 @@
 - Save bookmark and history as a real browser
 
 ## Major technologies
+
 - Language: Kotlin
 - Architecture: MVVM
 - Android architecture components: ViewModel, LiveData, Room
@@ -18,4 +23,5 @@
 - Testing: JUnit, Espresso, Mockito
 
 ## License
+
 This package is licensed under the MIT license. See [LICENSE](./LICENSE) for details.
