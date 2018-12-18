@@ -47,6 +47,7 @@ dependencies {
 
     // Room
     implementation "android.arch.persistence.room:runtime:$arch_version"
+    implementation "android.arch.persistence.room:rxjava2:$arch_version"
     kapt "android.arch.persistence.room:compiler:$arch_version"
 
     // Dagger2
@@ -62,6 +63,10 @@ dependencies {
     implementation 'com.squareup.retrofit2:retrofit:2.4.0'
     implementation 'com.squareup.retrofit2:adapter-rxjava2:2.3.0'
     implementation "com.squareup.retrofit2:converter-gson:2.4.0"
+
+    // RxJava and RxAndroid
+    implementation 'io.reactivex.rxjava2:rxjava:2.2.2'
+    implementation 'io.reactivex.rxjava2:rxandroid:2.1.0'
 
     // Stetho for network debugging
     implementation 'com.facebook.stetho:stetho:1.5.0'

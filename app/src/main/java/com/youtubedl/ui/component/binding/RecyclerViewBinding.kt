@@ -2,7 +2,7 @@ package com.youtubedl.ui.component.binding
 
 import android.databinding.BindingAdapter
 import android.support.v7.widget.RecyclerView
-import com.youtubedl.data.local.model.PageInfo
+import com.youtubedl.data.local.room.entity.PageInfo
 import com.youtubedl.ui.component.adapter.TopPageAdapter
 
 /**

@@ -5,7 +5,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.youtubedl.R
-import com.youtubedl.data.local.model.PageInfo
+import com.youtubedl.data.local.room.entity.PageInfo
 import com.youtubedl.databinding.ItemTopPageBinding
 
 /**

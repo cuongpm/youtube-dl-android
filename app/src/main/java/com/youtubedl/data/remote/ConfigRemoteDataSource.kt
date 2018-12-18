@@ -1,8 +1,9 @@
 package com.youtubedl.data.remote
 
-import com.youtubedl.data.local.room.ConfigEntity
-import com.youtubedl.data.local.room.SupportedPage
-import com.youtubedl.data.repository.ConfigDataSource
+import com.youtubedl.data.local.room.entity.ConfigEntity
+import com.youtubedl.data.local.room.entity.SupportedPage
+import com.youtubedl.data.remote.service.ConfigService
+import com.youtubedl.data.repository.ConfigRepository
 import io.reactivex.Flowable
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -12,7 +13,9 @@ import javax.inject.Singleton
  */
 
 @Singleton
-class ConfigRemoteDataSource @Inject constructor() : ConfigDataSource() {
+class ConfigRemoteDataSource @Inject constructor(
+    private val configService: ConfigService
+) : ConfigRepository {
 
     override fun getSupportedPages(): Flowable<List<SupportedPage>> {
         return Flowable.empty()
@@ -23,5 +26,8 @@ class ConfigRemoteDataSource @Inject constructor() : ConfigDataSource() {
     }
 
     override fun saveConfig(configEntity: ConfigEntity) {
+    }
+
+    override fun refreshConfig() {
     }
 }

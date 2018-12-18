@@ -8,7 +8,7 @@
 
         <variable
                 name="pageInfo"
-                type="com.youtubedl.data.local.model.PageInfo"/>
+                type="com.youtubedl.data.local.room.entity.PageInfo"/>
 
         <!--<variable-->
         <!--name="listener"-->
@@ -23,12 +23,41 @@
             android:paddingLeft="@dimen/padding_normal"
             android:paddingRight="@dimen/padding_normal">
 
+        <ImageView
+                android:id="@+id/img_icon"
+                android:layout_width="@dimen/browser_icon_size"
+                android:layout_height="@dimen/browser_icon_size"
+                app:imageUrl="@{pageInfo.link}"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"/>
+
         <TextView
-                android:layout_width="match_parent"
+                android:id="@+id/tv_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@{pageInfo.name}"
+                android:textSize="@dimen/text_large"
+                android:textColor="@color/black_85"
+                android:layout_marginLeft="@dimen/padding_normal"
+                app:layout_constraintBottom_toTopOf="@id/tv_link"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintLeft_toRightOf="@id/img_icon"
+                app:layout_constraintRight_toRightOf="parent"
+                tools:text="Youtube"/>
+
+        <TextView
+                android:id="@+id/tv_link"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="@{pageInfo.link}"
+                android:textSize="@dimen/text_medium"
+                android:textColor="@color/black_55"
+                android:layout_marginLeft="@dimen/padding_normal"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_name"
+                app:layout_constraintLeft_toRightOf="@id/img_icon"
+                app:layout_constraintRight_toRightOf="parent"
                 tools:text="https://youtube.com"/>
 
     </android.support.constraint.ConstraintLayout>

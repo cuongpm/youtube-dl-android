@@ -1,7 +1,7 @@
 package com.youtubedl.data.repository
 
-import com.youtubedl.data.local.room.ConfigEntity
-import com.youtubedl.data.local.room.SupportedPage
+import com.youtubedl.data.local.room.entity.ConfigEntity
+import com.youtubedl.data.local.room.entity.SupportedPage
 import com.youtubedl.di.qualifier.LocalData
 import com.youtubedl.di.qualifier.RemoteData
 import io.reactivex.Flowable
@@ -12,11 +12,22 @@ import javax.inject.Singleton
  * Created by cuongpm on 12/8/18.
  */
 
+interface ConfigRepository {
+
+    fun getConfig(): Flowable<ConfigEntity>
+
+    fun getSupportedPages(): Flowable<List<SupportedPage>>
+
+    fun saveConfig(configEntity: ConfigEntity)
+
+    fun refreshConfig()
+}
+
 @Singleton
-class ConfigRepository @Inject constructor(
-    @LocalData private val localDataSource: ConfigDataSource,
-    @RemoteData private val remoteDataSource: ConfigDataSource
-) : ConfigDataSource() {
+class ConfigRepositoryImpl @Inject constructor(
+    @LocalData private val localDataSource: ConfigRepository,
+    @RemoteData private val remoteDataSource: ConfigRepository
+) : ConfigRepository {
 
     var cacheIsDirty = false
 
