@@ -21,19 +21,21 @@ class SplashActivity : BaseActivity() {
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
-    lateinit var splashViewModel: SplashViewModel
+    private lateinit var splashViewModel: SplashViewModel
 
     private lateinit var dataBinding: ActivitySplashBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        dataBinding = DataBindingUtil.setContentView(this, R.layout.activity_splash)
-
         splashViewModel = ViewModelProviders.of(this, viewModelFactory).get(SplashViewModel::class.java)
+
+        dataBinding = DataBindingUtil.setContentView(this, R.layout.activity_splash)
+        dataBinding.viewModel = splashViewModel
 
         Handler().postDelayed({
             startActivity(Intent(this@SplashActivity, MainActivity::class.java))
+            finish()
         }, 3000)
     }
 }

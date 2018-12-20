@@ -17,7 +17,7 @@ class MainActivity : BaseActivity() {
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
-    lateinit var browserViewModel: BrowserViewModel
+    private lateinit var mainViewModel: MainViewModel
 
     private lateinit var dataBinding: ActivityMainBinding
 
@@ -28,13 +28,13 @@ class MainActivity : BaseActivity() {
 
         dataBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
+        mainViewModel = ViewModelProviders.of(this, viewModelFactory).get(MainViewModel::class.java)
         mainAdapter = MainAdapter(supportFragmentManager)
+
         dataBinding.adapter = mainAdapter
         dataBinding.viewPagerListener = onPageChangeListener
         dataBinding.bottomBarListener = onTabSelectListener
-        dataBinding.viewModel = ViewModelProviders.of(this, viewModelFactory).get(MainViewModel::class.java)
-
-        browserViewModel = ViewModelProviders.of(this, viewModelFactory).get(BrowserViewModel::class.java)
+        dataBinding.viewModel = mainViewModel
     }
 
     private val onPageChangeListener = object : ViewPager.OnPageChangeListener {
@@ -45,25 +45,25 @@ class MainActivity : BaseActivity() {
         }
 
         override fun onPageSelected(postion: Int) {
-            dataBinding.viewModel?.currentItem?.set(postion)
+            mainViewModel.currentItem.set(postion)
         }
     }
 
     private val onTabSelectListener = OnTabSelectListener { tabId ->
         when (tabId) {
-            R.id.tab_browser -> dataBinding.viewModel?.currentItem?.set(0)
-            R.id.tab_progress -> dataBinding.viewModel?.currentItem?.set(1)
+            R.id.tab_browser -> mainViewModel.currentItem.set(0)
+            R.id.tab_progress -> mainViewModel.currentItem.set(1)
             R.id.tab_video -> {
-                dataBinding.viewModel?.currentItem?.set(2)
+                mainViewModel.currentItem.set(2)
                 //                getPresenter().setTabVideoBadge(0)
                 //                mBinding.bottomBar.getTabWithId(tabId).removeBadge()
             }
             R.id.tab_online -> {
-                dataBinding.viewModel?.currentItem?.set(3)
+                mainViewModel.currentItem.set(3)
                 //                getPresenter().setTabOnlineBadge(0)
                 //                mBinding.bottomBar.getTabWithId(tabId).removeBadge()
             }
-            else -> dataBinding.viewModel?.currentItem?.set(4)
+            else -> mainViewModel.currentItem.set(4)
         }
     }
 }
