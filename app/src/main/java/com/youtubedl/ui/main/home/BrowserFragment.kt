@@ -1,19 +1,23 @@
 package com.youtubedl.ui.main.home
 
-import android.arch.lifecycle.ViewModelProvider
-import android.arch.lifecycle.ViewModelProviders
+import android.arch.lifecycle.Observer
 import android.graphics.Bitmap
 import android.os.Bundle
+import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.webkit.WebChromeClient
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import android.widget.EditText
 import com.youtubedl.databinding.FragmentBrowserBinding
 import com.youtubedl.di.ActivityScoped
 import com.youtubedl.ui.component.adapter.TopPageAdapter
 import com.youtubedl.ui.main.base.BaseFragment
+import com.youtubedl.util.AppUtil.hideSoftKeyboard
+import com.youtubedl.util.AppUtil.showSoftKeyboard
+import com.youtubedl.util.ScriptUtil.Companion.FACEBOOK_SCRIPT
 import javax.inject.Inject
 
 /**
@@ -27,9 +31,6 @@ class BrowserFragment @Inject constructor() : BaseFragment() {
         fun newInstance() = BrowserFragment()
     }
 
-    @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
-
     private lateinit var browserViewModel: BrowserViewModel
 
     private lateinit var dataBinding: FragmentBrowserBinding
@@ -37,7 +38,7 @@ class BrowserFragment @Inject constructor() : BaseFragment() {
     private lateinit var topPageAdapter: TopPageAdapter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        browserViewModel = ViewModelProviders.of(this, viewModelFactory).get(BrowserViewModel::class.java)
+        browserViewModel = (activity as MainActivity).browserViewModel
         topPageAdapter = TopPageAdapter(ArrayList(0), browserViewModel)
 
         dataBinding = FragmentBrowserBinding.inflate(inflater, container, false).apply {
@@ -45,6 +46,7 @@ class BrowserFragment @Inject constructor() : BaseFragment() {
             this.webChromeClient = browserWebChromeClient
             this.webViewClient = browserWebViewClient
             this.adapter = topPageAdapter
+            this.onKeyListener = onKeyPressEnterListener
         }
 
         return dataBinding.root
@@ -53,11 +55,37 @@ class BrowserFragment @Inject constructor() : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         browserViewModel.start()
+        handleUIEvents()
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         browserViewModel.stop()
+    }
+
+    private fun onBackPressed() {
+        when {
+            dataBinding.webview.canGoBack() -> dataBinding.webview.goBack()
+            browserViewModel.isShowPage.get() -> browserViewModel.isShowPage.set(false)
+            else -> activity?.finish()
+        }
+    }
+
+    private fun handleUIEvents() {
+        browserViewModel.apply {
+            changeFocusEvent.observe(activity as MainActivity, Observer { isFocus ->
+                isFocus?.let { if (it) showSoftKeyboard(dataBinding.etSearch) else hideSoftKeyboard(dataBinding.etSearch) }
+            })
+            pressBackBtnEvent.observe(activity as MainActivity, Observer { onBackPressed() })
+        }
+    }
+
+    private val onKeyPressEnterListener = View.OnKeyListener { v, keyCode, _ ->
+        if (keyCode == KeyEvent.KEYCODE_ENTER) {
+            browserViewModel.loadPage((v as EditText).text.toString())
+            return@OnKeyListener true
+        }
+        return@OnKeyListener false
     }
 
     private val browserWebChromeClient = object : WebChromeClient() {
@@ -69,10 +97,7 @@ class BrowserFragment @Inject constructor() : BaseFragment() {
 
     private val browserWebViewClient = object : WebViewClient() {
         override fun onPageStarted(view: WebView, url: String, favicon: Bitmap?) {
-            browserViewModel.textInput.set(view.url)
-            browserViewModel.isShowPage.set(true)
-            browserViewModel.isShowProgress.set(true)
-//            mBinding.fab.setVisibility(View.VISIBLE)
+            browserViewModel.startPage(view.url)
 //            checkLinkStatus(view.url)
 //            updateBookmarkMenu(view)
             super.onPageStarted(view, url, favicon)
@@ -89,14 +114,13 @@ class BrowserFragment @Inject constructor() : BaseFragment() {
             browserViewModel.textInput.set(view.url)
 //            checkLinkStatus(view.url)
             if (url.contains("facebook.com")) {
-//                view.loadUrl(ScriptUtil.FACEBOOK_SCRIPT)
+                browserViewModel.pageUrl.set(FACEBOOK_SCRIPT)
             }
             super.onLoadResource(view, url)
         }
 
         override fun onPageFinished(view: WebView, url: String) {
-            browserViewModel.textInput.set(view.url)
-            browserViewModel.isShowProgress.set(false)
+            browserViewModel.finishPage(view.url)
 //            checkLinkStatus(view.url)
 //            getPresenter().saveWebViewHistory(view)
 //            updateBookmarkMenu(view)

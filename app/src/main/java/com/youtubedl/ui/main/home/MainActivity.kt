@@ -17,6 +17,8 @@ class MainActivity : BaseActivity() {
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
+    lateinit var browserViewModel: BrowserViewModel
+
     private lateinit var mainViewModel: MainViewModel
 
     private lateinit var dataBinding: ActivityMainBinding
@@ -28,6 +30,7 @@ class MainActivity : BaseActivity() {
 
         dataBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
+        browserViewModel = ViewModelProviders.of(this, viewModelFactory).get(BrowserViewModel::class.java)
         mainViewModel = ViewModelProviders.of(this, viewModelFactory).get(MainViewModel::class.java)
         mainAdapter = MainAdapter(supportFragmentManager)
 
@@ -35,6 +38,14 @@ class MainActivity : BaseActivity() {
         dataBinding.viewPagerListener = onPageChangeListener
         dataBinding.bottomBarListener = onTabSelectListener
         dataBinding.viewModel = mainViewModel
+    }
+
+    override fun onBackPressed() {
+        if (mainViewModel.currentItem.get() != 0) {
+            mainViewModel.currentItem.set(0)
+        } else {
+            browserViewModel.pressBackBtnEvent.call()
+        }
     }
 
     private val onPageChangeListener = object : ViewPager.OnPageChangeListener {

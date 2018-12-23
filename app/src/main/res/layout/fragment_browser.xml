@@ -23,6 +23,10 @@
                 name="webChromeClient"
                 type="android.webkit.WebChromeClient"/>
 
+        <variable
+                name="onKeyListener"
+                type="android.view.View.OnKeyListener"/>
+
     </data>
 
     <android.support.design.widget.CoordinatorLayout
@@ -64,15 +68,17 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
                                     android:background="@android:color/white"
-                                    android:focusable="false"
-                                    android:focusableInTouchMode="false"
+                                    android:focusable="@{viewModel.isFocus}"
+                                    android:focusableInTouchMode="@{viewModel.isFocus}"
                                     android:hint="@string/browser_search_hint"
                                     android:inputType="textNoSuggestions"
                                     android:paddingLeft="@dimen/padding_small"
                                     android:paddingRight="@dimen/browser_title_padding"
                                     android:singleLine="true"
                                     android:textSize="@dimen/text_small"
-                                    android:text="@{viewModel.textInput}"/>
+                                    android:text="@{viewModel.textInput}"
+                                    android:onClick="@{() -> viewModel.changeFocus(true)}"
+                                    app:onKeyListener="@{onKeyListener}"/>
 
                             <android.support.v7.widget.AppCompatImageView
                                     android:id="@+id/iv_close_refresh"
@@ -107,7 +113,9 @@
                     android:visibility="@{viewModel.isShowPage ? View.VISIBLE : View.GONE}"
                     app:loadUrl="@{viewModel.pageUrl}"
                     app:webViewClient="@{webViewClient}"
-                    app:webChromeClient="@{webChromeClient}"/>
+                    app:webChromeClient="@{webChromeClient}"
+                    app:javaScriptEnabled="@{viewModel.javaScriptEnabled}"
+                    app:addJavascriptInterface="@{viewModel.javaScripInterface}"/>
 
             <ProgressBar
                     android:id="@+id/progressBar"

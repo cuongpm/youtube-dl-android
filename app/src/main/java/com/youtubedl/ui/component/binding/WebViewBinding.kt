@@ -19,8 +19,8 @@ object WebViewBinding {
 
     @BindingAdapter("app:javaScriptEnabled")
     @JvmStatic
-    fun javaScriptEnabled(webView: WebView, isEnabled: String) {
-        webView.settings.javaScriptEnabled = true
+    fun javaScriptEnabled(webView: WebView, isEnabled: Boolean) {
+        webView.settings.javaScriptEnabled = isEnabled
     }
 
     @BindingAdapter("app:addJavascriptInterface")
