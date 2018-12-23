@@ -3,6 +3,8 @@ package com.youtubedl.ui.main.home
 import android.arch.lifecycle.Observer
 import android.graphics.Bitmap
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
@@ -13,6 +15,7 @@ import android.webkit.WebViewClient
 import android.widget.EditText
 import com.youtubedl.databinding.FragmentBrowserBinding
 import com.youtubedl.di.ActivityScoped
+import com.youtubedl.ui.component.adapter.SuggestionAdapter
 import com.youtubedl.ui.component.adapter.TopPageAdapter
 import com.youtubedl.ui.main.base.BaseFragment
 import com.youtubedl.util.AppUtil.hideSoftKeyboard
@@ -37,16 +40,21 @@ class BrowserFragment @Inject constructor() : BaseFragment() {
 
     private lateinit var topPageAdapter: TopPageAdapter
 
+    private lateinit var suggestionAdapter: SuggestionAdapter
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         browserViewModel = (activity as MainActivity).browserViewModel
         topPageAdapter = TopPageAdapter(ArrayList(0), browserViewModel)
+        suggestionAdapter = SuggestionAdapter(context, ArrayList(0), browserViewModel)
 
         dataBinding = FragmentBrowserBinding.inflate(inflater, container, false).apply {
             this.viewModel = browserViewModel
             this.webChromeClient = browserWebChromeClient
             this.webViewClient = browserWebViewClient
-            this.adapter = topPageAdapter
+            this.pageAdapter = topPageAdapter
+            this.sgAdapter = suggestionAdapter
             this.onKeyListener = onKeyPressEnterListener
+            this.textWatcher = onInputChangeListener
         }
 
         return dataBinding.root
@@ -77,6 +85,21 @@ class BrowserFragment @Inject constructor() : BaseFragment() {
                 isFocus?.let { if (it) showSoftKeyboard(dataBinding.etSearch) else hideSoftKeyboard(dataBinding.etSearch) }
             })
             pressBackBtnEvent.observe(activity as MainActivity, Observer { onBackPressed() })
+        }
+    }
+
+    private val onInputChangeListener = object : TextWatcher {
+        override fun afterTextChanged(s: Editable) {
+            val input = s.toString()
+            browserViewModel.textInput.set(input)
+            browserViewModel.showSuggestions()
+            browserViewModel.publishSubject.onNext(input)
+        }
+
+        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+        }
+
+        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
         }
     }
 

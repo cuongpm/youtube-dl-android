@@ -1,13 +1,21 @@
 package com.youtubedl.ui.main.home
 
 import android.databinding.*
+import android.util.Patterns
+import com.youtubedl.data.local.model.Suggestion
 import com.youtubedl.data.local.room.entity.PageInfo
+import com.youtubedl.data.repository.ConfigRepository
 import com.youtubedl.data.repository.TopPagesRepository
 import com.youtubedl.ui.main.base.BaseViewModel
 import com.youtubedl.util.SingleLiveEvent
+import io.reactivex.BackpressureStrategy
+import io.reactivex.Flowable
 import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.Disposable
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.functions.BiFunction
 import io.reactivex.schedulers.Schedulers
+import io.reactivex.subjects.PublishSubject
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 /**
@@ -15,10 +23,17 @@ import javax.inject.Inject
  */
 
 class BrowserViewModel @Inject constructor(
-    private val topPagesRepository: TopPagesRepository
+    private val topPagesRepository: TopPagesRepository,
+    private val configRepository: ConfigRepository
 ) : BaseViewModel() {
 
-    private var disposable: Disposable? = null
+    companion object {
+        private const val SEARCH_URL = "https://www.google.com/search?q=%s"
+    }
+
+    private lateinit var compositeDisposable: CompositeDisposable
+
+    lateinit var publishSubject: PublishSubject<String>
 
     val textInput = ObservableField<String>("")
     val isFocus = ObservableBoolean(false)
@@ -36,20 +51,35 @@ class BrowserViewModel @Inject constructor(
 
     val listPages: ObservableList<PageInfo> = ObservableArrayList()
 
+    val listSuggestions: ObservableList<Suggestion> = ObservableArrayList()
+
     val pressBackBtnEvent = SingleLiveEvent<Void>()
 
     override fun start() {
+        compositeDisposable = CompositeDisposable()
+        publishSubject = PublishSubject.create()
         getTopPages()
     }
 
     override fun stop() {
-        disposable?.let { it -> if (!it.isDisposed) it.dispose() }
+        compositeDisposable.clear()
     }
 
-    fun loadPage(url: String) {
-        pageUrl.set(url)
-        isShowPage.set(true)
-        changeFocus(false)
+    fun loadPage(input: String) {
+        if (input.isNotEmpty()) {
+            isShowPage.set(true)
+            changeFocus(false)
+
+            if (input.startsWith("http://") || input.startsWith("https://")) {
+                pageUrl.set(input)
+            } else if (Patterns.WEB_URL.matcher(input).matches()) {
+                pageUrl.set("http://$input")
+                textInput.set("http://$input")
+            } else {
+                pageUrl.set(String.format(SEARCH_URL, input))
+                textInput.set(String.format(SEARCH_URL, input))
+            }
+        }
     }
 
     fun changeFocus(isFocus: Boolean) {
@@ -69,8 +99,34 @@ class BrowserViewModel @Inject constructor(
         isShowProgress.set(false)
     }
 
+    fun showSuggestions() {
+        getListSuggestions()
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe { list ->
+                with(listSuggestions) {
+                    clear()
+                    addAll(list)
+                }
+            }.let { compositeDisposable.add(it) }
+    }
+
+    private fun getListSuggestions(): Flowable<List<Suggestion>> {
+        return Flowable.combineLatest(
+            publishSubject.debounce(300, TimeUnit.MILLISECONDS).toFlowable(BackpressureStrategy.LATEST),
+            configRepository.getSupportedPages(),
+            BiFunction { input, supportedPages ->
+                val listSuggestions = mutableListOf<Suggestion>()
+                supportedPages.filter { page -> page.name.contains(input) }.map {
+                    listSuggestions.add(Suggestion(content = it.name))
+                }
+                listSuggestions
+            }
+        )
+    }
+
     private fun getTopPages() {
-        disposable = topPagesRepository.getTopPages()
+        topPagesRepository.getTopPages()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({ list ->
@@ -80,8 +136,6 @@ class BrowserViewModel @Inject constructor(
                 }
             }, { error ->
                 error.printStackTrace()
-            })
+            }).let { compositeDisposable.add(it) }
     }
-
-
 }

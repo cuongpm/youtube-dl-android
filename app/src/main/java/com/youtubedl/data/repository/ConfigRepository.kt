@@ -34,7 +34,7 @@ class ConfigRepositoryImpl @Inject constructor(
     var cachedConfig: ConfigEntity? = null
 
     override fun getSupportedPages(): Flowable<List<SupportedPage>> {
-        return Flowable.empty()
+        return remoteDataSource.getSupportedPages()
     }
 
     override fun getConfig(): Flowable<ConfigEntity> {

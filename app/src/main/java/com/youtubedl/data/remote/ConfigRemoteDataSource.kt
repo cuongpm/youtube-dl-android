@@ -18,7 +18,7 @@ class ConfigRemoteDataSource @Inject constructor(
 ) : ConfigRepository {
 
     override fun getSupportedPages(): Flowable<List<SupportedPage>> {
-        return Flowable.empty()
+        return configService.getSupportedPages()
     }
 
     override fun getConfig(): Flowable<ConfigEntity> {

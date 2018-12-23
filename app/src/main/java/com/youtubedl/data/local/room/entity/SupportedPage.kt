@@ -15,13 +15,11 @@ import java.util.*
 data class SupportedPage constructor(
     @PrimaryKey
     @ColumnInfo(name = "id")
-    var id: String = UUID.randomUUID().toString()
-) {
+    var id: String = UUID.randomUUID().toString(),
     @SerializedName("name")
     @Expose
-    var name: String? = null
-
+    var name: String = "",
     @SerializedName("pattern")
     @Expose
-    var pattern: String? = null
-}
+    var pattern: String = ""
+)
