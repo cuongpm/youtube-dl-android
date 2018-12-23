@@ -19,13 +19,12 @@ class MainAdapter constructor(fm: FragmentManager) : FragmentPagerAdapter(fm) {
             0 -> BrowserFragment.newInstance()
             1 -> ProgressFragment.newInstance()
             2 -> VideoFragment.newInstance()
-            3 -> VideoFragment.newInstance()
             else -> SettingsFragment.newInstance()
         }
     }
 
     override fun getCount(): Int {
-        return 5
+        return 4
     }
 
 }

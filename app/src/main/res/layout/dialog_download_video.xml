@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="android.view.View"/>
+
+        <variable
+                name="listener"
+                type="com.youtubedl.ui.component.dialog.DownloadVideoListener"/>
+
+        <variable
+                name="dialog"
+                type="android.support.design.widget.BottomSheetDialog"/>
+
+    </data>
+
+    <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <TextView
+                android:id="@+id/tv_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackground"
+                android:padding="@dimen/padding_normal"
+                android:text="@string/dialog_video_title"
+                android:textSize="@dimen/text_xxxlarge"/>
+
+        <TextView
+                android:id="@+id/tv_preview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackground"
+                android:drawableLeft="@drawable/ic_video_gray_24dp"
+                android:drawablePadding="@dimen/padding_small"
+                android:padding="@dimen/padding_normal"
+                android:text="@string/dialog_preview_video"
+                android:textSize="@dimen/text_medium"
+                android:onClick="@{() -> listener.onPreviewVideo(dialog)}"
+                app:layout_constraintTop_toBottomOf="@id/tv_title"/>
+
+        <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/tv_download"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackground"
+                android:drawableLeft="@drawable/ic_download_gray_24dp"
+                android:drawablePadding="@dimen/padding_small"
+                android:padding="@dimen/padding_normal"
+                android:text="@string/dialog_download_video"
+                android:textSize="@dimen/text_medium"
+                android:onClick="@{() -> listener.onDownloadVideo(dialog)}"
+                app:layout_constraintTop_toBottomOf="@id/tv_preview"/>
+
+        <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/tv_cancel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackground"
+                android:drawableLeft="@drawable/ic_cancel_gray_24dp"
+                android:drawablePadding="@dimen/padding_small"
+                android:padding="@dimen/padding_normal"
+                android:text="Cancel"
+                android:textSize="@dimen/text_medium"
+                android:onClick="@{() -> listener.onCancel(dialog)}"
+                app:layout_constraintTop_toBottomOf="@id/tv_download"/>
+
+    </android.support.constraint.ConstraintLayout>
+</layout>

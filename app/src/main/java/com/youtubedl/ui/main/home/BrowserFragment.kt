@@ -3,6 +3,7 @@ package com.youtubedl.ui.main.home
 import android.arch.lifecycle.Observer
 import android.graphics.Bitmap
 import android.os.Bundle
+import android.support.design.widget.BottomSheetDialog
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.KeyEvent
@@ -17,10 +18,11 @@ import com.youtubedl.databinding.FragmentBrowserBinding
 import com.youtubedl.di.ActivityScoped
 import com.youtubedl.ui.component.adapter.SuggestionAdapter
 import com.youtubedl.ui.component.adapter.TopPageAdapter
+import com.youtubedl.ui.component.dialog.DownloadVideoListener
+import com.youtubedl.ui.component.dialog.showDownloadVideoDialog
 import com.youtubedl.ui.main.base.BaseFragment
 import com.youtubedl.util.AppUtil.hideSoftKeyboard
 import com.youtubedl.util.AppUtil.showSoftKeyboard
-import com.youtubedl.util.ScriptUtil.Companion.FACEBOOK_SCRIPT
 import javax.inject.Inject
 
 /**
@@ -84,7 +86,24 @@ class BrowserFragment @Inject constructor() : BaseFragment() {
             changeFocusEvent.observe(activity as MainActivity, Observer { isFocus ->
                 isFocus?.let { if (it) showSoftKeyboard(dataBinding.etSearch) else hideSoftKeyboard(dataBinding.etSearch) }
             })
+
             pressBackBtnEvent.observe(activity as MainActivity, Observer { onBackPressed() })
+
+            showDownloadDialogEvent.observe(activity as MainActivity, Observer {
+                showDownloadVideoDialog(activity as MainActivity, object : DownloadVideoListener {
+                    override fun onPreviewVideo(dialog: BottomSheetDialog) {
+                        dialog.dismiss()
+                    }
+
+                    override fun onDownloadVideo(dialog: BottomSheetDialog) {
+                        dialog.dismiss()
+                    }
+
+                    override fun onCancel(dialog: BottomSheetDialog) {
+                        dialog.dismiss()
+                    }
+                })
+            })
         }
     }
 
@@ -121,8 +140,6 @@ class BrowserFragment @Inject constructor() : BaseFragment() {
     private val browserWebViewClient = object : WebViewClient() {
         override fun onPageStarted(view: WebView, url: String, favicon: Bitmap?) {
             browserViewModel.startPage(view.url)
-//            checkLinkStatus(view.url)
-//            updateBookmarkMenu(view)
             super.onPageStarted(view, url, favicon)
         }
 
@@ -134,19 +151,12 @@ class BrowserFragment @Inject constructor() : BaseFragment() {
         }
 
         override fun onLoadResource(view: WebView, url: String) {
-            browserViewModel.textInput.set(view.url)
-//            checkLinkStatus(view.url)
-            if (url.contains("facebook.com")) {
-                browserViewModel.pageUrl.set(FACEBOOK_SCRIPT)
-            }
+            browserViewModel.loadResource(view.url)
             super.onLoadResource(view, url)
         }
 
         override fun onPageFinished(view: WebView, url: String) {
             browserViewModel.finishPage(view.url)
-//            checkLinkStatus(view.url)
-//            getPresenter().saveWebViewHistory(view)
-//            updateBookmarkMenu(view)
             super.onPageFinished(view, url)
         }
     }

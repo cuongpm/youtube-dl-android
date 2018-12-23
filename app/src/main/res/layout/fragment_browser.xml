@@ -46,7 +46,8 @@
                 android:id="@+id/app_bar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="?attr/colorPrimary">
+                android:background="?attr/colorPrimary"
+                app:smoothExpanded="@{viewModel.isExpandedAppbar}">
 
             <android.support.v7.widget.Toolbar
                     android:id="@+id/toolbar"
@@ -156,8 +157,7 @@
                 android:layout_gravity="bottom|end"
                 android:layout_margin="@dimen/padding_large"
                 android:src="@drawable/ic_download_white_24dp"
-                android:visibility="gone"
-                tools:visibility="visible"/>
+                android:visibility="@{viewModel.isShowFabBtn ? View.VISIBLE : View.GONE}"/>
     </android.support.design.widget.CoordinatorLayout>
 
 </layout>

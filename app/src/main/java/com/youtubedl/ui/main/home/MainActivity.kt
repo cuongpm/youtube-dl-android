@@ -69,12 +69,7 @@ class MainActivity : BaseActivity() {
                 //                getPresenter().setTabVideoBadge(0)
                 //                mBinding.bottomBar.getTabWithId(tabId).removeBadge()
             }
-            R.id.tab_online -> {
-                mainViewModel.currentItem.set(3)
-                //                getPresenter().setTabOnlineBadge(0)
-                //                mBinding.bottomBar.getTabWithId(tabId).removeBadge()
-            }
-            else -> mainViewModel.currentItem.set(4)
+            else -> mainViewModel.currentItem.set(3)
         }
     }
 }

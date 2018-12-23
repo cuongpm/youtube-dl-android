@@ -1,22 +1,18 @@
 <tabs>
     <tab
-        icon="@drawable/ic_browser"
-        id="@+id/tab_browser"
-        title="Browser" />
+            icon="@drawable/ic_browser"
+            id="@+id/tab_browser"
+            title="Browser"/>
     <tab
-        icon="@drawable/ic_progress"
-        id="@+id/tab_progress"
-        title="Progress" />
+            icon="@drawable/ic_progress"
+            id="@+id/tab_progress"
+            title="Progress"/>
     <tab
-        icon="@drawable/ic_video"
-        id="@+id/tab_video"
-        title="Offline" />
+            icon="@drawable/ic_video"
+            id="@+id/tab_video"
+            title="Video"/>
     <tab
-        icon="@drawable/ic_cloud_gray_24dp"
-        id="@+id/tab_online"
-        title="Online" />
-    <tab
-        icon="@drawable/ic_settings"
-        id="@+id/tab_settings"
-        title="Settings" />
+            icon="@drawable/ic_settings"
+            id="@+id/tab_settings"
+            title="Settings"/>
 </tabs>

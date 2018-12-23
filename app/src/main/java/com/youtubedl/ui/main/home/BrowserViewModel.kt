@@ -7,6 +7,7 @@ import com.youtubedl.data.local.room.entity.PageInfo
 import com.youtubedl.data.repository.ConfigRepository
 import com.youtubedl.data.repository.TopPagesRepository
 import com.youtubedl.ui.main.base.BaseViewModel
+import com.youtubedl.util.ScriptUtil
 import com.youtubedl.util.SingleLiveEvent
 import io.reactivex.BackpressureStrategy
 import io.reactivex.Flowable
@@ -37,7 +38,6 @@ class BrowserViewModel @Inject constructor(
 
     val textInput = ObservableField<String>("")
     val isFocus = ObservableBoolean(false)
-    val changeFocusEvent = SingleLiveEvent<Boolean>()
 
     val pageUrl = ObservableField<String>("")
     val isShowPage = ObservableBoolean(false)
@@ -48,12 +48,14 @@ class BrowserViewModel @Inject constructor(
     val progress = ObservableInt(0)
 
     val isShowFabBtn = ObservableBoolean(false)
+    val isExpandedAppbar = ObservableBoolean(true)
 
     val listPages: ObservableList<PageInfo> = ObservableArrayList()
-
     val listSuggestions: ObservableList<Suggestion> = ObservableArrayList()
 
+    val changeFocusEvent = SingleLiveEvent<Boolean>()
     val pressBackBtnEvent = SingleLiveEvent<Void>()
+    val showDownloadDialogEvent = SingleLiveEvent<Void>()
 
     override fun start() {
         compositeDisposable = CompositeDisposable()
@@ -91,24 +93,58 @@ class BrowserViewModel @Inject constructor(
         textInput.set(url)
         isShowPage.set(true)
         isShowProgress.set(true)
-        isShowFabBtn.set(true)
+        isExpandedAppbar.set(true)
+        verifyLinkStatus(url)
+    }
+
+    fun loadResource(url: String) {
+        textInput.set(url)
+        verifyLinkStatus(url)
+        if (url.contains("facebook.com")) {
+            pageUrl.set(ScriptUtil.FACEBOOK_SCRIPT)
+        }
     }
 
     fun finishPage(url: String) {
         textInput.set(url)
         isShowProgress.set(false)
+        verifyLinkStatus(url)
+    }
+
+    private fun verifyLinkStatus(url: String) {
+        configRepository.getSupportedPages()
+            .flatMap { pages ->
+                Flowable.fromIterable(pages)
+                    .filter { page ->
+                        url.matches(page.pattern.toRegex()) || url.contains(page.pattern)
+                    }.toList().toFlowable()
+            }
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .firstOrError()
+            .doOnSubscribe { compositeDisposable.add(it) }
+            .subscribe({ pages ->
+                isShowFabBtn.set(pages.isNotEmpty())
+            }, { error ->
+                error.printStackTrace()
+                isShowFabBtn.set(false)
+            })
     }
 
     fun showSuggestions() {
         getListSuggestions()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe { list ->
+            .firstOrError()
+            .doOnSubscribe { compositeDisposable.add(it) }
+            .subscribe({ list ->
                 with(listSuggestions) {
                     clear()
                     addAll(list)
                 }
-            }.let { compositeDisposable.add(it) }
+            }, { error ->
+                error.printStackTrace()
+            })
     }
 
     private fun getListSuggestions(): Flowable<List<Suggestion>> {
@@ -129,6 +165,8 @@ class BrowserViewModel @Inject constructor(
         topPagesRepository.getTopPages()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
+            .firstOrError()
+            .doOnSubscribe { compositeDisposable.add(it) }
             .subscribe({ list ->
                 with(listPages) {
                     clear()
@@ -136,6 +174,6 @@ class BrowserViewModel @Inject constructor(
                 }
             }, { error ->
                 error.printStackTrace()
-            }).let { compositeDisposable.add(it) }
+            })
     }
 }
