@@ -7,11 +7,11 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion build_versions.target_sdk
     defaultConfig {
         applicationId "com.youtubedl"
-        minSdkVersion 15
-        targetSdkVersion 28
+        minSdkVersion build_versions.min_sdk
+        targetSdkVersion build_versions.target_sdk
         versionCode 1
         versionName "1.0"
         multiDexEnabled true
@@ -29,59 +29,59 @@ android {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'com.android.support:appcompat-v7:28.0.0'
-    implementation 'com.android.support:design:28.0.0'
-    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
-
-    // Multidex
-    implementation 'com.android.support:multidex:1.0.3'
-
-    // Kotlin
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-
-    // Life cycle
-    implementation "android.arch.lifecycle:extensions:$arch_version"
-    testImplementation "android.arch.core:core-testing:$arch_version"
-    kapt "android.arch.lifecycle:compiler:$arch_version"
-
-    // Room
-    implementation "android.arch.persistence.room:runtime:$arch_version"
-    implementation "android.arch.persistence.room:rxjava2:$arch_version"
-    kapt "android.arch.persistence.room:compiler:$arch_version"
-
-    // Dagger2
-    implementation "com.google.dagger:dagger:$dagger_version"
-    implementation "com.google.dagger:dagger-android:$dagger_version"
-    implementation "com.google.dagger:dagger-android-support:$dagger_version"
-    kapt "com.google.dagger:dagger-compiler:$dagger_version"
-    kapt "com.google.dagger:dagger-android-processor:$dagger_version"
-
-    // OkHttp and Retrofit
-    implementation 'com.squareup.okhttp3:okhttp:3.11.0'
-    implementation 'com.squareup.okhttp3:logging-interceptor:3.11.0'
-    implementation 'com.squareup.retrofit2:retrofit:2.4.0'
-    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.3.0'
-    implementation "com.squareup.retrofit2:converter-gson:2.4.0"
-
-    // RxJava and RxAndroid
-    implementation 'io.reactivex.rxjava2:rxjava:2.2.2'
-    implementation 'io.reactivex.rxjava2:rxandroid:2.1.0'
-
-    // Stetho for network debugging
-    implementation 'com.facebook.stetho:stetho:1.5.0'
-    implementation 'com.facebook.stetho:stetho-okhttp3:1.5.0'
-
-    // Glide
-    implementation 'com.github.bumptech.glide:glide:4.8.0'
-    annotationProcessor 'com.github.bumptech.glide:compiler:4.8.0'
-
-    // Bottom bar
-    implementation 'com.roughike:bottom-bar:2.3.1'
+    // Android support
+    implementation deps.support.appcompat
+    implementation deps.support.design
+    implementation deps.support.constraintlayout
 
     // Testing
-    testImplementation 'junit:junit:4.12'
-    testImplementation "org.mockito:mockito-core:2.21.0"
-    androidTestImplementation 'com.android.support.test:runner:1.0.2'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    testImplementation deps.testing.junit
+    testImplementation deps.testing.mock_core
+    androidTestImplementation deps.testing.test_runner
+    androidTestImplementation deps.testing.espresso_core
+
+    // Multidex
+    implementation deps.android.multidex
+
+    // Kotlin
+    implementation deps.kotlin.stdlib
+
+    // Life cycle
+    implementation deps.lifecycle.extensions
+    kapt deps.lifecycle.compiler
+    testImplementation deps.arch_core.testing
+
+    // Room
+    implementation deps.room.runtime
+    implementation deps.room.rxjava2
+    kapt deps.room.compiler
+
+    // Dagger2
+    implementation deps.dagger.runtime
+    implementation deps.dagger.android
+    implementation deps.dagger.android_support
+    kapt deps.dagger.compiler
+    kapt deps.dagger.android_processor
+
+    // OkHttp and Retrofit
+    implementation deps.okhttp.runtime
+    implementation deps.okhttp.logging
+    implementation deps.retrofit.runtime
+    implementation deps.retrofit.rxjava2
+    implementation deps.retrofit.gson
+
+    // RxJava and RxAndroid
+    implementation deps.reactivex.rxjava2
+    implementation deps.reactivex.rxandroid
+
+    // Stetho for network debugging
+    implementation deps.stetho.runtime
+    implementation deps.stetho.okhttp
+
+    // Glide
+    implementation deps.glide.runtime
+    annotationProcessor deps.glide.compiler
+
+    // Others
+    implementation deps.others.bottom_bar
 }
