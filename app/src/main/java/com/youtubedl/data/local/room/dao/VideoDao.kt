@@ -4,19 +4,19 @@ import android.arch.persistence.room.Dao
 import android.arch.persistence.room.Insert
 import android.arch.persistence.room.OnConflictStrategy
 import android.arch.persistence.room.Query
-import com.youtubedl.data.local.room.entity.PageInfo
-import io.reactivex.Maybe
+import com.youtubedl.data.local.room.entity.VideoInfo
+import io.reactivex.Flowable
 
 /**
- * Created by cuongpm on 12/8/18.
+ * Created by cuongpm on 1/6/19.
  */
 
 @Dao
-interface ConfigDao {
+interface VideoDao {
 
-    @Query("SELECT * FROM PageInfo")
-    fun getAllTopPages(): Maybe<List<PageInfo>>
+    @Query("SELECT * FROM VideoInfo WHERE originalUrl = :url")
+    fun getVideoById(url: String): Flowable<VideoInfo>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertPage(pageInfo: PageInfo)
+    fun insertVideo(videoInfo: VideoInfo)
 }

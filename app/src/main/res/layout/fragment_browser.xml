@@ -157,7 +157,7 @@
                 android:layout_gravity="bottom|end"
                 android:layout_margin="@dimen/padding_large"
                 android:src="@drawable/ic_download_white_24dp"
-                android:onClick="@{() -> viewModel.showDownloadDialog()}"
+                android:onClick="@{() -> viewModel.getVideoInfo()}"
                 android:visibility="@{viewModel.isShowFabBtn ? View.VISIBLE : View.GONE}"/>
     </android.support.design.widget.CoordinatorLayout>
 

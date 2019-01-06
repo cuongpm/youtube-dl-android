@@ -2,12 +2,11 @@ package com.youtubedl.di.module
 
 import com.youtubedl.data.local.ConfigLocalDataSource
 import com.youtubedl.data.local.TopPagesLocalDataSource
+import com.youtubedl.data.local.VideoLocalDataSource
 import com.youtubedl.data.remote.ConfigRemoteDataSource
 import com.youtubedl.data.remote.TopPagesRemoteDataSource
-import com.youtubedl.data.repository.ConfigRepository
-import com.youtubedl.data.repository.ConfigRepositoryImpl
-import com.youtubedl.data.repository.TopPagesRepository
-import com.youtubedl.data.repository.TopPagesRepositoryImpl
+import com.youtubedl.data.remote.VideoRemoteDataSource
+import com.youtubedl.data.repository.*
 import com.youtubedl.di.qualifier.LocalData
 import com.youtubedl.di.qualifier.RemoteData
 import dagger.Binds
@@ -48,4 +47,18 @@ abstract class RepositoryModule {
     @Singleton
     @Binds
     abstract fun bindTopPagesRepositoryImpl(topPagesRepository: TopPagesRepositoryImpl): TopPagesRepository
+
+    @Singleton
+    @Binds
+    @LocalData
+    abstract fun bindVideoLocalDataSource(localDataSource: VideoLocalDataSource): VideoRepository
+
+    @Singleton
+    @Binds
+    @RemoteData
+    abstract fun bindVideoRemoteDataSource(remoteDataSource: VideoRemoteDataSource): VideoRepository
+
+    @Singleton
+    @Binds
+    abstract fun bindVideoRepositoryImpl(videoRepository: VideoRepositoryImpl): VideoRepository
 }

@@ -4,8 +4,10 @@ import android.databinding.*
 import android.util.Patterns
 import com.youtubedl.data.local.model.Suggestion
 import com.youtubedl.data.local.room.entity.PageInfo
+import com.youtubedl.data.local.room.entity.VideoInfo
 import com.youtubedl.data.repository.ConfigRepository
 import com.youtubedl.data.repository.TopPagesRepository
+import com.youtubedl.data.repository.VideoRepository
 import com.youtubedl.ui.main.base.BaseViewModel
 import com.youtubedl.util.ScriptUtil
 import com.youtubedl.util.SingleLiveEvent
@@ -25,7 +27,8 @@ import javax.inject.Inject
 
 class BrowserViewModel @Inject constructor(
     private val topPagesRepository: TopPagesRepository,
-    private val configRepository: ConfigRepository
+    private val configRepository: ConfigRepository,
+    private val videoRepository: VideoRepository
 ) : BaseViewModel() {
 
     companion object {
@@ -55,7 +58,7 @@ class BrowserViewModel @Inject constructor(
 
     val changeFocusEvent = SingleLiveEvent<Boolean>()
     val pressBackBtnEvent = SingleLiveEvent<Void>()
-    val showDownloadDialogEvent = SingleLiveEvent<Void>()
+    val showDownloadDialogEvent = SingleLiveEvent<VideoInfo>()
 
     override fun start() {
         compositeDisposable = CompositeDisposable()
@@ -65,10 +68,6 @@ class BrowserViewModel @Inject constructor(
 
     override fun stop() {
         compositeDisposable.clear()
-    }
-
-    fun showDownloadDialog() {
-        showDownloadDialogEvent.call()
     }
 
     fun loadPage(input: String) {
@@ -151,6 +150,21 @@ class BrowserViewModel @Inject constructor(
             })
     }
 
+    fun getVideoInfo() {
+        pageUrl.get()?.let { url ->
+            videoRepository.getVideoInfo(url)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .firstOrError()
+                .doOnSubscribe { compositeDisposable.add(it) }
+                .subscribe({ videoInfo ->
+                    showDownloadDialogEvent.value = videoInfo
+                }, { error ->
+                    error.printStackTrace()
+                })
+        }
+    }
+
     private fun getListSuggestions(): Flowable<List<Suggestion>> {
         return Flowable.combineLatest(
             publishSubject.debounce(300, TimeUnit.MILLISECONDS).toFlowable(BackpressureStrategy.LATEST),
@@ -180,4 +194,5 @@ class BrowserViewModel @Inject constructor(
                 error.printStackTrace()
             })
     }
+
 }

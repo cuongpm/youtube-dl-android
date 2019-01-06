@@ -15,7 +15,6 @@ import android.webkit.WebChromeClient
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.EditText
-import com.google.gson.Gson
 import com.youtubedl.databinding.FragmentBrowserBinding
 import com.youtubedl.di.ActivityScoped
 import com.youtubedl.ui.component.adapter.SuggestionAdapter
@@ -88,20 +87,22 @@ class BrowserFragment @Inject constructor() : BaseFragment() {
 
     private fun handleUIEvents() {
         browserViewModel.apply {
-            changeFocusEvent.observe(activity as MainActivity, Observer { isFocus ->
+            changeFocusEvent.observe(this@BrowserFragment, Observer { isFocus ->
                 isFocus?.let { if (it) showSoftKeyboard(dataBinding.etSearch) else hideSoftKeyboard(dataBinding.etSearch) }
             })
 
-            pressBackBtnEvent.observe(activity as MainActivity, Observer { onBackPressed() })
+            pressBackBtnEvent.observe(this@BrowserFragment, Observer { onBackPressed() })
 
-            showDownloadDialogEvent.observe(activity as MainActivity, Observer {
+            showDownloadDialogEvent.observe(this@BrowserFragment, Observer { videoInfo ->
                 showDownloadVideoDialog(activity as MainActivity, object : DownloadVideoListener {
                     override fun onPreviewVideo(dialog: BottomSheetDialog) {
                         dialog.dismiss()
-                        val intent = Intent(context, VideoPlayerActivity::class.java)
-                        intent.putExtra(VIDEO_URL, Gson().toJson(it))
-                        intent.putExtra(VIDEO_NAME, Gson().toJson(it))
-                        startActivity(intent)
+                        videoInfo?.let {
+                            val intent = Intent(context, VideoPlayerActivity::class.java)
+                            intent.putExtra(VIDEO_URL, it.downloadUrl)
+                            intent.putExtra(VIDEO_NAME, it.name)
+                            startActivity(intent)
+                        }
                     }
 
                     override fun onDownloadVideo(dialog: BottomSheetDialog) {

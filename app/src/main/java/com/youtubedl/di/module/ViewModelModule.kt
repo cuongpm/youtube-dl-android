@@ -5,6 +5,7 @@ import android.arch.lifecycle.ViewModelProvider
 import com.youtubedl.di.ViewModelKey
 import com.youtubedl.ui.main.home.BrowserViewModel
 import com.youtubedl.ui.main.home.MainViewModel
+import com.youtubedl.ui.main.player.VideoPlayerViewModel
 import com.youtubedl.ui.main.splash.SplashViewModel
 import com.youtubedl.util.ViewModelFactory
 import dagger.Binds
@@ -38,4 +39,8 @@ abstract class ViewModelModule {
     @ViewModelKey(BrowserViewModel::class)
     abstract fun bindBrowserViewModel(viewModel: BrowserViewModel): ViewModel
 
+    @Binds
+    @IntoMap
+    @ViewModelKey(VideoPlayerViewModel::class)
+    abstract fun bindVideoPlayerViewModel(viewModel: VideoPlayerViewModel): ViewModel
 }
