@@ -1,7 +1,6 @@
 package com.youtubedl.ui.component.binding
 
 import android.databinding.BindingAdapter
-import android.support.v4.view.PagerAdapter
 import android.support.v4.view.ViewPager
 
 /**
@@ -12,14 +11,14 @@ object ViewPagerBinding {
 
     @BindingAdapter("app:currentItem")
     @JvmStatic
-    fun setCurrentItem(viewPager: ViewPager, currentItem: Int) {
-        viewPager.setCurrentItem(currentItem, true)
+    fun ViewPager.setCurrentItem(currentItem: Int) {
+        setCurrentItem(currentItem, true)
     }
 
     @BindingAdapter("app:onPageChangeListener")
     @JvmStatic
-    fun setOnPageChangeListener(viewPager: ViewPager, onPageChangeListener: ViewPager.OnPageChangeListener) {
-        viewPager.clearOnPageChangeListeners()
-        viewPager.addOnPageChangeListener(onPageChangeListener)
+    fun ViewPager.setOnPageChangeListener(onPageChangeListener: ViewPager.OnPageChangeListener) {
+        clearOnPageChangeListeners()
+        addOnPageChangeListener(onPageChangeListener)
     }
 }

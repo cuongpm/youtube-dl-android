@@ -26,5 +26,6 @@
     <dimen name="browser_icon_size">60dp</dimen>
     <dimen name="browser_toolbar_elevation">3dp</dimen>
     <dimen name="settings_divider_size">2dp</dimen>
+    <dimen name="player_button_size">50dp</dimen>
 
 </resources>

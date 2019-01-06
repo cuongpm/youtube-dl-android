@@ -12,14 +12,14 @@ object BottomBarBinding {
 
     @BindingAdapter("app:defaultTabPosition")
     @JvmStatic
-    fun setDefaultTabPosition(bottomBar: BottomBar, defaultTabPosition: Int) {
-        bottomBar.setDefaultTabPosition(defaultTabPosition)
+    fun BottomBar.setDefaultTabPosition(defaultTabPosition: Int) {
+        setDefaultTabPosition(defaultTabPosition)
     }
 
     @BindingAdapter("app:onTabSelectListener")
     @JvmStatic
-    fun setOnTabSelectListener(bottomBar: BottomBar, onTabSelectListener: OnTabSelectListener) {
-        bottomBar.removeOnTabSelectListener()
-        bottomBar.setOnTabSelectListener(onTabSelectListener)
+    fun BottomBar.setOnTabSelectListener(onTabSelectListener: OnTabSelectListener) {
+        removeOnTabSelectListener()
+        setOnTabSelectListener(onTabSelectListener)
     }
 }

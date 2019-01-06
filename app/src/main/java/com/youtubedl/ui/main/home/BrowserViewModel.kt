@@ -67,6 +67,10 @@ class BrowserViewModel @Inject constructor(
         compositeDisposable.clear()
     }
 
+    fun showDownloadDialog() {
+        showDownloadDialogEvent.call()
+    }
+
     fun loadPage(input: String) {
         if (input.isNotEmpty()) {
             isShowPage.set(true)

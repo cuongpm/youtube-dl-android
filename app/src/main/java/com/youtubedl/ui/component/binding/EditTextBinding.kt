@@ -13,13 +13,13 @@ object EditTextBinding {
 
     @BindingAdapter("app:onKeyListener")
     @JvmStatic
-    fun setOnKeyListener(editText: EditText, onKeyListener: View.OnKeyListener) {
-        editText.setOnKeyListener(onKeyListener)
+    fun EditText.setOnKeyListener(onKeyListener: View.OnKeyListener) {
+        setOnKeyListener(onKeyListener)
     }
 
     @BindingAdapter("app:textChangedListener")
     @JvmStatic
-    fun addTextChangedListener(editText: EditText, textWatcher: TextWatcher) {
-        editText.addTextChangedListener(textWatcher)
+    fun EditText.addTextChangedListener(textWatcher: TextWatcher) {
+        addTextChangedListener(textWatcher)
     }
 }

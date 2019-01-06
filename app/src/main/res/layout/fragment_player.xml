@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="android.view.View"/>
+
+        <variable
+                name="viewModel"
+                type="com.youtubedl.ui.main.player.VideoPlayerViewModel"/>
+
+        <variable
+                name="navigationListener"
+                type="android.view.View.OnClickListener"/>
+
+    </data>
+
+    <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+        <VideoView
+                android:id="@+id/video_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:scaleType="center"
+                app:videoURI="@{viewModel.videoUrl}"/>
+
+        <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/black_15"
+                app:navigationIcon="@drawable/ic_arrow_back_white_24dp"
+                app:title="@{viewModel.videoName}"
+                app:navigationOnClickListener="@{navigationListener}"
+                app:titleTextColor="@android:color/white">
+        </android.support.v7.widget.Toolbar>
+
+        <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/black_15"
+                android:padding="@dimen/padding_small"
+                app:layout_constraintBottom_toBottomOf="parent">
+
+            <TextView
+                    android:id="@+id/tv_current_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/padding_small"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/text_medium"
+                    android:text="@{viewModel.currentTime}"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toLeftOf="@id/seek_bar"/>
+
+            <SeekBar
+                    android:id="@+id/seek_bar"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/padding_small"
+                    android:theme="@style/MySeekBar"
+                    app:layout_constraintLeft_toRightOf="@id/tv_current_time"
+                    app:layout_constraintRight_toLeftOf="@id/tv_total_time"/>
+
+            <TextView
+                    android:id="@+id/tv_total_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/padding_small"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/text_medium"
+                    android:text="@{viewModel.totalTime}"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintLeft_toRightOf="@id/seek_bar"/>
+
+            <ImageView
+                    android:id="@+id/iv_prev"
+                    android:layout_width="@dimen/player_button_size"
+                    android:layout_height="@dimen/player_button_size"
+                    android:background="?attr/selectableItemBackground"
+                    android:padding="@dimen/padding_normal"
+                    android:src="@drawable/ic_prev"
+                    android:onClick="@{() -> viewModel.pressPrev()}"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toLeftOf="@id/iv_play"
+                    app:layout_constraintTop_toBottomOf="@id/seek_bar"
+                    app:layout_constraintHorizontal_chainStyle="packed"/>
+
+            <ImageView
+                    android:id="@+id/iv_play"
+                    android:layout_width="@dimen/player_button_size"
+                    android:layout_height="@dimen/player_button_size"
+                    android:layout_marginLeft="@dimen/padding_normal"
+                    android:layout_marginRight="@dimen/padding_normal"
+                    android:background="?attr/selectableItemBackground"
+                    android:padding="@dimen/padding_small"
+                    android:src="@drawable/ic_pause"
+                    android:onClick="@{() -> viewModel.pressPauseOrPlay()}"
+                    app:layout_constraintLeft_toRightOf="@id/iv_prev"
+                    app:layout_constraintRight_toLeftOf="@id/iv_next"
+                    app:layout_constraintTop_toBottomOf="@id/seek_bar"/>
+
+            <ImageView
+                    android:id="@+id/iv_next"
+                    android:layout_width="@dimen/player_button_size"
+                    android:layout_height="@dimen/player_button_size"
+                    android:background="?attr/selectableItemBackground"
+                    android:padding="@dimen/padding_normal"
+                    android:src="@drawable/ic_next"
+                    android:onClick="@{() -> viewModel.pressNext()}"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintLeft_toRightOf="@id/iv_play"
+                    app:layout_constraintTop_toBottomOf="@id/seek_bar"/>
+
+        </android.support.constraint.ConstraintLayout>
+
+    </android.support.constraint.ConstraintLayout>
+
+</layout>

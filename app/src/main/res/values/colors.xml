@@ -11,4 +11,8 @@
     <color name="black_55">#8C000000</color>
     <color name="black_85">#D9000000</color>
 
+    <color name="white_15">#26ffffff</color>
+    <color name="white_55">#8Cffffff</color>
+    <color name="white_85">#D9ffffff</color>
+
 </resources>

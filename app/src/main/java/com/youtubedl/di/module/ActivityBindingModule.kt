@@ -3,6 +3,8 @@ package com.youtubedl.di.module
 import com.youtubedl.di.ActivityScoped
 import com.youtubedl.ui.main.home.MainActivity
 import com.youtubedl.ui.main.home.MainModule
+import com.youtubedl.ui.main.player.VideoPlayerActivity
+import com.youtubedl.ui.main.player.VideoPlayerModule
 import com.youtubedl.ui.main.splash.SplashActivity
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
@@ -21,4 +23,8 @@ internal abstract class ActivityBindingModule {
     @ActivityScoped
     @ContributesAndroidInjector(modules = [MainModule::class])
     internal abstract fun bindMainActivity(): MainActivity
+
+    @ActivityScoped
+    @ContributesAndroidInjector(modules = [VideoPlayerModule::class])
+    internal abstract fun bindVideoPlayerActivity(): VideoPlayerActivity
 }

@@ -13,31 +13,31 @@ object WebViewBinding {
 
     @BindingAdapter("app:loadUrl")
     @JvmStatic
-    fun loadUrl(webView: WebView, url: String) {
-        webView.loadUrl(url)
+    fun WebView.loadUrl(url: String) {
+        loadUrl(url)
     }
 
     @BindingAdapter("app:javaScriptEnabled")
     @JvmStatic
-    fun javaScriptEnabled(webView: WebView, isEnabled: Boolean) {
-        webView.settings.javaScriptEnabled = isEnabled
+    fun WebView.javaScriptEnabled(isEnabled: Boolean) {
+        settings.javaScriptEnabled = isEnabled
     }
 
     @BindingAdapter("app:addJavascriptInterface")
     @JvmStatic
-    fun addJavascriptInterface(webView: WebView, name: String) {
-        webView.addJavascriptInterface(webView.context, name)
+    fun WebView.addJavascriptInterface(name: String) {
+        addJavascriptInterface(context, name)
     }
 
     @BindingAdapter("app:webViewClient")
     @JvmStatic
-    fun webViewClient(webView: WebView, webViewClient: WebViewClient) {
-        webView.webViewClient = webViewClient
+    fun WebView.webViewClient(webViewClient: WebViewClient) {
+        this.webViewClient = webViewClient
     }
 
     @BindingAdapter("app:webChromeClient")
     @JvmStatic
-    fun webChromeClient(webView: WebView, webChromeClient: WebChromeClient) {
-        webView.webChromeClient = webChromeClient
+    fun WebView.webChromeClient(webChromeClient: WebChromeClient) {
+        this.webChromeClient = webChromeClient
     }
 }

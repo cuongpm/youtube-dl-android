@@ -1,6 +1,7 @@
 package com.youtubedl.ui.main.home
 
 import android.arch.lifecycle.Observer
+import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.support.design.widget.BottomSheetDialog
@@ -14,6 +15,7 @@ import android.webkit.WebChromeClient
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.EditText
+import com.google.gson.Gson
 import com.youtubedl.databinding.FragmentBrowserBinding
 import com.youtubedl.di.ActivityScoped
 import com.youtubedl.ui.component.adapter.SuggestionAdapter
@@ -21,6 +23,9 @@ import com.youtubedl.ui.component.adapter.TopPageAdapter
 import com.youtubedl.ui.component.dialog.DownloadVideoListener
 import com.youtubedl.ui.component.dialog.showDownloadVideoDialog
 import com.youtubedl.ui.main.base.BaseFragment
+import com.youtubedl.ui.main.player.VideoPlayerActivity
+import com.youtubedl.ui.main.player.VideoPlayerFragment.Companion.VIDEO_NAME
+import com.youtubedl.ui.main.player.VideoPlayerFragment.Companion.VIDEO_URL
 import com.youtubedl.util.AppUtil.hideSoftKeyboard
 import com.youtubedl.util.AppUtil.showSoftKeyboard
 import javax.inject.Inject
@@ -93,6 +98,10 @@ class BrowserFragment @Inject constructor() : BaseFragment() {
                 showDownloadVideoDialog(activity as MainActivity, object : DownloadVideoListener {
                     override fun onPreviewVideo(dialog: BottomSheetDialog) {
                         dialog.dismiss()
+                        val intent = Intent(context, VideoPlayerActivity::class.java)
+                        intent.putExtra(VIDEO_URL, Gson().toJson(it))
+                        intent.putExtra(VIDEO_NAME, Gson().toJson(it))
+                        startActivity(intent)
                     }
 
                     override fun onDownloadVideo(dialog: BottomSheetDialog) {

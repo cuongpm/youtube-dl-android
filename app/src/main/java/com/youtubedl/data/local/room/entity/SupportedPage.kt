@@ -16,9 +16,13 @@ data class SupportedPage constructor(
     @PrimaryKey
     @ColumnInfo(name = "id")
     var id: String = UUID.randomUUID().toString(),
+
+    @ColumnInfo(name = "name")
     @SerializedName("name")
     @Expose
     var name: String = "",
+
+    @ColumnInfo(name = "pattern")
     @SerializedName("pattern")
     @Expose
     var pattern: String = ""

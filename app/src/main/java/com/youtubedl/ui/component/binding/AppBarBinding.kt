@@ -11,7 +11,7 @@ object AppBarBinding {
 
     @BindingAdapter("app:smoothExpanded")
     @JvmStatic
-    fun setExpanded(appBarLayout: AppBarLayout, isExpanded: Boolean) {
-        appBarLayout.setExpanded(isExpanded, true)
+    fun AppBarLayout.setExpanded(isExpanded: Boolean) {
+        setExpanded(isExpanded, true)
     }
 }

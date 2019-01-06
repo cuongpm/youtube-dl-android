@@ -16,12 +16,18 @@ data class PageInfo constructor(
     @PrimaryKey
     @ColumnInfo(name = "id")
     var id: String = UUID.randomUUID().toString(),
+
+    @ColumnInfo(name = "name")
     @SerializedName("name")
     @Expose
     var name: String = "",
+
+    @ColumnInfo(name = "link")
     @SerializedName("link")
     @Expose
     var link: String = "",
+
+    @ColumnInfo(name = "icon")
     @SerializedName("icon")
     @Expose
     var icon: String = ""
