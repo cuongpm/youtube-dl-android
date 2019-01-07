@@ -151,7 +151,7 @@ class BrowserViewModel @Inject constructor(
     }
 
     fun getVideoInfo() {
-        pageUrl.get()?.let { url ->
+        textInput.get()?.let { url ->
             videoRepository.getVideoInfo(url)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

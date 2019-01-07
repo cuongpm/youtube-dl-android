@@ -5,7 +5,7 @@ import android.arch.persistence.room.Insert
 import android.arch.persistence.room.OnConflictStrategy
 import android.arch.persistence.room.Query
 import com.youtubedl.data.local.room.entity.VideoInfo
-import io.reactivex.Flowable
+import io.reactivex.Maybe
 
 /**
  * Created by cuongpm on 1/6/19.
@@ -15,7 +15,7 @@ import io.reactivex.Flowable
 interface VideoDao {
 
     @Query("SELECT * FROM VideoInfo WHERE originalUrl = :url")
-    fun getVideoById(url: String): Flowable<VideoInfo>
+    fun getVideoById(url: String): Maybe<VideoInfo>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertVideo(videoInfo: VideoInfo)

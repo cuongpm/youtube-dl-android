@@ -17,10 +17,11 @@ class VideoLocalDataSource @Inject constructor(
 ) : VideoRepository {
 
     override fun getVideoInfo(url: String): Flowable<VideoInfo> {
-        return videoDao.getVideoById(url)
+        return videoDao.getVideoById(url).toFlowable()
     }
 
     override fun saveVideoInfo(videoInfo: VideoInfo) {
+        videoDao.insertVideo(videoInfo)
     }
 
 }

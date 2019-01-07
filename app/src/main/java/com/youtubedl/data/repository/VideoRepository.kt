@@ -24,34 +24,35 @@ class VideoRepositoryImpl @Inject constructor(
     @RemoteData private val remoteDataSource: VideoRepository
 ) : VideoRepository {
 
-    var cachedVideo: VideoInfo? = null
+    private var cachedVideos: MutableMap<String, VideoInfo> = mutableMapOf()
 
     override fun getVideoInfo(url: String): Flowable<VideoInfo> {
-        cachedVideo?.let { Flowable.just(it) }
+        cachedVideos[url]?.let { return Flowable.just(it) }
 
-        val localConfig = getAndCacheLocalVideo(url)
-        val remoteConfig = getAndSaveRemoteVideo(url)
-//        return Flowable.concat(localConfig, remoteConfig).firstOrError().toFlowable()
-
-        return remoteConfig
+        val localVideo = getAndCacheLocalVideo(url)
+        val remoteVideo = getAndSaveRemoteVideo(url)
+        return Flowable.concat(localVideo, remoteVideo).take(1)
     }
 
     override fun saveVideoInfo(videoInfo: VideoInfo) {
         remoteDataSource.saveVideoInfo(videoInfo)
         localDataSource.saveVideoInfo(videoInfo)
-        cachedVideo = videoInfo
+        cachedVideos[videoInfo.originalUrl] = videoInfo
     }
 
     private fun getAndCacheLocalVideo(url: String): Flowable<VideoInfo> {
         return localDataSource.getVideoInfo(url)
-            .doOnNext { videoInfo -> cachedVideo = videoInfo }
+            .doOnNext { videoInfo ->
+                cachedVideos[url] = videoInfo
+            }
     }
 
     private fun getAndSaveRemoteVideo(url: String): Flowable<VideoInfo> {
         return remoteDataSource.getVideoInfo(url)
             .doOnNext { videoInfo ->
+                videoInfo.originalUrl = url
                 localDataSource.saveVideoInfo(videoInfo)
-                cachedVideo = videoInfo
+                cachedVideos[url] = videoInfo
             }
     }
 }
