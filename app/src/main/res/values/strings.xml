@@ -2,7 +2,12 @@
     <string name="app_name">youtube-dl-android</string>
     <string name="browser_search_hint">Search Google or enter url</string>
     <string name="settings_general">GENERAL</string>
+
     <string name="dialog_video_title">Video found:</string>
     <string name="dialog_preview_video">Preview Video</string>
     <string name="dialog_download_video">Download Video</string>
+
+    <string name="rename_title">Rename video</string>
+    <string name="rename_invalid">Invalid name. Please try again!</string>
+    <string name="rename_exist">Video name already exists!</string>
 </resources>

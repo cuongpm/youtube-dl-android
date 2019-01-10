@@ -6,7 +6,9 @@ import com.youtubedl.di.ViewModelKey
 import com.youtubedl.ui.main.home.BrowserViewModel
 import com.youtubedl.ui.main.home.MainViewModel
 import com.youtubedl.ui.main.player.VideoPlayerViewModel
+import com.youtubedl.ui.main.progress.ProgressViewModel
 import com.youtubedl.ui.main.splash.SplashViewModel
+import com.youtubedl.ui.main.video.VideoViewModel
 import com.youtubedl.util.ViewModelFactory
 import dagger.Binds
 import dagger.Module
@@ -43,4 +45,14 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(VideoPlayerViewModel::class)
     abstract fun bindVideoPlayerViewModel(viewModel: VideoPlayerViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(ProgressViewModel::class)
+    abstract fun bindProgressViewModel(viewModel: ProgressViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(VideoViewModel::class)
+    abstract fun bindVideoViewModel(viewModel: VideoViewModel): ViewModel
 }

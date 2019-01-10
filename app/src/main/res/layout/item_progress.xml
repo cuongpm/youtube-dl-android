@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools" xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="android.view.View"/>
+
+        <variable
+                name="progressInfo"
+                type="com.youtubedl.data.local.model.ProgressInfo"/>
+
+    </data>
+
+    <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/white"
+            android:foreground="?attr/selectableItemBackground"
+            android:padding="@dimen/padding_normal">
+
+        <ImageView
+                android:id="@+id/iv_thumbnail"
+                android:layout_width="@dimen/progress_icon_size"
+                android:layout_height="@dimen/progress_icon_size"
+                android:background="@color/black_15"
+                android:scaleType="centerCrop"
+                app:imageUrl="@{progressInfo.videoInfo.thumbnail}"/>
+
+        <TextView
+                android:id="@+id/tv_title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:maxLines="2"
+                android:textColor="@color/black_85"
+                android:textSize="@dimen/text_medium"
+                android:layout_marginLeft="@dimen/padding_normal"
+                android:text="@{progressInfo.videoInfo.name}"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintLeft_toRightOf="@id/iv_thumbnail"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/progress_bar"
+                app:layout_constraintVertical_chainStyle="packed"
+                tools:text="Title"/>
+
+        <ProgressBar
+                android:id="@+id/progress_bar"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/progress_bar_size"
+                android:layout_marginTop="@dimen/padding_small"
+                android:layout_marginLeft="@dimen/padding_normal"
+                android:background="@android:color/transparent"
+                android:progressDrawable="@drawable/progress_load_data"
+                android:progress="@{progressInfo.progress}"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintLeft_toRightOf="@id/iv_thumbnail"
+                app:layout_constraintTop_toBottomOf="@id/tv_title"
+                app:layout_constraintBottom_toTopOf="@id/tv_progress"
+                tools:progress="10"/>
+
+        <TextView
+                android:id="@+id/tv_progress"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/padding_small"
+                android:layout_marginLeft="@dimen/padding_normal"
+                android:textColor="@color/black_55"
+                android:textSize="@dimen/text_small"
+                android:text="@{progressInfo.progressSize}"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintLeft_toRightOf="@id/iv_thumbnail"
+                app:layout_constraintTop_toBottomOf="@id/progress_bar"
+                app:layout_constraintBottom_toBottomOf="parent"
+                tools:text="4.5M/10M"/>
+
+    </android.support.constraint.ConstraintLayout>
+
+</layout>

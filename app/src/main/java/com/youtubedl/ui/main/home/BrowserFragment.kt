@@ -106,6 +106,7 @@ class BrowserFragment @Inject constructor() : BaseFragment() {
                     }
 
                     override fun onDownloadVideo(dialog: BottomSheetDialog) {
+                        browserViewModel.downloadVideoEvent.value = videoInfo
                         dialog.dismiss()
                     }
 

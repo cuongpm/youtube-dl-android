@@ -6,5 +6,6 @@ package com.youtubedl.data.local.model
 
 data class Suggestion constructor(
     var content: String = "",
+
     var icon: Int = 0
 )
