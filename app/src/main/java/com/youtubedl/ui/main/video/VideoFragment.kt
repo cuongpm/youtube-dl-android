@@ -34,7 +34,7 @@ class VideoFragment @Inject constructor() : BaseFragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         videoViewModel = ViewModelProviders.of(this, viewModelFactory).get(VideoViewModel::class.java)
-        videoAdapter = VideoAdapter(ArrayList(0))
+        videoAdapter = VideoAdapter(context, ArrayList(0))
 
         dataBinding = FragmentVideoBinding.inflate(inflater, container, false).apply {
             this.viewModel = videoViewModel

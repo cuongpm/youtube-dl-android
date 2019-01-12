@@ -12,6 +12,10 @@
                 name="localVideo"
                 type="com.youtubedl.data.local.model.LocalVideo"/>
 
+        <variable
+                name="videoListener"
+                type="com.youtubedl.ui.component.adapter.VideoListener"/>
+
     </data>
 
     <android.support.constraint.ConstraintLayout
@@ -19,7 +23,8 @@
             android:layout_height="wrap_content"
             android:background="@android:color/white"
             android:foreground="?attr/selectableItemBackground"
-            android:padding="@dimen/padding_normal">
+            android:padding="@dimen/padding_normal"
+            android:onClick="@{() -> videoListener.onItemClicked(localVideo)}">
 
         <ImageView
                 android:id="@+id/iv_thumbnail"

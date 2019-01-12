@@ -25,6 +25,7 @@ class VideoViewModel @Inject constructor() : BaseViewModel() {
     }
 
     private fun getListDownloadedVideos() {
+        listVideos.clear()
         listFiles.map { file -> listVideos.add(LocalVideo(file)) }
         with(localVideos) {
             clear()
