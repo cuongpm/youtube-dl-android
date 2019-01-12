@@ -1,10 +1,14 @@
 package com.youtubedl.ui.main.home
 
+import android.Manifest
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProvider
 import android.arch.lifecycle.ViewModelProviders
+import android.content.pm.PackageManager
 import android.databinding.DataBindingUtil
 import android.os.Bundle
+import android.support.v4.app.ActivityCompat
+import android.support.v4.content.ContextCompat
 import android.support.v4.view.ViewPager
 import com.roughike.bottombar.OnTabSelectListener
 import com.youtubedl.R
@@ -56,6 +60,11 @@ class MainActivity : BaseActivity() {
     }
 
     private fun handleUIEvents() {
+        // Grant permission
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), 0)
+        }
+
         browserViewModel.apply {
             downloadVideoEvent.observe(this@MainActivity, Observer { videoInfo ->
                 progressViewModel.downloadVideo(videoInfo)

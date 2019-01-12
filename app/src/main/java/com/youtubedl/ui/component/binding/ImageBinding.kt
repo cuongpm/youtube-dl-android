@@ -1,6 +1,7 @@
 package com.youtubedl.ui.component.binding
 
 import android.databinding.BindingAdapter
+import android.graphics.Bitmap
 import android.widget.ImageView
 import com.bumptech.glide.Glide
 
@@ -16,9 +17,9 @@ object ImageBinding {
         Glide.with(context).load(url).into(this)
     }
 
-    @BindingAdapter("android:src")
+    @BindingAdapter("app:bitmap")
     @JvmStatic
-    fun ImageView.setImageResource(resource: Int) {
-        setImageResource(resource)
+    fun ImageView.setImageBitmap(bitmap: Bitmap) {
+        setImageBitmap(bitmap)
     }
 }

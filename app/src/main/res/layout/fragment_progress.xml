@@ -35,6 +35,7 @@
                 android:layout_height="0dp"
                 android:adapter="@{adapter}"
                 app:items="@{viewModel.progressInfos}"
+                app:layoutManager="android.support.v7.widget.LinearLayoutManager"
                 app:layout_constraintTop_toBottomOf="@id/toolbar"
                 app:layout_constraintBottom_toBottomOf="parent"/>
 

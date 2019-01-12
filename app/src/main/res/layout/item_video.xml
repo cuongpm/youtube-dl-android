@@ -9,8 +9,8 @@
         <import type="android.view.View"/>
 
         <variable
-                name="videoInfo"
-                type="com.youtubedl.data.local.room.entity.VideoInfo"/>
+                name="localVideo"
+                type="com.youtubedl.data.local.model.LocalVideo"/>
 
     </data>
 
@@ -26,7 +26,9 @@
                 android:layout_width="@dimen/video_icon_size"
                 android:layout_height="@dimen/video_icon_size"
                 android:background="@color/black_15"
-                android:scaleType="centerCrop"/>
+                android:scaleType="centerCrop"
+                app:bitmap="@{localVideo.thumbnail}"
+        />
 
         <TextView
                 android:id="@+id/tv_name"
@@ -36,6 +38,7 @@
                 android:textColor="@color/black_85"
                 android:textSize="@dimen/text_medium"
                 android:layout_marginLeft="@dimen/padding_normal"
+                android:text="@{localVideo.file.name}"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintRight_toLeftOf="@id/iv_more"
                 app:layout_constraintLeft_toRightOf="@id/iv_thumbnail"
@@ -51,6 +54,7 @@
                 android:textSize="@dimen/text_medium"
                 android:layout_marginTop="@dimen/padding_small"
                 android:layout_marginLeft="@dimen/padding_normal"
+                android:text="@{localVideo.size}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintRight_toLeftOf="@id/iv_more"
                 app:layout_constraintLeft_toRightOf="@id/iv_thumbnail"
