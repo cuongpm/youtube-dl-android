@@ -1,7 +1,8 @@
 <resources>
     <string name="app_name">youtube-dl-android</string>
     <string name="browser_search_hint">Search Google or enter url</string>
-    <string name="settings_general">GENERAL</string>
+
+    <string name="title_settings">SETTINGS</string>
 
     <string name="dialog_video_title">Video found:</string>
     <string name="dialog_preview_video">Preview Video</string>
@@ -10,4 +11,11 @@
     <string name="rename_title">Rename video</string>
     <string name="rename_invalid">Invalid name. Please try again!</string>
     <string name="rename_exist">Video name already exists!</string>
+
+    <string name="settings_general">GENERAL</string>
+    <string name="settings_videos_folder">Videos folder</string>
+    <string name="settings_folder_path">folder path</string>
+    <string name="settings_clear_browser_cookies">Clear browser cookies</string>
+    <string name="settings_message_open_folder">You don\'t have any file explorer app installed on your device</string>
+
 </resources>

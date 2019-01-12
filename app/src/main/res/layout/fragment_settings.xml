@@ -2,6 +2,17 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto">
 
+
+    <data>
+
+        <import type="android.view.View"/>
+
+        <variable
+                name="viewModel"
+                type="com.youtubedl.ui.main.settings.SettingsViewModel"/>
+
+    </data>
+
     <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -12,16 +23,117 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/color_gray_1"
-                app:title="SETTINGS"
+                app:title="@string/title_settings"
                 app:titleTextColor="@color/black_85"/>
 
-        <android.support.v7.widget.RecyclerView
-                android:id="@+id/rv_settings"
+        <TextView
+                android:id="@+id/tv_general"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                app:layoutManager="android.support.v7.widget.LinearLayoutManager"
-                app:layout_constraintTop_toBottomOf="@id/toolbar"
-                app:layout_constraintBottom_toBottomOf="parent"/>
+                android:layout_height="wrap_content"
+                android:paddingBottom="@dimen/padding_small"
+                android:paddingLeft="@dimen/padding_normal"
+                android:paddingRight="@dimen/padding_normal"
+                android:paddingTop="@dimen/padding_small"
+                android:text="@string/settings_general"
+                android:textColor="@color/black_85"
+                android:textStyle="bold"
+                app:layout_constraintTop_toBottomOf="@id/toolbar"/>
+
+        <View
+                android:id="@+id/view_padding_1"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/settings_divider_size"
+                android:background="@color/color_gray_1"
+                app:layout_constraintTop_toBottomOf="@id/tv_general"/>
+
+        <android.support.constraint.ConstraintLayout
+                android:id="@+id/layout_folder"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackground"
+                android:padding="@dimen/padding_tiny"
+                android:onClick="@{() -> viewModel.openVideoFolder()}"
+                app:layout_constraintTop_toBottomOf="@id/view_padding_1">
+
+            <ImageView
+                    android:id="@+id/iv_folder"
+                    android:layout_width="@dimen/settings_icon_size"
+                    android:layout_height="@dimen/settings_icon_size"
+                    android:padding="@dimen/padding_tiny"
+                    android:src="@drawable/ic_folder"
+                    android:tint="@color/color_gray_2"/>
+
+            <TextView
+                    android:id="@+id/tv_folder_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/padding_small"
+                    android:text="@string/settings_videos_folder"
+                    android:textColor="@color/black_85"
+                    android:textSize="@dimen/text_medium"
+                    app:layout_constraintLeft_toRightOf="@id/iv_folder"
+                    app:layout_constraintBottom_toTopOf="@id/tv_folder_path"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_chainStyle="packed"/>
+
+            <TextView
+                    android:id="@+id/tv_folder_path"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/padding_small"
+                    android:layout_marginTop="@dimen/padding_tiny"
+                    android:text="@string/settings_folder_path"
+                    android:textColor="@color/black_55"
+                    android:textSize="@dimen/text_small"
+                    app:layout_constraintLeft_toRightOf="@id/iv_folder"
+                    app:layout_constraintTop_toBottomOf="@id/tv_folder_label"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+
+        </android.support.constraint.ConstraintLayout>
+
+        <View
+                android:id="@+id/view_padding_2"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/settings_divider_size"
+                android:background="@color/color_gray_1"
+                app:layout_constraintTop_toBottomOf="@id/layout_folder"/>
+
+
+        <android.support.constraint.ConstraintLayout
+                android:id="@+id/layout_clear_cookie"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackground"
+                android:padding="@dimen/padding_tiny"
+                android:onClick="@{() -> viewModel.clearCookies()}"
+                app:layout_constraintTop_toBottomOf="@id/view_padding_2">
+
+            <ImageView
+                    android:id="@+id/iv_browser"
+                    android:layout_width="@dimen/settings_icon_size"
+                    android:layout_height="@dimen/settings_icon_size"
+                    android:padding="@dimen/padding_small"
+                    android:src="@drawable/ic_browser"
+                    android:tint="@color/color_gray_2"/>
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/padding_small"
+                    android:text="@string/settings_clear_browser_cookies"
+                    android:textColor="@color/black_85"
+                    android:textSize="@dimen/text_medium"
+                    app:layout_constraintLeft_toRightOf="@id/iv_browser"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"/>
+
+        </android.support.constraint.ConstraintLayout>
+
+        <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/color_gray_1"
+                app:layout_constraintTop_toBottomOf="@id/layout_clear_cookie"/>
 
     </android.support.constraint.ConstraintLayout>
 

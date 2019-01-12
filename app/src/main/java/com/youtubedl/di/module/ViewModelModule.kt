@@ -7,6 +7,7 @@ import com.youtubedl.ui.main.home.BrowserViewModel
 import com.youtubedl.ui.main.home.MainViewModel
 import com.youtubedl.ui.main.player.VideoPlayerViewModel
 import com.youtubedl.ui.main.progress.ProgressViewModel
+import com.youtubedl.ui.main.settings.SettingsViewModel
 import com.youtubedl.ui.main.splash.SplashViewModel
 import com.youtubedl.ui.main.video.VideoViewModel
 import com.youtubedl.util.ViewModelFactory
@@ -55,4 +56,9 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(VideoViewModel::class)
     abstract fun bindVideoViewModel(viewModel: VideoViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(SettingsViewModel::class)
+    abstract fun bindSettingsViewModel(viewModel: SettingsViewModel): ViewModel
 }

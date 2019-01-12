@@ -42,5 +42,6 @@
 
     // Settings screen
     <dimen name="settings_divider_size">2dp</dimen>
+    <dimen name="settings_icon_size">50dp</dimen>
 
 </resources>

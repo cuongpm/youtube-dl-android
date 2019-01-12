@@ -1,5 +1,8 @@
 package com.youtubedl.ui.main.settings
 
+import android.arch.lifecycle.Observer
+import android.arch.lifecycle.ViewModelProvider
+import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -7,6 +10,9 @@ import android.view.ViewGroup
 import com.youtubedl.databinding.FragmentSettingsBinding
 import com.youtubedl.di.ActivityScoped
 import com.youtubedl.ui.main.base.BaseFragment
+import com.youtubedl.util.FileUtil.folderDir
+import com.youtubedl.util.IntentUtil
+import com.youtubedl.util.SystemUtil
 import javax.inject.Inject
 
 /**
@@ -20,14 +26,43 @@ class SettingsFragment @Inject constructor() : BaseFragment() {
         fun newInstance() = SettingsFragment()
     }
 
+    @Inject
+    lateinit var viewModelFactory: ViewModelProvider.Factory
+
     private lateinit var dataBinding: FragmentSettingsBinding
 
+    private lateinit var settingsViewModel: SettingsViewModel
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        settingsViewModel = ViewModelProviders.of(this, viewModelFactory).get(SettingsViewModel::class.java)
+
         dataBinding = FragmentSettingsBinding.inflate(inflater, container, false).apply {
-            //            viewModel = (activity as TaskActivity).taskViewModel
+            this.viewModel = settingsViewModel
         }
 
         return dataBinding.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        settingsViewModel.start()
+        handleUIEvents()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        settingsViewModel.stop()
+    }
+
+    private fun handleUIEvents() {
+        settingsViewModel.apply {
+            clearCookiesEvent.observe(this@SettingsFragment, Observer {
+                SystemUtil.clearCookies(context)
+            })
+
+            openVideoFolderEvent.observe(this@SettingsFragment, Observer {
+                IntentUtil.openFolder(context, folderDir.path)
+            })
+        }
+    }
 }
