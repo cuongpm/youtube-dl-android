@@ -66,17 +66,25 @@ class ProgressViewModel @Inject constructor(
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .doOnError {
-                progressInfos.remove(progressInfo)
+                progressInfos.find { it.downloadId == progressInfo.downloadId }?.let {
+                    progressInfos.remove(progressInfo)
+                }
             }
             .doOnComplete {
-                progressInfos.remove(progressInfo)
+                progressInfos.find { it.downloadId == progressInfo.downloadId }?.let {
+                    progressInfos.remove(progressInfo)
+                }
             }
-            .subscribe { progressInfo ->
+            .subscribe({ progressInfo ->
                 progressInfos.find { it.downloadId == progressInfo.downloadId }?.let {
                     it.bytesDownloaded = progressInfo.bytesDownloaded
                     it.bytesTotal = progressInfo.bytesTotal
+                } ?: run {
+                    progressInfos.add(progressInfo)
                 }
-            }.let { compositeDisposable.add(it) }
+            }, { error ->
+                error.printStackTrace()
+            }).let { compositeDisposable.add(it) }
     }
 
     private fun progressObservable(

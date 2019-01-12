@@ -13,8 +13,6 @@ import javax.inject.Inject
 
 class VideoViewModel @Inject constructor() : BaseViewModel() {
 
-    private var listVideos: MutableList<LocalVideo> = mutableListOf()
-
     val localVideos: ObservableList<LocalVideo> = ObservableArrayList()
 
     override fun start() {
@@ -25,7 +23,7 @@ class VideoViewModel @Inject constructor() : BaseViewModel() {
     }
 
     private fun getListDownloadedVideos() {
-        listVideos.clear()
+        val listVideos: MutableList<LocalVideo> = mutableListOf()
         listFiles.map { file -> listVideos.add(LocalVideo(file)) }
         with(localVideos) {
             clear()

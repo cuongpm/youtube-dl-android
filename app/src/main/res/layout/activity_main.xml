@@ -34,6 +34,7 @@
                 android:layout_height="0dp"
                 android:adapter="@{adapter}"
                 app:currentItem="@{viewModel.currentItem}"
+                app:offScreenPageLimit="@{4}"
                 app:onPageChangeListener="@{viewPagerListener}"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toTopOf="@id/bottom_bar"/>

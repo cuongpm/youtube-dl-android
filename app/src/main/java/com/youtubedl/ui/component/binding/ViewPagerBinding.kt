@@ -15,6 +15,12 @@ object ViewPagerBinding {
         setCurrentItem(currentItem, true)
     }
 
+    @BindingAdapter("app:offScreenPageLimit")
+    @JvmStatic
+    fun ViewPager.setOffScreenPageLimit(pageLimit: Int) {
+        offscreenPageLimit = pageLimit
+    }
+
     @BindingAdapter("app:onPageChangeListener")
     @JvmStatic
     fun ViewPager.setOnPageChangeListener(onPageChangeListener: ViewPager.OnPageChangeListener) {
