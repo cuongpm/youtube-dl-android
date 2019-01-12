@@ -3,10 +3,12 @@ buildscript {
     repositories {
         google()
         jcenter()
+        mavenCentral()
     }
     dependencies {
         classpath deps.android.gradle_plugin
         classpath deps.kotlin.plugin
+        classpath deps.coveralls.plugin
     }
 }
 

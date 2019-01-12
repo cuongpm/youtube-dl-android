@@ -20,6 +20,7 @@ versions.okhttp = "3.11.0"
 versions.stetho = "1.5.0"
 versions.glide = "4.8.0"
 versions.bottom_bar = "2.3.1"
+versions.coveralls = "2.8.1"
 def deps = [:]
 
 def android = [:]
@@ -93,6 +94,10 @@ def stetho = [:]
 stetho.runtime = "com.facebook.stetho:stetho:$versions.stetho"
 stetho.okhttp = "com.facebook.stetho:stetho-okhttp3:$versions.stetho"
 deps.stetho = stetho
+
+def coveralls = [:]
+coveralls.plugin = "org.kt3k.gradle.plugin:coveralls-gradle-plugin:$versions.coveralls"
+deps.coveralls = coveralls
 
 def others = [:]
 others.bottom_bar = "com.roughike:bottom-bar:$versions.bottom_bar"

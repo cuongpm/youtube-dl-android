@@ -6,6 +6,14 @@ apply plugin: 'kotlin-android-extensions'
 
 apply plugin: 'kotlin-kapt'
 
+apply plugin: 'jacoco'
+
+apply plugin: 'com.github.kt3k.coveralls'
+
+jacoco {
+    version = '0.8.1'
+}
+
 android {
     compileSdkVersion build_versions.target_sdk
     defaultConfig {
@@ -25,6 +33,12 @@ android {
     }
     dataBinding {
         enabled = true
+    }
+    testOptions {
+        unitTests {
+            includeAndroidResources = true
+            returnDefaultValues = true
+        }
     }
 }
 
@@ -84,4 +98,37 @@ dependencies {
 
     // Others
     implementation deps.others.bottom_bar
+}
+
+tasks.coveralls {
+    dependsOn 'check'
+    onlyIf { System.getenv("COVERALLS_REPO_TOKEN") }
+}
+
+task jacocoTestReport(type: JacocoReport, dependsOn: 'testDebugUnitTest') {
+    group = 'Reporting'
+    description = 'Generate Jacoco coverage reports after running tests.'
+
+    reports {
+        xml.enabled = true
+        html.enabled = true
+    }
+
+    def fileFilter = ['**/R.class', '**/R$*.class', '**/BuildConfig.*',
+                      '**/Manifest*.*', '**/*Test*.*', 'android/**/*.*',
+
+                      '**/Lambda$*.class', '**/Lambda.class', '**/*Lambda.class',
+                      '**/*Lambda*.class', '**/*Builder.*',
+
+                      '**/*_Injector.class', '**/*_Injector*.*', '**/*_*Factory*.*',
+                      '**/*Component*.*', '**/*Module*.*']
+
+    def javaClasses = fileTree(dir: "$project.buildDir/intermediates/javac/debug", excludes: fileFilter)
+    def kotlinClasses = fileTree(dir: "$project.buildDir/tmp/kotlin-classes/debug", excludes: fileFilter)
+
+    sourceDirectories = files(android.sourceSets.main.java.srcDirs)
+    classDirectories = files([javaClasses, kotlinClasses])
+    executionData = fileTree(dir: project.buildDir, includes: [
+            'jacoco/testDebugUnitTest.exec', 'outputs/code-coverage/connected/*coverage.ec'
+    ])
 }

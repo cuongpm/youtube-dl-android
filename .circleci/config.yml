@@ -19,9 +19,21 @@ jobs:
           key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
       - run:
           name: Run Tests
-          command: ./gradlew lint test
+          command: ./gradlew -PciBuild=true :app:testDebugUnitTest --no-daemon --max-workers 2
       - store_artifacts:
           path: app/build/reports
           destination: reports
       - store_test_results:
           path: app/build/test-results
+      - run:
+          name: Generate JaCoCo report
+          command: ./gradlew -PciBuild=true :app:jacocoTestReport
+      - run:
+          name: Copy test result
+          command: mv app/build/reports/jacoco/jacocoTestReport app/build/reports/jacoco/test
+      - run:
+          name: Upload coverage report to coveralls.io
+          command: ./gradlew -PciBuild=true coveralls
+      - store_artifacts:
+          path: app/build/reports/
+          destination: /reports/
