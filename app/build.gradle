@@ -50,7 +50,9 @@ dependencies {
 
     // Testing
     testImplementation deps.testing.junit
-    testImplementation deps.testing.mock_core
+    testImplementation deps.testing.mockito_core
+    testImplementation deps.testing.mockito_android
+    testImplementation deps.testing.mockito_kotlin
     androidTestImplementation deps.testing.test_runner
     androidTestImplementation deps.testing.espresso_core
 

@@ -14,9 +14,8 @@ import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.Toast
 import com.youtubedl.R
-import com.youtubedl.util.FileUtil
-import com.youtubedl.util.FileUtil.folderDir
 import java.io.File
+import java.text.DecimalFormat
 
 /**
  * Created by cuongpm on 1/9/19.
@@ -40,7 +39,7 @@ private fun File?.deleteMedia(context: Context) {
 }
 
 fun File?.getFileSize(): String {
-    this?.let { return FileUtil.getFileSize(it.length().toDouble()) }
+    this?.let { return getFileSize(it.length().toDouble()) }
 }
 
 fun File?.renameFile(context: Context, onFileChangedCallback: OnFileChangedCallback) {
@@ -75,7 +74,7 @@ fun File?.renameFile(context: Context, onFileChangedCallback: OnFileChangedCallb
                 .setPositiveButton(context.getString(android.R.string.ok)) { _, _ ->
                     val fileName = etName.text.toString().trim()
                     if (fileName.isNotEmpty()) {
-                        val newFile = File(folderDir, fileName + extension)
+                        val newFile = File(this.parent, fileName + extension)
                         if (newFile.exists()) {
                             Toast.makeText(context, context.getString(R.string.rename_exist), Toast.LENGTH_SHORT).show()
                         } else if (this.renameTo(newFile)) {
@@ -91,6 +90,17 @@ fun File?.renameFile(context: Context, onFileChangedCallback: OnFileChangedCallb
         } catch (e: Exception) {
             e.printStackTrace()
         }
+    }
+}
+
+fun getFileSize(length: Double): String {
+    val KiB = 1024
+    val MiB = 1024 * 1024
+    val decimalFormat = DecimalFormat("#.##")
+    return when {
+        length > MiB -> decimalFormat.format(length / MiB) + " MB"
+        length > KiB -> decimalFormat.format(length / KiB) + " KB"
+        else -> decimalFormat.format(length) + " B"
     }
 }
 

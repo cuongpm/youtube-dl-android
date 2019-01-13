@@ -10,7 +10,7 @@ import android.view.ViewGroup
 import com.youtubedl.databinding.FragmentSettingsBinding
 import com.youtubedl.di.ActivityScoped
 import com.youtubedl.ui.main.base.BaseFragment
-import com.youtubedl.util.FileUtil.folderDir
+import com.youtubedl.util.FileUtil
 import com.youtubedl.util.IntentUtil
 import com.youtubedl.util.SystemUtil
 import javax.inject.Inject
@@ -25,6 +25,9 @@ class SettingsFragment @Inject constructor() : BaseFragment() {
     companion object {
         fun newInstance() = SettingsFragment()
     }
+
+    @Inject
+    lateinit var fileUtil: FileUtil
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
@@ -61,7 +64,7 @@ class SettingsFragment @Inject constructor() : BaseFragment() {
             })
 
             openVideoFolderEvent.observe(this@SettingsFragment, Observer {
-                IntentUtil.openFolder(context, folderDir.path)
+                IntentUtil.openFolder(context, fileUtil.folderDir.path)
             })
         }
     }

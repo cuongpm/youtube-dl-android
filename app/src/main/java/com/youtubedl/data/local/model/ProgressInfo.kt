@@ -1,7 +1,7 @@
 package com.youtubedl.data.local.model
 
 import com.youtubedl.data.local.room.entity.VideoInfo
-import com.youtubedl.util.FileUtil.getFileSize
+import com.youtubedl.util.ext.getFileSize
 
 /**
  * Created by cuongpm on 1/8/19.

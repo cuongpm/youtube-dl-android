@@ -11,8 +11,8 @@ import com.youtubedl.DLApplication
 import com.youtubedl.data.local.model.ProgressInfo
 import com.youtubedl.data.local.room.entity.VideoInfo
 import com.youtubedl.ui.main.base.BaseViewModel
-import com.youtubedl.util.FileUtil.FOLDER_NAME
-import com.youtubedl.util.FileUtil.folderDir
+import com.youtubedl.util.FileUtil
+import com.youtubedl.util.FileUtil.Companion.FOLDER_NAME
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -25,7 +25,8 @@ import javax.inject.Inject
  */
 
 class ProgressViewModel @Inject constructor(
-    private val application: DLApplication
+    private val application: DLApplication,
+    private val fileUtil: FileUtil
 ) : BaseViewModel() {
 
     private lateinit var compositeDisposable: CompositeDisposable
@@ -42,7 +43,7 @@ class ProgressViewModel @Inject constructor(
 
     fun downloadVideo(videoInfo: VideoInfo?) {
         videoInfo?.let {
-            if (!folderDir.exists() && !folderDir.mkdirs()) return
+            if (!fileUtil.folderDir.exists() && !fileUtil.folderDir.mkdirs()) return
 
             val downloadManager = application.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
             val request = DownloadManager.Request(Uri.parse(videoInfo.downloadUrl)).apply {
