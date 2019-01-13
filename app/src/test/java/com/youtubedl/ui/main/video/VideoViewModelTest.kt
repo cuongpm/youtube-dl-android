@@ -15,6 +15,7 @@ import java.io.File
 class VideoViewModelTest {
 
     private lateinit var viewModel: VideoViewModel
+
     private lateinit var fileUtil: FileUtil
 
     @Before

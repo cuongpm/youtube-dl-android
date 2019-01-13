@@ -2,7 +2,6 @@ package com.youtubedl.ui.main.video
 
 import android.databinding.ObservableArrayList
 import android.databinding.ObservableList
-import android.support.annotation.VisibleForTesting
 import com.youtubedl.data.local.model.LocalVideo
 import com.youtubedl.ui.main.base.BaseViewModel
 import com.youtubedl.util.FileUtil
@@ -16,7 +15,6 @@ class VideoViewModel @Inject constructor(
     private val fileUtil: FileUtil
 ) : BaseViewModel() {
 
-    @VisibleForTesting
     val localVideos: ObservableList<LocalVideo> = ObservableArrayList()
 
     override fun start() {
