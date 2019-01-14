@@ -1,5 +1,6 @@
 package com.youtubedl.data.repository
 
+import android.support.annotation.VisibleForTesting
 import com.youtubedl.data.local.room.entity.VideoInfo
 import com.youtubedl.di.qualifier.LocalData
 import com.youtubedl.di.qualifier.RemoteData
@@ -24,7 +25,8 @@ class VideoRepositoryImpl @Inject constructor(
     @RemoteData private val remoteDataSource: VideoRepository
 ) : VideoRepository {
 
-    private var cachedVideos: MutableMap<String, VideoInfo> = mutableMapOf()
+    @VisibleForTesting
+    internal var cachedVideos: MutableMap<String, VideoInfo> = mutableMapOf()
 
     override fun getVideoInfo(url: String): Flowable<VideoInfo> {
         cachedVideos[url]?.let { return Flowable.just(it) }
