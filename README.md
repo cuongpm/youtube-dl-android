@@ -1,6 +1,6 @@
 # youtube-dl-android
 
-[![CircleCI](https://circleci.com/gh/cuongpm/youtube-dl-android.svg?style=svg)](https://circleci.com/gh/cuongpm/youtube-dl-android) [![Coverage Status](https://coveralls.io/repos/github/cuongpm/youtube-dl-android/badge.svg?branch=master)](https://coveralls.io/github/cuongpm/youtube-dl-android?branch=master)
+[![CircleCI](https://circleci.com/gh/cuongpm/youtube-dl-android.svg?style=svg)](https://circleci.com/gh/cuongpm/youtube-dl-android) [![Coverage Status](https://img.shields.io/coveralls/github/cuongpm/youtube-dl-android.svg)](https://coveralls.io/github/cuongpm/youtube-dl-android?branch=master)
 
 📦 An Android client for youtube-dl: https://github.com/rg3/youtube-dl
 
@@ -19,8 +19,10 @@
 - Architecture: MVVM
 - Android architecture components: ViewModel, LiveData, Room
 - Dependency injection: Dagger2
-- Network: Retrofit, RxJava, Moshi and Kotshi
+- Network: Retrofit, RxJava
 - Testing: JUnit, Espresso, Mockito
+- Continuous integration with CircleCI
+- Code coverage with Coveralls
 
 ## License
 
