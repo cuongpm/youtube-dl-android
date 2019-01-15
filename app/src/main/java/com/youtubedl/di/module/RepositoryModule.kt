@@ -1,6 +1,7 @@
 package com.youtubedl.di.module
 
 import com.youtubedl.data.local.ConfigLocalDataSource
+import com.youtubedl.data.local.ProgressLocalDataSource
 import com.youtubedl.data.local.TopPagesLocalDataSource
 import com.youtubedl.data.local.VideoLocalDataSource
 import com.youtubedl.data.remote.ConfigRemoteDataSource
@@ -61,4 +62,13 @@ abstract class RepositoryModule {
     @Singleton
     @Binds
     abstract fun bindVideoRepositoryImpl(videoRepository: VideoRepositoryImpl): VideoRepository
+
+    @Singleton
+    @Binds
+    @LocalData
+    abstract fun bindProgressLocalDataSource(localDataSource: ProgressLocalDataSource): ProgressRepository
+
+    @Singleton
+    @Binds
+    abstract fun bindProgressRepositoryImpl(progressRepository: ProgressRepositoryImpl): ProgressRepository
 }

@@ -17,7 +17,7 @@ data class LocalVideo constructor(
     var size: String = ""
         get() = file.getFileSize()
 
-    val thumbnail: Bitmap
+    val thumbnail: Bitmap?
         get() = ThumbnailUtils.createVideoThumbnail(file.path, MINI_KIND)
 
 }

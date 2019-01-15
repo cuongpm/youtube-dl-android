@@ -19,7 +19,7 @@ object ImageBinding {
 
     @BindingAdapter("app:bitmap")
     @JvmStatic
-    fun ImageView.setImageBitmap(bitmap: Bitmap) {
-        setImageBitmap(bitmap)
+    fun ImageView.setImageBitmap(bitmap: Bitmap?) {
+        bitmap?.let { setImageBitmap(it) }
     }
 }

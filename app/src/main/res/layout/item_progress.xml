@@ -8,7 +8,7 @@
 
         <variable
                 name="progressInfo"
-                type="com.youtubedl.data.local.model.ProgressInfo"/>
+                type="com.youtubedl.data.local.room.entity.ProgressInfo"/>
 
     </data>
 

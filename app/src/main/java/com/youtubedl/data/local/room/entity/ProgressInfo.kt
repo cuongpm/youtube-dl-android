@@ -1,15 +1,25 @@
-package com.youtubedl.data.local.model
+package com.youtubedl.data.local.room.entity
 
-import com.youtubedl.data.local.room.entity.VideoInfo
+import android.arch.persistence.room.Entity
+import android.arch.persistence.room.PrimaryKey
+import android.arch.persistence.room.TypeConverters
+import com.youtubedl.util.RoomConverter
 import com.youtubedl.util.ext.getFileSize
+import java.util.*
 
 /**
  * Created by cuongpm on 1/8/19.
  */
 
+@Entity(tableName = "ProgressInfo")
+@TypeConverters(RoomConverter::class)
 data class ProgressInfo constructor(
+    @PrimaryKey
+    var id: String = UUID.randomUUID().toString(),
+
     var downloadId: Long = 0,
 
+    @TypeConverters(RoomConverter::class)
     var videoInfo: VideoInfo,
 
     var bytesDownloaded: Int = 0,

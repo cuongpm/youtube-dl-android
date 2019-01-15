@@ -8,8 +8,9 @@ import android.databinding.ObservableArrayList
 import android.databinding.ObservableList
 import android.net.Uri
 import com.youtubedl.DLApplication
-import com.youtubedl.data.local.model.ProgressInfo
+import com.youtubedl.data.local.room.entity.ProgressInfo
 import com.youtubedl.data.local.room.entity.VideoInfo
+import com.youtubedl.data.repository.ProgressRepository
 import com.youtubedl.ui.main.base.BaseViewModel
 import com.youtubedl.util.FileUtil
 import com.youtubedl.util.FileUtil.Companion.FOLDER_NAME
@@ -26,8 +27,11 @@ import javax.inject.Inject
 
 class ProgressViewModel @Inject constructor(
     private val application: DLApplication,
-    private val fileUtil: FileUtil
+    private val fileUtil: FileUtil,
+    private val progressRepository: ProgressRepository
 ) : BaseViewModel() {
+
+    private lateinit var downloadManager: DownloadManager
 
     private lateinit var compositeDisposable: CompositeDisposable
 
@@ -35,17 +39,30 @@ class ProgressViewModel @Inject constructor(
 
     override fun start() {
         compositeDisposable = CompositeDisposable()
+        downloadManager = application.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
+        showListDownloadingVideos()
     }
 
     override fun stop() {
         compositeDisposable.clear()
     }
 
+    private fun showListDownloadingVideos() {
+        progressRepository.getProgressInfos()
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({ progressInfos ->
+                progressInfos.map { downloadProgress(it) }
+            }, { error ->
+                error.printStackTrace()
+            }).let { compositeDisposable.add(it) }
+
+    }
+
     fun downloadVideo(videoInfo: VideoInfo?) {
         videoInfo?.let {
             if (!fileUtil.folderDir.exists() && !fileUtil.folderDir.mkdirs()) return
 
-            val downloadManager = application.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
             val request = DownloadManager.Request(Uri.parse(videoInfo.downloadUrl)).apply {
                 setDestinationInExternalPublicDir(FOLDER_NAME, videoInfo.name)
                 setNotificationVisibility(VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
@@ -53,33 +70,27 @@ class ProgressViewModel @Inject constructor(
             }
 
             val downloadId = downloadManager.enqueue(request)
-            val progressInfo = ProgressInfo(downloadId = downloadId, videoInfo = videoInfo)
-//        getProgressInfos().add(progressInfo)
-//        mPreferencesManager.setProgress(getProgressInfos())
-//        sendToView { view -> view.updateProgress() }
+            val progressInfo =
+                ProgressInfo(downloadId = downloadId, videoInfo = videoInfo)
 
-            downloadProgress(progressInfo, downloadManager)
+            progressRepository.saveProgressInfo(progressInfo)
+            downloadProgress(progressInfo)
         }
     }
 
-    private fun downloadProgress(progressInfo: ProgressInfo, downloadManager: DownloadManager) {
-        progressObservable(progressInfo, downloadManager)
+    private fun downloadProgress(progressInfo: ProgressInfo) {
+        progressObservable(progressInfo)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .doOnError {
-                progressInfos.find { it.downloadId == progressInfo.downloadId }?.let {
-                    progressInfos.remove(progressInfo)
-                }
-            }
             .doOnComplete {
                 progressInfos.find { it.downloadId == progressInfo.downloadId }?.let {
                     progressInfos.remove(progressInfo)
+                    progressRepository.deleteProgressInfo(progressInfo)
                 }
             }
             .subscribe({ progressInfo ->
                 progressInfos.find { it.downloadId == progressInfo.downloadId }?.let {
-                    it.bytesDownloaded = progressInfo.bytesDownloaded
-                    it.bytesTotal = progressInfo.bytesTotal
+                    progressInfos[progressInfos.indexOf(it)] = progressInfo
                 } ?: run {
                     progressInfos.add(progressInfo)
                 }
@@ -88,9 +99,7 @@ class ProgressViewModel @Inject constructor(
             }).let { compositeDisposable.add(it) }
     }
 
-    private fun progressObservable(
-        progressInfo: ProgressInfo, downloadManager: DownloadManager
-    ): Observable<ProgressInfo> {
+    private fun progressObservable(progressInfo: ProgressInfo): Observable<ProgressInfo> {
         return Observable.create { emitter ->
             try {
                 Observable.interval(1, TimeUnit.SECONDS)
@@ -101,7 +110,7 @@ class ProgressViewModel @Inject constructor(
 
                         when (status) {
                             STATUS_SUCCESSFUL -> emitter.onComplete()
-                            STATUS_FAILED -> emitter.onError(Exception("Download failed"))
+                            STATUS_FAILED -> emitter.onComplete()
                             STATUS_RUNNING -> {
                                 val currentBytes = cursor.getInt(cursor.getColumnIndex(COLUMN_BYTES_DOWNLOADED_SO_FAR))
                                 val totalBytes = cursor.getInt(cursor.getColumnIndex(COLUMN_TOTAL_SIZE_BYTES))
@@ -113,7 +122,7 @@ class ProgressViewModel @Inject constructor(
                         cursor.close()
                     }
             } catch (e: Exception) {
-                emitter.onError(e)
+                emitter.onComplete()
             }
         }
     }
