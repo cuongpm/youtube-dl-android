@@ -2,6 +2,8 @@
     <string name="app_name">youtube-dl-android</string>
     <string name="browser_search_hint">Search Google or enter url</string>
 
+    <string name="title_video">VIDEO</string>
+    <string name="title_progress">PROGRESS</string>
     <string name="title_settings">SETTINGS</string>
 
     <string name="dialog_video_title">Video found:</string>
@@ -11,6 +13,9 @@
     <string name="rename_title">Rename video</string>
     <string name="rename_invalid">Invalid name. Please try again!</string>
     <string name="rename_exist">Video name already exists!</string>
+
+    <string name="video_empty_message">You have not downloaded any video yet.</string>
+    <string name="progress_empty_message">You are not downloading any video.</string>
 
     <string name="settings_general">GENERAL</string>
     <string name="settings_videos_folder">Videos folder</string>

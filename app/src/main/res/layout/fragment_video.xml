@@ -26,8 +26,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/color_gray_1"
-                app:title="VIDEO"
-                app:titleTextColor="@color/black_85"/>
+                app:title="@string/title_video"
+                app:titleTextColor="@color/black_85"
+                app:layout_constraintTop_toTopOf="parent"/>
 
         <android.support.v7.widget.RecyclerView
                 android:id="@+id/rv_video"
@@ -38,6 +39,39 @@
                 app:layoutManager="android.support.v7.widget.LinearLayoutManager"
                 app:layout_constraintTop_toBottomOf="@id/toolbar"
                 app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/padding_large"
+                android:visibility="@{viewModel.localVideos.size() == 0 ? View.VISIBLE : View.GONE}"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent">
+
+            <ImageView
+                    android:id="@+id/iv_empty_icon"
+                    android:layout_width="@dimen/progress_icon_size"
+                    android:layout_height="@dimen/progress_icon_size"
+                    android:layout_marginBottom="@dimen/padding_normal"
+                    android:tint="@color/color_gray_2"
+                    android:src="@drawable/ic_empty"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toTopOf="@id/tv_empty_text"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"/>
+
+            <TextView
+                    android:id="@+id/tv_empty_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/video_empty_message"
+                    android:textColor="@color/black_55"
+                    android:textSize="@dimen/text_medium"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/iv_empty_icon"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"/>
+        </android.support.constraint.ConstraintLayout>
 
     </android.support.constraint.ConstraintLayout>
 
