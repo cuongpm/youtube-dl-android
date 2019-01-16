@@ -3,21 +3,19 @@ package com.youtubedl.ui.main.progress
 import android.app.DownloadManager
 import android.app.DownloadManager.*
 import android.app.DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED
-import android.content.Context
 import android.databinding.ObservableArrayList
 import android.databinding.ObservableList
 import android.net.Uri
-import com.youtubedl.DLApplication
+import android.support.annotation.VisibleForTesting
 import com.youtubedl.data.local.room.entity.ProgressInfo
 import com.youtubedl.data.local.room.entity.VideoInfo
 import com.youtubedl.data.repository.ProgressRepository
 import com.youtubedl.ui.main.base.BaseViewModel
 import com.youtubedl.util.FileUtil
 import com.youtubedl.util.FileUtil.Companion.FOLDER_NAME
+import com.youtubedl.util.scheduler.BaseSchedulers
 import io.reactivex.Observable
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.schedulers.Schedulers
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -26,20 +24,19 @@ import javax.inject.Inject
  */
 
 class ProgressViewModel @Inject constructor(
-    private val application: DLApplication,
+    private val downloadManager: DownloadManager,
     private val fileUtil: FileUtil,
+    private val baseSchedulers: BaseSchedulers,
     private val progressRepository: ProgressRepository
 ) : BaseViewModel() {
 
-    private lateinit var downloadManager: DownloadManager
-
-    private lateinit var compositeDisposable: CompositeDisposable
+    @VisibleForTesting
+    internal lateinit var compositeDisposable: CompositeDisposable
 
     val progressInfos: ObservableList<ProgressInfo> = ObservableArrayList()
 
     override fun start() {
         compositeDisposable = CompositeDisposable()
-        downloadManager = application.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
         showListDownloadingVideos()
     }
 
@@ -49,8 +46,8 @@ class ProgressViewModel @Inject constructor(
 
     private fun showListDownloadingVideos() {
         progressRepository.getProgressInfos()
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeOn(baseSchedulers.io)
+            .observeOn(baseSchedulers.mainThread)
             .subscribe({ progressInfos ->
                 progressInfos.map { downloadProgress(it) }
             }, { error ->
@@ -70,18 +67,18 @@ class ProgressViewModel @Inject constructor(
             }
 
             val downloadId = downloadManager.enqueue(request)
-            val progressInfo =
-                ProgressInfo(downloadId = downloadId, videoInfo = videoInfo)
+            val progressInfo = ProgressInfo(downloadId = downloadId, videoInfo = videoInfo)
 
             progressRepository.saveProgressInfo(progressInfo)
             downloadProgress(progressInfo)
         }
     }
 
-    private fun downloadProgress(progressInfo: ProgressInfo) {
+    @VisibleForTesting
+    internal fun downloadProgress(progressInfo: ProgressInfo) {
         progressObservable(progressInfo)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeOn(baseSchedulers.io)
+            .observeOn(baseSchedulers.mainThread)
             .doOnComplete {
                 progressInfos.find { it.downloadId == progressInfo.downloadId }?.let {
                     progressInfos.remove(progressInfo)
