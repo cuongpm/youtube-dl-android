@@ -106,7 +106,9 @@ class VideoFragment @Inject constructor() : BaseFragment() {
                     showRenameVideoDialog(view.context, file.nameWithoutExtension,
                         View.OnClickListener { v ->
                             with(v as EditText) {
-                                videoViewModel.renameVideo(v.context, file, v.text.toString().trim())
+                                val newName = v.text.toString().trim()
+                                val newFile = File(file.parent, newName + file.extension)
+                                videoViewModel.renameVideo(v.context, file, newName, newFile)
                             }
                         })
                     true

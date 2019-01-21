@@ -53,9 +53,8 @@ class VideoViewModel @Inject constructor(
         }
     }
 
-    fun renameVideo(context: Context, file: File, newName: String) {
+    fun renameVideo(context: Context, file: File, newName: String, newFile: File) {
         if (newName.isNotEmpty()) {
-            val newFile = File(file.parent, newName + file.extension)
             if (newFile.exists()) {
                 renameErrorEvent.value = FILE_EXIST_ERROR_CODE
             } else if (file.renameTo(newFile)) {
