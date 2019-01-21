@@ -33,7 +33,8 @@
                 android:background="@color/black_15"
                 android:scaleType="centerCrop"
                 app:bitmap="@{localVideo.thumbnail}"
-        />
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
 
         <TextView
                 android:id="@+id/tv_name"
@@ -72,6 +73,7 @@
                 android:layout_height="wrap_content"
                 android:background="?attr/selectableItemBackground"
                 android:padding="@dimen/padding_small"
+                android:onClick="@{(view) -> videoListener.onMenuClicked(view, localVideo)}"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"

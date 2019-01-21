@@ -1,0 +1,19 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+            android:id="@+id/item_rename"
+            android:title="@string/video_menu_rename"
+            app:showAsAction="always|collapseActionView"/>
+
+    <item
+            android:id="@+id/item_delete"
+            android:title="@string/video_menu_delete"
+            app:showAsAction="ifRoom|collapseActionView"/>
+
+    <item
+            android:id="@+id/item_share"
+            android:title="@string/video_menu_share"
+            app:showAsAction="always|collapseActionView"/>
+
+</menu>

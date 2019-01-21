@@ -10,11 +10,16 @@
     <string name="dialog_preview_video">Preview Video</string>
     <string name="dialog_download_video">Download Video</string>
 
-    <string name="rename_title">Rename video</string>
-    <string name="rename_invalid">Invalid name. Please try again!</string>
-    <string name="rename_exist">Video name already exists!</string>
-
     <string name="video_empty_message">You have not downloaded any video yet.</string>
+    <string name="video_menu_rename">Rename</string>
+    <string name="video_menu_delete">Delete</string>
+    <string name="video_menu_share">Share</string>
+    <string name="video_rename_title">Rename video</string>
+    <string name="video_rename_invalid">Invalid name. Please try again!</string>
+    <string name="video_rename_exist">Video name already exists!</string>
+    <string name="video_share_message">You don\'t have any video player app installed on your device</string>
+
+
     <string name="progress_empty_message">You are not downloading any video.</string>
 
     <string name="settings_general">GENERAL</string>

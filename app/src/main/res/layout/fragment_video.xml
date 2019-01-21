@@ -10,10 +10,6 @@
                 name="viewModel"
                 type="com.youtubedl.ui.main.video.VideoViewModel"/>
 
-        <variable
-                name="adapter"
-                type="com.youtubedl.ui.component.adapter.VideoAdapter"/>
-
     </data>
 
     <android.support.constraint.ConstraintLayout
@@ -34,9 +30,7 @@
                 android:id="@+id/rv_video"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:adapter="@{adapter}"
                 app:items="@{viewModel.localVideos}"
-                app:layoutManager="android.support.v7.widget.LinearLayoutManager"
                 app:layout_constraintTop_toBottomOf="@id/toolbar"
                 app:layout_constraintBottom_toBottomOf="parent"/>
 

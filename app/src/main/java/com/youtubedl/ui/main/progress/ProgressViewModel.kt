@@ -98,29 +98,27 @@ class ProgressViewModel @Inject constructor(
 
     private fun progressObservable(progressInfo: ProgressInfo): Observable<ProgressInfo> {
         return Observable.create { emitter ->
-            try {
-                Observable.interval(1, TimeUnit.SECONDS)
-                    .subscribe {
-                        val query = DownloadManager.Query().apply { setFilterById(progressInfo.downloadId) }
-                        val cursor = downloadManager.query(query).apply { moveToFirst() }
-                        val status = cursor.getInt(cursor.getColumnIndex(COLUMN_STATUS))
+            Observable.interval(1, TimeUnit.SECONDS)
+                .subscribe({
+                    val query = DownloadManager.Query().apply { setFilterById(progressInfo.downloadId) }
+                    val cursor = downloadManager.query(query).apply { moveToFirst() }
+                    val status = cursor.getInt(cursor.getColumnIndex(COLUMN_STATUS))
 
-                        when (status) {
-                            STATUS_SUCCESSFUL -> emitter.onComplete()
-                            STATUS_FAILED -> emitter.onComplete()
-                            STATUS_RUNNING -> {
-                                val currentBytes = cursor.getInt(cursor.getColumnIndex(COLUMN_BYTES_DOWNLOADED_SO_FAR))
-                                val totalBytes = cursor.getInt(cursor.getColumnIndex(COLUMN_TOTAL_SIZE_BYTES))
-                                progressInfo.bytesDownloaded = currentBytes
-                                progressInfo.bytesTotal = totalBytes
-                                emitter.onNext(progressInfo)
-                            }
+                    when (status) {
+                        STATUS_SUCCESSFUL -> emitter.onComplete()
+                        STATUS_FAILED -> emitter.onComplete()
+                        STATUS_RUNNING -> {
+                            val currentBytes = cursor.getInt(cursor.getColumnIndex(COLUMN_BYTES_DOWNLOADED_SO_FAR))
+                            val totalBytes = cursor.getInt(cursor.getColumnIndex(COLUMN_TOTAL_SIZE_BYTES))
+                            progressInfo.bytesDownloaded = currentBytes
+                            progressInfo.bytesTotal = totalBytes
+                            emitter.onNext(progressInfo)
                         }
-                        cursor.close()
                     }
-            } catch (e: Exception) {
-                emitter.onComplete()
-            }
+                    cursor.close()
+                }, {
+                    emitter.onComplete()
+                })
         }
     }
 }
