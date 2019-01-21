@@ -3,8 +3,8 @@ package com.youtubedl.data.local.room.entity
 import android.arch.persistence.room.Entity
 import android.arch.persistence.room.PrimaryKey
 import android.arch.persistence.room.TypeConverters
+import com.youtubedl.util.FileUtil.Companion.getFileSize
 import com.youtubedl.util.RoomConverter
-import com.youtubedl.util.ext.getFileSize
 import java.util.*
 
 /**

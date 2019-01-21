@@ -3,7 +3,7 @@ package com.youtubedl.data.local.model
 import android.graphics.Bitmap
 import android.media.ThumbnailUtils
 import android.provider.MediaStore.Video.Thumbnails.MINI_KIND
-import com.youtubedl.util.ext.getFileSize
+import com.youtubedl.util.FileUtil.Companion.getFileSize
 import java.io.File
 
 /**
@@ -15,7 +15,7 @@ data class LocalVideo constructor(
 ) {
 
     var size: String = ""
-        get() = file.getFileSize()
+        get() = getFileSize(file.length().toDouble())
 
     val thumbnail: Bitmap?
         get() = ThumbnailUtils.createVideoThumbnail(file.path, MINI_KIND)

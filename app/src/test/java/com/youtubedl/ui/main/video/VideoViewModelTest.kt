@@ -9,8 +9,6 @@ import com.nhaarman.mockito_kotlin.verify
 import com.youtubedl.ui.main.video.VideoViewModel.Companion.FILE_EXIST_ERROR_CODE
 import com.youtubedl.ui.main.video.VideoViewModel.Companion.FILE_INVALID_ERROR_CODE
 import com.youtubedl.util.FileUtil
-import com.youtubedl.util.ext.deleteMedia
-import com.youtubedl.util.ext.scanMedia
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
@@ -107,8 +105,8 @@ class VideoViewModelTest {
         viewModel.start()
         viewModel.renameVideo(context, file, "newName", newFile)
 
-        verify(file).deleteMedia(context)
-        verify(newFile).scanMedia(context)
+        verify(fileUtil).deleteMedia(context, file)
+        verify(fileUtil).scanMedia(context, newFile)
         assertEquals(newFile, viewModel.localVideos[0].file)
     }
 }

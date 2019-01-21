@@ -7,8 +7,6 @@ import com.youtubedl.data.local.model.LocalVideo
 import com.youtubedl.ui.main.base.BaseViewModel
 import com.youtubedl.util.FileUtil
 import com.youtubedl.util.SingleLiveEvent
-import com.youtubedl.util.ext.deleteMedia
-import com.youtubedl.util.ext.scanMedia
 import java.io.File
 import javax.inject.Inject
 
@@ -58,8 +56,8 @@ class VideoViewModel @Inject constructor(
             if (newFile.exists()) {
                 renameErrorEvent.value = FILE_EXIST_ERROR_CODE
             } else if (file.renameTo(newFile)) {
-                file.deleteMedia(context)
-                newFile.scanMedia(context)
+                fileUtil.deleteMedia(context, file)
+                fileUtil.scanMedia(context, newFile)
                 localVideos.find { it.file.path == file.path }?.let {
                     it.file = newFile
                     localVideos[localVideos.indexOf(it)] = it
