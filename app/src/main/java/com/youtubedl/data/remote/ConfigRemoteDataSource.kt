@@ -22,7 +22,4 @@ class ConfigRemoteDataSource @Inject constructor(
 
     override fun saveSupportedPages(supportedPages: List<SupportedPage>) {
     }
-
-    override fun refreshConfig() {
-    }
 }

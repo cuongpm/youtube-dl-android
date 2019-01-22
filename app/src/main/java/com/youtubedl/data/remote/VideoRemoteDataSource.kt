@@ -23,5 +23,4 @@ class VideoRemoteDataSource @Inject constructor(
 
     override fun saveVideoInfo(videoInfo: VideoInfo) {
     }
-
 }

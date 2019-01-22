@@ -1,5 +1,6 @@
 package com.youtubedl.data.local
 
+import com.youtubedl.data.local.room.dao.ConfigDao
 import com.youtubedl.data.local.room.entity.SupportedPage
 import com.youtubedl.data.repository.ConfigRepository
 import io.reactivex.Flowable
@@ -11,15 +12,15 @@ import javax.inject.Singleton
  */
 
 @Singleton
-class ConfigLocalDataSource @Inject constructor() : ConfigRepository {
+class ConfigLocalDataSource @Inject constructor(
+    private val configDao: ConfigDao
+) : ConfigRepository {
 
     override fun getSupportedPages(): Flowable<List<SupportedPage>> {
-        return Flowable.empty()
+        return configDao.getSupportedPages().toFlowable()
     }
 
     override fun saveSupportedPages(supportedPages: List<SupportedPage>) {
-    }
-
-    override fun refreshConfig() {
+        supportedPages.map { configDao.insertSupportedPage(it) }
     }
 }

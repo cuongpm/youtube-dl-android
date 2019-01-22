@@ -1,5 +1,6 @@
 package com.youtubedl.data.repository
 
+import android.support.annotation.VisibleForTesting
 import com.youtubedl.data.local.room.entity.SupportedPage
 import com.youtubedl.di.qualifier.LocalData
 import com.youtubedl.di.qualifier.RemoteData
@@ -16,8 +17,6 @@ interface ConfigRepository {
     fun getSupportedPages(): Flowable<List<SupportedPage>>
 
     fun saveSupportedPages(supportedPages: List<SupportedPage>)
-
-    fun refreshConfig()
 }
 
 @Singleton
@@ -26,18 +25,37 @@ class ConfigRepositoryImpl @Inject constructor(
     @RemoteData private val remoteDataSource: ConfigRepository
 ) : ConfigRepository {
 
-    var cacheIsDirty = false
-
-//    var cachedConfig: ConfigEntity? = null
+    @VisibleForTesting
+    internal var cachedSupportedPages = listOf<SupportedPage>()
 
     override fun getSupportedPages(): Flowable<List<SupportedPage>> {
-        return remoteDataSource.getSupportedPages()
+        if (cachedSupportedPages.isNotEmpty()) {
+            return Flowable.just(cachedSupportedPages)
+        }
+
+        val localVideo = getAndCacheLocalSupportedPages()
+        val remoteVideo = getAndSaveRemoteSupportedPages()
+        return Flowable.concat(localVideo, remoteVideo).take(1)
     }
 
     override fun saveSupportedPages(supportedPages: List<SupportedPage>) {
+        remoteDataSource.saveSupportedPages(supportedPages)
+        localDataSource.saveSupportedPages(supportedPages)
+        cachedSupportedPages = supportedPages
     }
 
-    override fun refreshConfig() {
-        cacheIsDirty = true
+    private fun getAndCacheLocalSupportedPages(): Flowable<List<SupportedPage>> {
+        return localDataSource.getSupportedPages()
+            .doOnNext { supportedPages ->
+                cachedSupportedPages = supportedPages
+            }
+    }
+
+    private fun getAndSaveRemoteSupportedPages(): Flowable<List<SupportedPage>> {
+        return remoteDataSource.getSupportedPages()
+            .doOnNext { supportedPages ->
+                localDataSource.saveSupportedPages(supportedPages)
+                cachedSupportedPages = supportedPages
+            }
     }
 }
