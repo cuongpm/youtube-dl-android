@@ -1,6 +1,5 @@
 package com.youtubedl.data.local
 
-import com.youtubedl.data.local.room.entity.ConfigEntity
 import com.youtubedl.data.local.room.entity.SupportedPage
 import com.youtubedl.data.repository.ConfigRepository
 import io.reactivex.Flowable
@@ -18,11 +17,8 @@ class ConfigLocalDataSource @Inject constructor() : ConfigRepository {
         return Flowable.empty()
     }
 
-    override fun getConfig(): Flowable<ConfigEntity> {
-        return Flowable.empty()
+    override fun saveSupportedPages(supportedPages: List<SupportedPage>) {
     }
-
-    override fun saveConfig(configEntity: ConfigEntity) {}
 
     override fun refreshConfig() {
     }

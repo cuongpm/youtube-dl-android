@@ -1,7 +1,6 @@
 package com.youtubedl.data.remote.service
 
 import com.youtubedl.data.local.room.entity.PageInfo
-import com.youtubedl.data.local.room.entity.ConfigEntity
 import com.youtubedl.data.local.room.entity.SupportedPage
 import io.reactivex.Flowable
 import retrofit2.http.GET
@@ -11,9 +10,6 @@ import retrofit2.http.GET
  */
 
 interface ConfigService {
-
-    @GET("config.json")
-    fun getconfig(): Flowable<ConfigEntity>
 
     @GET("supported_pages.json")
     fun getSupportedPages(): Flowable<List<SupportedPage>>

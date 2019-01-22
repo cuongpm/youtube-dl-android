@@ -1,6 +1,5 @@
 package com.youtubedl.data.remote
 
-import com.youtubedl.data.local.room.entity.ConfigEntity
 import com.youtubedl.data.local.room.entity.SupportedPage
 import com.youtubedl.data.remote.service.ConfigService
 import com.youtubedl.data.repository.ConfigRepository
@@ -21,11 +20,7 @@ class ConfigRemoteDataSource @Inject constructor(
         return configService.getSupportedPages()
     }
 
-    override fun getConfig(): Flowable<ConfigEntity> {
-        return Flowable.empty()
-    }
-
-    override fun saveConfig(configEntity: ConfigEntity) {
+    override fun saveSupportedPages(supportedPages: List<SupportedPage>) {
     }
 
     override fun refreshConfig() {
