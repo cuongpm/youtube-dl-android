@@ -1,6 +1,7 @@
 package com.youtubedl.ui.main.home
 
 import android.databinding.*
+import android.support.annotation.VisibleForTesting
 import android.util.Patterns
 import com.youtubedl.data.local.model.Suggestion
 import com.youtubedl.data.local.room.entity.PageInfo
@@ -11,14 +12,14 @@ import com.youtubedl.data.repository.VideoRepository
 import com.youtubedl.ui.main.base.BaseViewModel
 import com.youtubedl.util.ScriptUtil
 import com.youtubedl.util.SingleLiveEvent
+import com.youtubedl.util.scheduler.BaseSchedulers
 import io.reactivex.BackpressureStrategy
 import io.reactivex.Flowable
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.functions.BiFunction
-import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.PublishSubject
 import java.util.concurrent.TimeUnit
+import java.util.regex.Pattern
 import javax.inject.Inject
 
 /**
@@ -28,14 +29,16 @@ import javax.inject.Inject
 class BrowserViewModel @Inject constructor(
     private val topPagesRepository: TopPagesRepository,
     private val configRepository: ConfigRepository,
-    private val videoRepository: VideoRepository
+    private val videoRepository: VideoRepository,
+    private val baseSchedulers: BaseSchedulers
 ) : BaseViewModel() {
 
     companion object {
-        private const val SEARCH_URL = "https://www.google.com/search?q=%s"
+        const val SEARCH_URL = "https://www.google.com/search?q=%s"
     }
 
-    private lateinit var compositeDisposable: CompositeDisposable
+    @VisibleForTesting
+    internal lateinit var compositeDisposable: CompositeDisposable
 
     lateinit var publishSubject: PublishSubject<String>
 
@@ -72,14 +75,14 @@ class BrowserViewModel @Inject constructor(
         compositeDisposable.clear()
     }
 
-    fun loadPage(input: String) {
+    fun loadPage(input: String, pattern: Pattern = Patterns.WEB_URL) {
         if (input.isNotEmpty()) {
             isShowPage.set(true)
             changeFocus(false)
 
             if (input.startsWith("http://") || input.startsWith("https://")) {
                 pageUrl.set(input)
-            } else if (Patterns.WEB_URL.matcher(input).matches()) {
+            } else if (pattern.matcher(input).matches()) {
                 pageUrl.set("http://$input")
                 textInput.set("http://$input")
             } else {
@@ -116,7 +119,8 @@ class BrowserViewModel @Inject constructor(
         verifyLinkStatus(url)
     }
 
-    private fun verifyLinkStatus(url: String) {
+    @VisibleForTesting
+    internal fun verifyLinkStatus(url: String) {
         configRepository.getSupportedPages()
             .flatMap { pages ->
                 Flowable.fromIterable(pages)
@@ -124,8 +128,8 @@ class BrowserViewModel @Inject constructor(
                         url.matches(page.pattern.toRegex()) || url.contains(page.pattern)
                     }.toList().toFlowable()
             }
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeOn(baseSchedulers.io)
+            .observeOn(baseSchedulers.mainThread)
             .firstOrError()
             .doOnSubscribe { compositeDisposable.add(it) }
             .subscribe({ pages ->
@@ -138,8 +142,8 @@ class BrowserViewModel @Inject constructor(
 
     fun showSuggestions() {
         getListSuggestions()
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeOn(baseSchedulers.io)
+            .observeOn(baseSchedulers.mainThread)
             .firstOrError()
             .doOnSubscribe { compositeDisposable.add(it) }
             .subscribe({ list ->
@@ -155,8 +159,8 @@ class BrowserViewModel @Inject constructor(
     fun getVideoInfo() {
         textInput.get()?.let { url ->
             videoRepository.getVideoInfo(url)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(baseSchedulers.io)
+                .observeOn(baseSchedulers.mainThread)
                 .firstOrError()
                 .doOnSubscribe { compositeDisposable.add(it) }
                 .subscribe({ videoInfo ->
@@ -183,8 +187,8 @@ class BrowserViewModel @Inject constructor(
 
     private fun getTopPages() {
         topPagesRepository.getTopPages()
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeOn(baseSchedulers.io)
+            .observeOn(baseSchedulers.mainThread)
             .firstOrError()
             .doOnSubscribe { compositeDisposable.add(it) }
             .subscribe({ list ->
