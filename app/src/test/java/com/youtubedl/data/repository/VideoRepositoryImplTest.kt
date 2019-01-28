@@ -16,7 +16,7 @@ import org.junit.Test
  * Created by cuongpm on 1/14/19.
  */
 
-class VideoRepositoryTest {
+class VideoRepositoryImplTest {
 
     private lateinit var localData: VideoLocalDataSource
 

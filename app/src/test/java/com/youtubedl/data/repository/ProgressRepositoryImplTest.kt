@@ -15,7 +15,7 @@ import org.junit.Test
  * Created by cuongpm on 1/16/19.
  */
 
-class ProgressRepositoryTest {
+class ProgressRepositoryImplTest {
 
     private lateinit var progressLocalDataSource: ProgressLocalDataSource
 

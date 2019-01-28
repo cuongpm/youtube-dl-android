@@ -29,13 +29,19 @@ class ConfigRepositoryImpl @Inject constructor(
     internal var cachedSupportedPages = listOf<SupportedPage>()
 
     override fun getSupportedPages(): Flowable<List<SupportedPage>> {
-        if (cachedSupportedPages.isNotEmpty()) {
-            return Flowable.just(cachedSupportedPages)
-        }
 
-        val localVideo = getAndCacheLocalSupportedPages()
-        val remoteVideo = getAndSaveRemoteSupportedPages()
-        return Flowable.concat(localVideo, remoteVideo).take(1)
+        return if (cachedSupportedPages.isNotEmpty()) {
+            Flowable.just(cachedSupportedPages)
+        } else {
+            getAndCacheLocalSupportedPages()
+                .flatMap { supportedPages ->
+                    if (supportedPages.isEmpty()) {
+                        getAndSaveRemoteSupportedPages()
+                    } else {
+                        Flowable.just(supportedPages)
+                    }
+                }
+        }
     }
 
     override fun saveSupportedPages(supportedPages: List<SupportedPage>) {
