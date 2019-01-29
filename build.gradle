@@ -9,6 +9,7 @@ buildscript {
         classpath deps.android.gradle_plugin
         classpath deps.kotlin.plugin
         classpath deps.coveralls.plugin
+        classpath deps.google_services.plugin
     }
 }
 

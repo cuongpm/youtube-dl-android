@@ -10,6 +10,8 @@ apply plugin: 'jacoco'
 
 apply plugin: 'com.github.kt3k.coveralls'
 
+apply plugin: 'com.google.gms.google-services'
+
 jacoco {
     version = '0.8.1'
 }
@@ -50,6 +52,9 @@ dependencies {
     implementation deps.support.appcompat
     implementation deps.support.design
     implementation deps.support.constraintlayout
+
+    // Firebase
+    implementation deps.firebase.core
 
     // Testing
     testImplementation deps.testing.junit
