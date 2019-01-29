@@ -1,6 +1,7 @@
 package com.youtubedl.ui.component.binding
 
 import android.databinding.BindingAdapter
+import android.media.MediaPlayer
 import android.net.Uri
 import android.support.v4.content.FileProvider
 import android.widget.VideoView
@@ -21,5 +22,11 @@ object VideoViewBinding {
             FileProvider.getUriForFile(context, context.packageName + ".provider", File(videoPath))
         }
         setVideoURI(uri)
+    }
+
+    @BindingAdapter("app:onPreparedListener")
+    @JvmStatic
+    fun VideoView.setOnPreparedListener(onPreparedListener: MediaPlayer.OnPreparedListener?) {
+        setOnPreparedListener(onPreparedListener)
     }
 }

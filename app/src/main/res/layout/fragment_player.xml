@@ -14,6 +14,10 @@
                 name="navigationListener"
                 type="android.view.View.OnClickListener"/>
 
+        <variable
+                name="onPreparedListener"
+                type="android.media.MediaPlayer.OnPreparedListener"/>
+
     </data>
 
     <android.support.constraint.ConstraintLayout
@@ -27,7 +31,8 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:scaleType="center"
-                app:videoURI="@{viewModel.videoUrl}"/>
+                app:videoURI="@{viewModel.videoUrl}"
+                app:onPreparedListener="@{onPreparedListener}"/>
 
         <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
@@ -37,8 +42,8 @@
                 app:navigationIcon="@drawable/ic_arrow_back_white_24dp"
                 app:title="@{viewModel.videoName}"
                 app:navigationOnClickListener="@{navigationListener}"
-                app:titleTextColor="@android:color/white">
-        </android.support.v7.widget.Toolbar>
+                app:titleTextColor="@android:color/white"
+                app:layout_constraintTop_toTopOf="parent"/>
 
         <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"
@@ -56,6 +61,7 @@
                     android:textSize="@dimen/text_medium"
                     android:text="@{viewModel.currentTime}"
                     app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintRight_toLeftOf="@id/seek_bar"/>
 
             <SeekBar
@@ -64,6 +70,7 @@
                     android:layout_height="wrap_content"
                     android:padding="@dimen/padding_small"
                     android:theme="@style/MySeekBar"
+                    app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintLeft_toRightOf="@id/tv_current_time"
                     app:layout_constraintRight_toLeftOf="@id/tv_total_time"/>
 
@@ -75,6 +82,7 @@
                     android:textColor="@android:color/white"
                     android:textSize="@dimen/text_medium"
                     android:text="@{viewModel.totalTime}"
+                    app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintLeft_toRightOf="@id/seek_bar"/>
 

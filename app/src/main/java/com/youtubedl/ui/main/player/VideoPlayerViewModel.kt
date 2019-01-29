@@ -15,6 +15,8 @@ class VideoPlayerViewModel @Inject constructor() : BaseViewModel() {
     val currentTime = ObservableField("")
     val totalTime = ObservableField("")
 
+    var isVolumeOn = true
+
     override fun start() {
     }
 
@@ -28,4 +30,11 @@ class VideoPlayerViewModel @Inject constructor() : BaseViewModel() {
     fun pressPauseOrPlay() {}
 
     fun pressNext() {}
+
+    fun getVolume(): Float {
+        val amount = if (isVolumeOn) 100 else 0
+        val max = 100.0
+        val numerator: Double = if (max - amount > 0) Math.log((max - amount)) else 0.0
+        return (1 - numerator / Math.log(max)).toFloat()
+    }
 }

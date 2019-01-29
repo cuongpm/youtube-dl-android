@@ -25,6 +25,7 @@
         <activity android:name=".ui.main.home.MainActivity"
                   android:screenOrientation="portrait"/>
         <activity android:name=".ui.main.player.VideoPlayerActivity"
+                  android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
                   android:screenOrientation="portrait"/>
 
         <provider

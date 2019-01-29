@@ -15,6 +15,7 @@ import com.youtubedl.R
 import com.youtubedl.databinding.ActivityMainBinding
 import com.youtubedl.ui.component.adapter.MainAdapter
 import com.youtubedl.ui.main.base.BaseActivity
+
 import com.youtubedl.ui.main.progress.ProgressViewModel
 import javax.inject.Inject
 
