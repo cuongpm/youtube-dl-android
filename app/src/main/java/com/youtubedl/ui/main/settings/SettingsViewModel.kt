@@ -1,7 +1,7 @@
 package com.youtubedl.ui.main.settings
 
+import com.youtubedl.OpenForTesting
 import com.youtubedl.ui.main.base.BaseViewModel
-import com.youtubedl.util.AllOpen
 import com.youtubedl.util.SingleLiveEvent
 import javax.inject.Inject
 
@@ -9,7 +9,7 @@ import javax.inject.Inject
  * Created by cuongpm on 12/7/18.
  */
 
-@AllOpen
+@OpenForTesting
 class SettingsViewModel @Inject constructor() : BaseViewModel() {
 
     val clearCookiesEvent = SingleLiveEvent<Void>()

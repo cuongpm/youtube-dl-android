@@ -5,6 +5,7 @@ import android.content.Intent
 import android.net.Uri
 import android.support.v4.content.FileProvider
 import android.widget.Toast
+import com.youtubedl.OpenForTesting
 import com.youtubedl.R
 import java.io.File
 import javax.inject.Inject
@@ -13,7 +14,7 @@ import javax.inject.Inject
  * Created by cuongpm on 1/13/19.
  */
 
-@AllOpen
+@OpenForTesting
 class IntentUtil @Inject constructor() {
 
     fun openFolder(context: Context?, path: String) {

@@ -5,6 +5,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Environment
 import android.provider.MediaStore
+import com.youtubedl.OpenForTesting
 import java.io.File
 import java.text.DecimalFormat
 import javax.inject.Inject
@@ -13,7 +14,7 @@ import javax.inject.Inject
  * Created by cuongpm on 1/9/19.
  */
 
-@AllOpen
+@OpenForTesting
 class FileUtil @Inject constructor() {
 
     companion object {

@@ -19,7 +19,7 @@ jacoco {
 }
 
 allOpen {
-    annotation 'com.youtubedl.util.AllOpen'
+    annotation 'com.youtubedl.OpenForTesting'
 }
 
 android {

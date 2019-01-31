@@ -4,13 +4,14 @@ import android.content.Context
 import android.os.Build
 import android.webkit.CookieManager
 import android.webkit.CookieSyncManager
+import com.youtubedl.OpenForTesting
 import javax.inject.Inject
 
 /**
  * Created by cuongpm on 1/13/19.
  */
 
-@AllOpen
+@OpenForTesting
 class SystemUtil @Inject constructor() {
 
     fun clearCookies(context: Context?) {
