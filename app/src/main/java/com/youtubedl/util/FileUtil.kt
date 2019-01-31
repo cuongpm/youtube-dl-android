@@ -13,6 +13,7 @@ import javax.inject.Inject
  * Created by cuongpm on 1/9/19.
  */
 
+@AllOpen
 class FileUtil @Inject constructor() {
 
     companion object {

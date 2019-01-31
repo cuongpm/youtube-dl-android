@@ -6,6 +6,8 @@ apply plugin: 'kotlin-android-extensions'
 
 apply plugin: 'kotlin-kapt'
 
+apply plugin: 'kotlin-allopen'
+
 apply plugin: 'jacoco'
 
 apply plugin: 'com.github.kt3k.coveralls'
@@ -14,6 +16,10 @@ apply plugin: 'com.google.gms.google-services'
 
 jacoco {
     version = '0.8.1'
+}
+
+allOpen {
+    annotation 'com.youtubedl.util.AllOpen'
 }
 
 android {
@@ -59,8 +65,9 @@ dependencies {
     // Testing
     testImplementation deps.testing.junit
     testImplementation deps.testing.mockito_core
-    testImplementation deps.testing.mockito_android
     testImplementation deps.testing.mockito_kotlin
+    androidTestImplementation deps.testing.mockito_android
+    androidTestImplementation deps.testing.mockito_kotlin
     androidTestImplementation deps.testing.test_runner
     androidTestImplementation deps.testing.espresso_core
     androidTestImplementation deps.testing.espresso_intents
@@ -75,6 +82,7 @@ dependencies {
     implementation deps.lifecycle.extensions
     kapt deps.lifecycle.compiler
     testImplementation deps.arch_core.testing
+    androidTestImplementation deps.arch_core.testing
 
     // Room
     implementation deps.room.runtime

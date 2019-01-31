@@ -23,7 +23,7 @@ import com.youtubedl.ui.main.base.BaseFragment
 import com.youtubedl.ui.main.player.VideoPlayerActivity
 import com.youtubedl.ui.main.player.VideoPlayerFragment
 import com.youtubedl.ui.main.video.VideoViewModel.Companion.FILE_EXIST_ERROR_CODE
-import com.youtubedl.util.IntentUtil.shareVideo
+import com.youtubedl.util.IntentUtil
 import java.io.File
 import javax.inject.Inject
 
@@ -40,6 +40,9 @@ class VideoFragment @Inject constructor() : BaseFragment() {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
+
+    @Inject
+    lateinit var intentUtil: IntentUtil
 
     private lateinit var dataBinding: FragmentVideoBinding
 
@@ -118,7 +121,7 @@ class VideoFragment @Inject constructor() : BaseFragment() {
                     true
                 }
                 R.id.item_share -> {
-                    shareVideo(view.context, file)
+                    intentUtil.shareVideo(view.context, file)
                     true
                 }
                 else -> false

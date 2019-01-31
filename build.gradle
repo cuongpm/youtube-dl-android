@@ -8,6 +8,7 @@ buildscript {
     dependencies {
         classpath deps.android.gradle_plugin
         classpath deps.kotlin.plugin
+        classpath deps.kotlin.allopen
         classpath deps.coveralls.plugin
         classpath deps.google_services.plugin
     }

@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import com.youtubedl.databinding.FragmentSettingsBinding
 import com.youtubedl.di.ActivityScoped
 import com.youtubedl.ui.main.base.BaseFragment
+import com.youtubedl.util.AllOpen
 import com.youtubedl.util.FileUtil
 import com.youtubedl.util.IntentUtil
 import com.youtubedl.util.SystemUtil
@@ -19,6 +20,7 @@ import javax.inject.Inject
  * Created by cuongpm on 12/7/18.
  */
 
+@AllOpen
 @ActivityScoped
 class SettingsFragment @Inject constructor() : BaseFragment() {
 
@@ -28,6 +30,12 @@ class SettingsFragment @Inject constructor() : BaseFragment() {
 
     @Inject
     lateinit var fileUtil: FileUtil
+
+    @Inject
+    lateinit var intentUtil: IntentUtil
+
+    @Inject
+    lateinit var systemUtil: SystemUtil
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
@@ -60,11 +68,11 @@ class SettingsFragment @Inject constructor() : BaseFragment() {
     private fun handleUIEvents() {
         settingsViewModel.apply {
             clearCookiesEvent.observe(this@SettingsFragment, Observer {
-                SystemUtil.clearCookies(context)
+                systemUtil.clearCookies(context)
             })
 
             openVideoFolderEvent.observe(this@SettingsFragment, Observer {
-                IntentUtil.openFolder(context, fileUtil.folderDir.path)
+                intentUtil.openFolder(context, fileUtil.folderDir.path)
             })
         }
     }

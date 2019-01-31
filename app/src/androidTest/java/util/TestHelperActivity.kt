@@ -1,6 +1,5 @@
 package util
 
-import android.app.Activity
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
@@ -48,24 +47,6 @@ class TestHelperActivity : AppCompatActivity(), HasSupportFragmentInjector {
             latch.countDown()
         }
         latch.await(200, TimeUnit.MILLISECONDS)
-    }
-
-    companion object {
-        const val EXTRA_USE_DEFAULT_TOOLBAR_KEY = "use_default_toolbar"
-    }
-}
-
-@Suppress("DEPRECATION")
-class TestHelperActivityLegacy : Activity() {
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        if (!BuildConfig.DEBUG) error("This activity should never be called outside test build")
-        if (intent?.getBooleanExtra(EXTRA_USE_DEFAULT_TOOLBAR_KEY, false) == true) {
-            // assign explicit theme to this activity which enables windows action bar to test
-            // tool bar menus and search option.
-//            setTheme(R.style.BBMTestTheme)
-        }
-        super.onCreate(savedInstanceState)
     }
 
     companion object {

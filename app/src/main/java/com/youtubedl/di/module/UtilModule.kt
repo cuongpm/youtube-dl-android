@@ -4,6 +4,8 @@ import android.app.Application
 import android.app.DownloadManager
 import android.content.Context
 import com.youtubedl.util.FileUtil
+import com.youtubedl.util.IntentUtil
+import com.youtubedl.util.SystemUtil
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -23,4 +25,12 @@ class UtilModule {
     @Singleton
     @Provides
     fun bindFileUtil() = FileUtil()
+
+    @Singleton
+    @Provides
+    fun bindSystemUtil() = SystemUtil()
+
+    @Singleton
+    @Provides
+    fun bindIntentUtil() = IntentUtil()
 }

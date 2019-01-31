@@ -7,12 +7,14 @@ import android.support.v4.content.FileProvider
 import android.widget.Toast
 import com.youtubedl.R
 import java.io.File
+import javax.inject.Inject
 
 /**
  * Created by cuongpm on 1/13/19.
  */
 
-object IntentUtil {
+@AllOpen
+class IntentUtil @Inject constructor() {
 
     fun openFolder(context: Context?, path: String) {
         context?.let {

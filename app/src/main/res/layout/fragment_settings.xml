@@ -24,7 +24,8 @@
                 android:layout_height="wrap_content"
                 android:background="@color/color_gray_1"
                 app:title="@string/title_settings"
-                app:titleTextColor="@color/black_85"/>
+                app:titleTextColor="@color/black_85"
+                app:layout_constraintTop_toTopOf="parent"/>
 
         <TextView
                 android:id="@+id/tv_general"
@@ -61,7 +62,9 @@
                     android:layout_height="@dimen/settings_icon_size"
                     android:padding="@dimen/padding_tiny"
                     android:src="@drawable/ic_folder"
-                    android:tint="@color/color_gray_2"/>
+                    android:tint="@color/color_gray_2"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"/>
 
             <TextView
                     android:id="@+id/tv_folder_label"
@@ -114,7 +117,9 @@
                     android:layout_height="@dimen/settings_icon_size"
                     android:padding="@dimen/padding_small"
                     android:src="@drawable/ic_browser"
-                    android:tint="@color/color_gray_2"/>
+                    android:tint="@color/color_gray_2"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"/>
 
             <TextView
                     android:layout_width="wrap_content"

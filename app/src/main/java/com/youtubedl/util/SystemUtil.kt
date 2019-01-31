@@ -4,12 +4,14 @@ import android.content.Context
 import android.os.Build
 import android.webkit.CookieManager
 import android.webkit.CookieSyncManager
+import javax.inject.Inject
 
 /**
  * Created by cuongpm on 1/13/19.
  */
 
-object SystemUtil {
+@AllOpen
+class SystemUtil @Inject constructor() {
 
     fun clearCookies(context: Context?) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {

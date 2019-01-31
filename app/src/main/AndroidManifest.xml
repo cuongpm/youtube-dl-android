@@ -27,6 +27,7 @@
         <activity android:name=".ui.main.player.VideoPlayerActivity"
                   android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
                   android:screenOrientation="portrait"/>
+        <activity android:name="util.TestHelperActivity"/>
 
         <provider
                 android:name="android.support.v4.content.FileProvider"
