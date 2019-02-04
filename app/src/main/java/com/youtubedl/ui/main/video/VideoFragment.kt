@@ -12,6 +12,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.Toast
+import com.youtubedl.OpenForTesting
 import com.youtubedl.R
 import com.youtubedl.data.local.model.LocalVideo
 import com.youtubedl.databinding.FragmentVideoBinding
@@ -31,6 +32,7 @@ import javax.inject.Inject
  * Created by cuongpm on 12/7/18.
  */
 
+@OpenForTesting
 @ActivityScoped
 class VideoFragment @Inject constructor() : BaseFragment() {
 
@@ -79,8 +81,9 @@ class VideoFragment @Inject constructor() : BaseFragment() {
             renameErrorEvent.observe(this@VideoFragment, Observer { errorCode ->
                 val errorMessage =
                     if (errorCode == FILE_EXIST_ERROR_CODE) R.string.video_rename_exist else R.string.video_rename_invalid
-                Toast.makeText(context, context?.getString(errorMessage), Toast.LENGTH_SHORT).show()
-
+                activity?.runOnUiThread {
+                    Toast.makeText(context, context?.getString(errorMessage), Toast.LENGTH_SHORT).show()
+                }
             })
         }
     }

@@ -3,6 +3,7 @@ package com.youtubedl.ui.main.video
 import android.content.Context
 import android.databinding.ObservableArrayList
 import android.databinding.ObservableList
+import com.youtubedl.OpenForTesting
 import com.youtubedl.data.local.model.LocalVideo
 import com.youtubedl.ui.main.base.BaseViewModel
 import com.youtubedl.util.FileUtil
@@ -14,6 +15,7 @@ import javax.inject.Inject
  * Created by cuongpm on 12/7/18.
  */
 
+@OpenForTesting
 class VideoViewModel @Inject constructor(
     private val fileUtil: FileUtil
 ) : BaseViewModel() {
