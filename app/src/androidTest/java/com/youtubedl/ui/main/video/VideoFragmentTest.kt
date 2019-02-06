@@ -22,6 +22,7 @@ import com.youtubedl.ui.main.player.VideoPlayerActivity
 import com.youtubedl.ui.main.player.VideoPlayerFragment
 import com.youtubedl.util.IntentUtil
 import com.youtubedl.util.SingleLiveEvent
+import org.hamcrest.CoreMatchers
 import org.hamcrest.CoreMatchers.allOf
 import org.hamcrest.CoreMatchers.endsWith
 import org.hamcrest.Matchers.not
@@ -37,6 +38,7 @@ import java.io.File
 /**
  * Created by cuongpm on 1/29/19.
  */
+
 class VideoFragmentTest {
 
     private lateinit var intentUtil: IntentUtil
@@ -54,6 +56,8 @@ class VideoFragmentTest {
     private lateinit var localVideo2: LocalVideo
 
     private val localVideos = ObservableArrayList<LocalVideo>()
+
+    private val emptyLocalVideos = ObservableArrayList<LocalVideo>()
 
     private val screen = Screen()
 
@@ -82,11 +86,21 @@ class VideoFragmentTest {
     }
 
     @Test
-    fun initial_ui() {
+    fun show_empty_screen() {
+        doReturn(emptyLocalVideos).`when`(videoViewModel).localVideos
+        screen.start()
+        verify(videoViewModel).start()
+        screen.verifyListSize(0)
+        screen.hasEmptyLayout(true)
+    }
+
+    @Test
+    fun show_list_downloaded_videos() {
         screen.start()
         verify(videoViewModel).start()
         screen.verifyListSize(2)
         screen.verifyListVideos()
+        screen.hasEmptyLayout(false)
     }
 
     @Test
@@ -160,6 +174,10 @@ class VideoFragmentTest {
         fun start() {
             videoFragment = VideoFragment()
             uiRule.launchFragment(videoFragment)
+        }
+
+        fun hasEmptyLayout(isShown: Boolean) {
+            onView(withId(R.id.layout_empty)).check(matches(if (isShown) isDisplayed() else CoreMatchers.not(isDisplayed())))
         }
 
         fun verifyListSize(size: Int) {

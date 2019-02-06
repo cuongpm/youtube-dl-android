@@ -46,6 +46,6 @@ data class VideoInfo constructor(
     var originalUrl: String = ""
 ) {
 
-    var name = ""
-        get() = "$title . $ext"
+    val name
+        get() = "$title.$ext"
 }

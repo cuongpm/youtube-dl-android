@@ -11,6 +11,7 @@ import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
 import android.support.v4.view.ViewPager
 import com.roughike.bottombar.OnTabSelectListener
+import com.youtubedl.OpenForTesting
 import com.youtubedl.R
 import com.youtubedl.databinding.ActivityMainBinding
 import com.youtubedl.ui.component.adapter.MainAdapter
@@ -19,6 +20,7 @@ import com.youtubedl.ui.main.base.BaseActivity
 import com.youtubedl.ui.main.progress.ProgressViewModel
 import javax.inject.Inject
 
+@OpenForTesting
 class MainActivity : BaseActivity() {
 
     @Inject
@@ -62,7 +64,11 @@ class MainActivity : BaseActivity() {
 
     private fun handleUIEvents() {
         // Grant permission
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+        if (ContextCompat.checkSelfPermission(
+                this,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
             ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), 0)
         }
 

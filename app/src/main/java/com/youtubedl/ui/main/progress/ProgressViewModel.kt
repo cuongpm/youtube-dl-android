@@ -7,6 +7,7 @@ import android.databinding.ObservableArrayList
 import android.databinding.ObservableList
 import android.net.Uri
 import android.support.annotation.VisibleForTesting
+import com.youtubedl.OpenForTesting
 import com.youtubedl.data.local.room.entity.ProgressInfo
 import com.youtubedl.data.local.room.entity.VideoInfo
 import com.youtubedl.data.repository.ProgressRepository
@@ -23,6 +24,7 @@ import javax.inject.Inject
  * Created by cuongpm on 12/7/18.
  */
 
+@OpenForTesting
 class ProgressViewModel @Inject constructor(
     private val downloadManager: DownloadManager,
     private val fileUtil: FileUtil,
