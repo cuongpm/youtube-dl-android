@@ -3,6 +3,7 @@ package com.youtubedl.ui.main.home
 import android.databinding.*
 import android.support.annotation.VisibleForTesting
 import android.util.Patterns
+import com.youtubedl.OpenForTesting
 import com.youtubedl.data.local.model.Suggestion
 import com.youtubedl.data.local.room.entity.PageInfo
 import com.youtubedl.data.local.room.entity.VideoInfo
@@ -26,6 +27,7 @@ import javax.inject.Inject
  * Created by cuongpm on 12/7/18.
  */
 
+@OpenForTesting
 class BrowserViewModel @Inject constructor(
     private val topPagesRepository: TopPagesRepository,
     private val configRepository: ConfigRepository,

@@ -24,6 +24,7 @@ import com.youtubedl.ui.main.base.BaseFragment
 import com.youtubedl.ui.main.player.VideoPlayerActivity
 import com.youtubedl.ui.main.player.VideoPlayerFragment
 import com.youtubedl.ui.main.video.VideoViewModel.Companion.FILE_EXIST_ERROR_CODE
+import com.youtubedl.util.AppUtil
 import com.youtubedl.util.IntentUtil
 import java.io.File
 import javax.inject.Inject
@@ -45,6 +46,9 @@ class VideoFragment @Inject constructor() : BaseFragment() {
 
     @Inject
     lateinit var intentUtil: IntentUtil
+
+    @Inject
+    lateinit var appUtil: AppUtil
 
     private lateinit var dataBinding: FragmentVideoBinding
 
@@ -109,7 +113,7 @@ class VideoFragment @Inject constructor() : BaseFragment() {
         popupMenu.setOnMenuItemClickListener { arg0 ->
             when (arg0.itemId) {
                 R.id.item_rename -> {
-                    showRenameVideoDialog(view.context, file.nameWithoutExtension,
+                    showRenameVideoDialog(view.context, appUtil, file.nameWithoutExtension,
                         View.OnClickListener { v ->
                             with(v as EditText) {
                                 val newName = v.text.toString().trim()

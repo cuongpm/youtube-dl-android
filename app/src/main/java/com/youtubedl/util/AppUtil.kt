@@ -3,12 +3,15 @@ package com.youtubedl.util
 import android.content.Context
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import com.youtubedl.OpenForTesting
+import javax.inject.Inject
 
 /**
  * Created by cuongpm on 12/22/18.
  */
 
-object AppUtil {
+@OpenForTesting
+class AppUtil @Inject constructor() {
 
     fun showSoftKeyboard(view: View) {
         if (view.requestFocus()) {

@@ -3,6 +3,7 @@ package com.youtubedl.di.module
 import android.app.Application
 import android.app.DownloadManager
 import android.content.Context
+import com.youtubedl.util.AppUtil
 import com.youtubedl.util.FileUtil
 import com.youtubedl.util.IntentUtil
 import com.youtubedl.util.SystemUtil
@@ -33,4 +34,8 @@ class UtilModule {
     @Singleton
     @Provides
     fun bindIntentUtil() = IntentUtil()
+
+    @Singleton
+    @Provides
+    fun bindAppUtil() = AppUtil()
 }

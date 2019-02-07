@@ -12,10 +12,6 @@
                 type="com.youtubedl.ui.main.home.BrowserViewModel"/>
 
         <variable
-                name="pageAdapter"
-                type="com.youtubedl.ui.component.adapter.TopPageAdapter"/>
-
-        <variable
                 name="webViewClient"
                 type="android.webkit.WebViewClient"/>
 
@@ -30,10 +26,6 @@
         <variable
                 name="textWatcher"
                 type="android.text.TextWatcher"/>
-
-        <variable
-                name="sgAdapter"
-                type="com.youtubedl.ui.component.adapter.SuggestionAdapter"/>
 
     </data>
 
@@ -89,8 +81,7 @@
                                     android:onClick="@{() -> viewModel.changeFocus(true)}"
                                     app:onKeyListener="@{onKeyListener}"
                                     app:textChangedListener="@{textWatcher}"
-                                    app:items="@{viewModel.listSuggestions}"
-                                    app:adapter="@{sgAdapter}"/>
+                                    app:items="@{viewModel.listSuggestions}"/>
 
                             <android.support.v7.widget.AppCompatImageView
                                     android:id="@+id/iv_close_refresh"
@@ -143,10 +134,8 @@
                     android:id="@+id/rv_top_pages"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:adapter="@{pageAdapter}"
                     android:visibility="@{viewModel.isShowPage ? View.GONE : View.VISIBLE}"
-                    app:items="@{viewModel.listPages}"
-                    app:layoutManager="android.support.v7.widget.LinearLayoutManager"/>
+                    app:items="@{viewModel.listPages}"/>
 
         </android.support.constraint.ConstraintLayout>
 

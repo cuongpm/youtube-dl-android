@@ -1,7 +1,6 @@
 package com.youtubedl.ui.component.binding
 
 import android.databinding.BindingAdapter
-import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import com.youtubedl.data.local.model.Suggestion
 import com.youtubedl.ui.component.adapter.SuggestionAdapter
@@ -11,12 +10,6 @@ import com.youtubedl.ui.component.adapter.SuggestionAdapter
  */
 
 object AutoCompleteTextViewBinding {
-
-    @BindingAdapter("app:adapter")
-    @JvmStatic
-    fun AutoCompleteTextView.setAdapter(adapter: ArrayAdapter<Suggestion>) {
-        setAdapter(adapter)
-    }
 
     @BindingAdapter("app:items")
     @JvmStatic

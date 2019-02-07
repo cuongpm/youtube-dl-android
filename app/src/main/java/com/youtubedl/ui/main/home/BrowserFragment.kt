@@ -5,6 +5,7 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.support.design.widget.BottomSheetDialog
+import android.support.v7.widget.LinearLayoutManager
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.KeyEvent
@@ -15,6 +16,7 @@ import android.webkit.WebChromeClient
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.EditText
+import com.youtubedl.OpenForTesting
 import com.youtubedl.databinding.FragmentBrowserBinding
 import com.youtubedl.di.ActivityScoped
 import com.youtubedl.ui.component.adapter.SuggestionAdapter
@@ -25,20 +27,26 @@ import com.youtubedl.ui.main.base.BaseFragment
 import com.youtubedl.ui.main.player.VideoPlayerActivity
 import com.youtubedl.ui.main.player.VideoPlayerFragment.Companion.VIDEO_NAME
 import com.youtubedl.ui.main.player.VideoPlayerFragment.Companion.VIDEO_URL
-import com.youtubedl.util.AppUtil.hideSoftKeyboard
-import com.youtubedl.util.AppUtil.showSoftKeyboard
+import com.youtubedl.util.AppUtil
 import javax.inject.Inject
 
 /**
  * Created by cuongpm on 12/7/18.
  */
 
+@OpenForTesting
 @ActivityScoped
 class BrowserFragment @Inject constructor() : BaseFragment() {
 
     companion object {
         fun newInstance() = BrowserFragment()
     }
+
+    @Inject
+    lateinit var mainActivity: MainActivity
+
+    @Inject
+    lateinit var appUtil: AppUtil
 
     private lateinit var browserViewModel: BrowserViewModel
 
@@ -49,7 +57,7 @@ class BrowserFragment @Inject constructor() : BaseFragment() {
     private lateinit var suggestionAdapter: SuggestionAdapter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        browserViewModel = (activity as MainActivity).browserViewModel
+        browserViewModel = mainActivity.browserViewModel
         topPageAdapter = TopPageAdapter(ArrayList(0), browserViewModel)
         suggestionAdapter = SuggestionAdapter(context, ArrayList(0), browserViewModel)
 
@@ -57,10 +65,11 @@ class BrowserFragment @Inject constructor() : BaseFragment() {
             this.viewModel = browserViewModel
             this.webChromeClient = browserWebChromeClient
             this.webViewClient = browserWebViewClient
-            this.pageAdapter = topPageAdapter
-            this.sgAdapter = suggestionAdapter
             this.onKeyListener = onKeyPressEnterListener
             this.textWatcher = onInputChangeListener
+            this.rvTopPages.layoutManager = LinearLayoutManager(context)
+            this.rvTopPages.adapter = topPageAdapter
+            this.etSearch.setAdapter(suggestionAdapter)
         }
 
         return dataBinding.root
@@ -88,7 +97,11 @@ class BrowserFragment @Inject constructor() : BaseFragment() {
     private fun handleUIEvents() {
         browserViewModel.apply {
             changeFocusEvent.observe(this@BrowserFragment, Observer { isFocus ->
-                isFocus?.let { if (it) showSoftKeyboard(dataBinding.etSearch) else hideSoftKeyboard(dataBinding.etSearch) }
+                isFocus?.let {
+                    if (it) appUtil.showSoftKeyboard(dataBinding.etSearch) else appUtil.hideSoftKeyboard(
+                        dataBinding.etSearch
+                    )
+                }
             })
 
             pressBackBtnEvent.observe(this@BrowserFragment, Observer { onBackPressed() })

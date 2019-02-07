@@ -20,6 +20,7 @@ import com.youtubedl.R
 import com.youtubedl.data.local.model.LocalVideo
 import com.youtubedl.ui.main.player.VideoPlayerActivity
 import com.youtubedl.ui.main.player.VideoPlayerFragment
+import com.youtubedl.util.AppUtil
 import com.youtubedl.util.IntentUtil
 import com.youtubedl.util.SingleLiveEvent
 import org.hamcrest.CoreMatchers
@@ -42,6 +43,8 @@ import java.io.File
 class VideoFragmentTest {
 
     private lateinit var intentUtil: IntentUtil
+
+    private lateinit var appUtil: AppUtil
 
     private lateinit var viewModelFactory: ViewModelProvider.Factory
 
@@ -67,12 +70,14 @@ class VideoFragmentTest {
     @get:Rule
     val uiRule = InjectedFragmentTestRule<VideoFragment> {
         it.intentUtil = intentUtil
+        it.appUtil = appUtil
         it.viewModelFactory = viewModelFactory
     }
 
     @Before
     fun setup() {
         intentUtil = mock()
+        appUtil = mock()
         videoViewModel = mock()
         viewModelFactory = ViewModelUtil.createFor(videoViewModel)
 
@@ -140,6 +145,7 @@ class VideoFragmentTest {
         screen.start()
         screen.openPopupMenu(0)
         screen.openRenameVideoDialog()
+        verify(appUtil).showSoftKeyboard(any())
 
         val newName = "newName"
         val newFile = File(localVideo1.file.parent, newName + localVideo1.file.extension)
@@ -147,6 +153,7 @@ class VideoFragmentTest {
         screen.changeName(newName)
         screen.renameVideo()
 
+        verify(appUtil).hideSoftKeyboard(any())
         verify(videoViewModel).renameVideo(any(), eq(localVideo1.file), eq(newName), eq(newFile))
     }
 
