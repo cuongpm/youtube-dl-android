@@ -14,7 +14,7 @@ object WebViewBinding {
     @BindingAdapter("app:loadUrl")
     @JvmStatic
     fun WebView.loadUrl(url: String?) {
-        url?.let { loadUrl(it) }
+        url?.let { if (url.isNotEmpty()) loadUrl(it) }
     }
 
     @BindingAdapter("app:javaScriptEnabled")

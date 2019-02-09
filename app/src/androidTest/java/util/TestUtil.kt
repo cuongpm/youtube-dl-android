@@ -6,7 +6,7 @@ import java.util.concurrent.Callable
  * Created by cuongpm on 1/17/19.
  */
 
-fun waitUntil(commandName: String, check: Callable<Boolean>, waitTime: Long) {
+fun waitUntil(commandName: String, check: Callable<Boolean>, timeout: Long) {
     val startTime = System.currentTimeMillis()
     var lastError = RuntimeException(commandName)
     do {
@@ -16,7 +16,7 @@ fun waitUntil(commandName: String, check: Callable<Boolean>, waitTime: Long) {
             lastError = RuntimeException(commandName, t)
         }
 
-        if (System.currentTimeMillis() - startTime > waitTime) {
+        if (System.currentTimeMillis() - startTime > timeout) {
             throw lastError
         }
         try {

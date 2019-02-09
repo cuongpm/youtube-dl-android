@@ -4,6 +4,7 @@ import android.arch.lifecycle.Observer
 import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Bundle
+import android.support.annotation.VisibleForTesting
 import android.support.design.widget.BottomSheetDialog
 import android.support.v7.widget.LinearLayoutManager
 import android.text.Editable
@@ -48,9 +49,10 @@ class BrowserFragment @Inject constructor() : BaseFragment() {
     @Inject
     lateinit var appUtil: AppUtil
 
-    private lateinit var browserViewModel: BrowserViewModel
+    @VisibleForTesting
+    internal lateinit var dataBinding: FragmentBrowserBinding
 
-    private lateinit var dataBinding: FragmentBrowserBinding
+    private lateinit var browserViewModel: BrowserViewModel
 
     private lateinit var topPageAdapter: TopPageAdapter
 
@@ -65,11 +67,11 @@ class BrowserFragment @Inject constructor() : BaseFragment() {
             this.viewModel = browserViewModel
             this.webChromeClient = browserWebChromeClient
             this.webViewClient = browserWebViewClient
-            this.onKeyListener = onKeyPressEnterListener
-            this.textWatcher = onInputChangeListener
             this.rvTopPages.layoutManager = LinearLayoutManager(context)
             this.rvTopPages.adapter = topPageAdapter
             this.etSearch.setAdapter(suggestionAdapter)
+            this.etSearch.setOnKeyListener(onKeyPressEnterListener)
+            this.etSearch.addTextChangedListener(onInputChangeListener)
         }
 
         return dataBinding.root
@@ -104,7 +106,7 @@ class BrowserFragment @Inject constructor() : BaseFragment() {
                 }
             })
 
-            pressBackBtnEvent.observe(this@BrowserFragment, Observer { onBackPressed() })
+            pressBackBtnEvent.observe(this@BrowserFragment, Observer { activity?.runOnUiThread { onBackPressed() } })
 
             showDownloadDialogEvent.observe(this@BrowserFragment, Observer { videoInfo ->
                 showDownloadVideoDialog(activity as MainActivity, object : DownloadVideoListener {

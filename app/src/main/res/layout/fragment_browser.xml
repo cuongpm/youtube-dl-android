@@ -19,14 +19,6 @@
                 name="webChromeClient"
                 type="android.webkit.WebChromeClient"/>
 
-        <variable
-                name="onKeyListener"
-                type="android.view.View.OnKeyListener"/>
-
-        <variable
-                name="textWatcher"
-                type="android.text.TextWatcher"/>
-
     </data>
 
     <android.support.design.widget.CoordinatorLayout
@@ -58,7 +50,8 @@
                             android:background="@android:color/transparent"
                             app:cardCornerRadius="@dimen/browser_toolbar_elevation"
                             app:cardElevation="@dimen/browser_toolbar_elevation"
-                            app:cardUseCompatPadding="true">
+                            app:cardUseCompatPadding="true"
+                            app:layout_constraintTop_toTopOf="parent">
 
                         <android.support.constraint.ConstraintLayout
                                 android:layout_width="match_parent"
@@ -72,15 +65,12 @@
                                     android:focusable="@{viewModel.isFocus}"
                                     android:focusableInTouchMode="@{viewModel.isFocus}"
                                     android:hint="@string/browser_search_hint"
-                                    android:inputType="textNoSuggestions"
                                     android:paddingLeft="@dimen/padding_small"
                                     android:paddingRight="@dimen/browser_title_padding"
                                     android:singleLine="true"
                                     android:textSize="@dimen/text_small"
                                     android:text="@{viewModel.textInput}"
                                     android:onClick="@{() -> viewModel.changeFocus(true)}"
-                                    app:onKeyListener="@{onKeyListener}"
-                                    app:textChangedListener="@{textWatcher}"
                                     app:items="@{viewModel.listSuggestions}"/>
 
                             <android.support.v7.widget.AppCompatImageView
