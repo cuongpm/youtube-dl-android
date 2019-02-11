@@ -1,6 +1,8 @@
 package com.youtubedl.ui.main.home
 
 import android.arch.lifecycle.Observer
+import android.arch.lifecycle.ViewModelProvider
+import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Bundle
@@ -44,6 +46,9 @@ class BrowserFragment @Inject constructor() : BaseFragment() {
     }
 
     @Inject
+    lateinit var viewModelFactory: ViewModelProvider.Factory
+
+    @Inject
     lateinit var mainActivity: MainActivity
 
     @Inject
@@ -54,12 +59,15 @@ class BrowserFragment @Inject constructor() : BaseFragment() {
 
     private lateinit var browserViewModel: BrowserViewModel
 
+    private lateinit var mainViewModel: MainViewModel
+
     private lateinit var topPageAdapter: TopPageAdapter
 
     private lateinit var suggestionAdapter: SuggestionAdapter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        browserViewModel = mainActivity.browserViewModel
+        mainViewModel = mainActivity.mainViewModel
+        browserViewModel = ViewModelProviders.of(this, viewModelFactory).get(BrowserViewModel::class.java)
         topPageAdapter = TopPageAdapter(ArrayList(0), browserViewModel)
         suggestionAdapter = SuggestionAdapter(context, ArrayList(0), browserViewModel)
 
@@ -80,7 +88,9 @@ class BrowserFragment @Inject constructor() : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         browserViewModel.start()
-        handleUIEvents()
+        handlePressBackBtnEvent()
+        handleChangeFocusEvent()
+        handleDownloadVideoEvent()
     }
 
     override fun onDestroyView() {
@@ -96,41 +106,45 @@ class BrowserFragment @Inject constructor() : BaseFragment() {
         }
     }
 
-    private fun handleUIEvents() {
-        browserViewModel.apply {
-            changeFocusEvent.observe(this@BrowserFragment, Observer { isFocus ->
-                isFocus?.let {
-                    if (it) appUtil.showSoftKeyboard(dataBinding.etSearch) else appUtil.hideSoftKeyboard(
-                        dataBinding.etSearch
-                    )
+    private fun handlePressBackBtnEvent() {
+        mainViewModel.pressBackBtnEvent.observe(this@BrowserFragment, Observer {
+            activity?.runOnUiThread { onBackPressed() }
+        })
+    }
+
+    private fun handleChangeFocusEvent() {
+        browserViewModel.changeFocusEvent.observe(this@BrowserFragment, Observer { isFocus ->
+            isFocus?.let {
+                if (it) appUtil.showSoftKeyboard(dataBinding.etSearch) else appUtil.hideSoftKeyboard(
+                    dataBinding.etSearch
+                )
+            }
+        })
+    }
+
+    private fun handleDownloadVideoEvent() {
+        browserViewModel.showDownloadDialogEvent.observe(this@BrowserFragment, Observer { videoInfo ->
+            showDownloadVideoDialog(activity as MainActivity, object : DownloadVideoListener {
+                override fun onPreviewVideo(dialog: BottomSheetDialog) {
+                    dialog.dismiss()
+                    videoInfo?.let {
+                        val intent = Intent(context, VideoPlayerActivity::class.java)
+                        intent.putExtra(VIDEO_URL, it.downloadUrl)
+                        intent.putExtra(VIDEO_NAME, it.name)
+                        startActivity(intent)
+                    }
+                }
+
+                override fun onDownloadVideo(dialog: BottomSheetDialog) {
+                    mainViewModel.downloadVideoEvent.value = videoInfo
+                    dialog.dismiss()
+                }
+
+                override fun onCancel(dialog: BottomSheetDialog) {
+                    dialog.dismiss()
                 }
             })
-
-            pressBackBtnEvent.observe(this@BrowserFragment, Observer { activity?.runOnUiThread { onBackPressed() } })
-
-            showDownloadDialogEvent.observe(this@BrowserFragment, Observer { videoInfo ->
-                showDownloadVideoDialog(activity as MainActivity, object : DownloadVideoListener {
-                    override fun onPreviewVideo(dialog: BottomSheetDialog) {
-                        dialog.dismiss()
-                        videoInfo?.let {
-                            val intent = Intent(context, VideoPlayerActivity::class.java)
-                            intent.putExtra(VIDEO_URL, it.downloadUrl)
-                            intent.putExtra(VIDEO_NAME, it.name)
-                            startActivity(intent)
-                        }
-                    }
-
-                    override fun onDownloadVideo(dialog: BottomSheetDialog) {
-                        browserViewModel.downloadVideoEvent.value = videoInfo
-                        dialog.dismiss()
-                    }
-
-                    override fun onCancel(dialog: BottomSheetDialog) {
-                        dialog.dismiss()
-                    }
-                })
-            })
-        }
+        })
     }
 
     private val onInputChangeListener = object : TextWatcher {

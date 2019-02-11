@@ -62,10 +62,7 @@ class BrowserViewModel @Inject constructor(
     val listSuggestions: ObservableList<Suggestion> = ObservableArrayList()
 
     val changeFocusEvent = SingleLiveEvent<Boolean>()
-    val pressBackBtnEvent = SingleLiveEvent<Void>()
     val showDownloadDialogEvent = SingleLiveEvent<VideoInfo>()
-    val downloadVideoEvent = SingleLiveEvent<VideoInfo>()
-
 
     override fun start() {
         compositeDisposable = CompositeDisposable()

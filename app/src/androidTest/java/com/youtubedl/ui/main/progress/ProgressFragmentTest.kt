@@ -1,5 +1,6 @@
 package com.youtubedl.ui.main.progress
 
+import android.arch.lifecycle.ViewModelProvider
 import android.databinding.ObservableArrayList
 import android.support.test.espresso.Espresso.onView
 import android.support.test.espresso.assertion.ViewAssertions.matches
@@ -11,12 +12,15 @@ import com.youtubedl.R
 import com.youtubedl.data.local.room.entity.ProgressInfo
 import com.youtubedl.data.local.room.entity.VideoInfo
 import com.youtubedl.ui.main.home.MainActivity
+import com.youtubedl.ui.main.home.MainViewModel
+import com.youtubedl.util.SingleLiveEvent
 import org.hamcrest.CoreMatchers.not
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import util.RecyclerViewMatcher.Companion.recyclerViewWithId
 import util.RecyclerViewUtil.recyclerViewSizeIs
+import util.ViewModelUtil
 import util.rule.InjectedFragmentTestRule
 
 /**
@@ -27,13 +31,19 @@ class ProgressFragmentTest {
 
     private lateinit var mainActivity: MainActivity
 
+    private lateinit var viewModelFactory: ViewModelProvider.Factory
+
     private lateinit var progressFragment: ProgressFragment
 
     private lateinit var progressViewModel: ProgressViewModel
 
+    private lateinit var mainViewModel: MainViewModel
+
     private lateinit var progressInfo1: ProgressInfo
 
     private lateinit var progressInfo2: ProgressInfo
+
+    private val downloadVideoEvent = SingleLiveEvent<VideoInfo>()
 
     private val progressInfos = ObservableArrayList<ProgressInfo>()
 
@@ -42,13 +52,17 @@ class ProgressFragmentTest {
     @get:Rule
     val uiRule = InjectedFragmentTestRule<ProgressFragment> {
         it.mainActivity = mainActivity
+        it.viewModelFactory = viewModelFactory
     }
 
     @Before
     fun setup() {
         mainActivity = mock()
         progressViewModel = mock()
-        doReturn(progressViewModel).`when`(mainActivity).progressViewModel
+        mainViewModel = mock()
+        viewModelFactory = ViewModelUtil.createFor(progressViewModel)
+        doReturn(mainViewModel).`when`(mainActivity).mainViewModel
+        doReturn(downloadVideoEvent).`when`(mainViewModel).downloadVideoEvent
 
         progressInfo1 = ProgressInfo(id = "id1", videoInfo = VideoInfo(title = "title1", ext = "ext1"))
         progressInfo2 = ProgressInfo(id = "id2", videoInfo = VideoInfo(title = "title2", ext = "ext2"))

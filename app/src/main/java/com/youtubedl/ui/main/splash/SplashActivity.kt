@@ -6,6 +6,7 @@ import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.os.Handler
+import com.youtubedl.OpenForTesting
 import com.youtubedl.R
 import com.youtubedl.databinding.ActivitySplashBinding
 import com.youtubedl.ui.main.base.BaseActivity
@@ -16,6 +17,7 @@ import javax.inject.Inject
  * Created by cuongpm on 12/6/18.
  */
 
+@OpenForTesting
 class SplashActivity : BaseActivity() {
 
     @Inject

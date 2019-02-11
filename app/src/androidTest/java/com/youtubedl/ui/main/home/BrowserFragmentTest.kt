@@ -1,6 +1,7 @@
 package com.youtubedl.ui.main.home
 
 import android.arch.core.executor.testing.InstantTaskExecutorRule
+import android.arch.lifecycle.ViewModelProvider
 import android.databinding.ObservableArrayList
 import android.databinding.ObservableBoolean
 import android.databinding.ObservableField
@@ -26,6 +27,7 @@ import org.junit.Rule
 import org.junit.Test
 import util.RecyclerViewMatcher.Companion.recyclerViewWithId
 import util.RecyclerViewUtil.recyclerViewSizeIs
+import util.ViewModelUtil
 import util.rule.InjectedFragmentTestRule
 import util.waitUntil
 import java.util.concurrent.Callable
@@ -40,9 +42,13 @@ class BrowserFragmentTest {
 
     private lateinit var appUtil: AppUtil
 
+    private lateinit var viewModelFactory: ViewModelProvider.Factory
+
     private lateinit var browserFragment: BrowserFragment
 
     private lateinit var browserViewModel: BrowserViewModel
+
+    private lateinit var mainViewModel: MainViewModel
 
     private lateinit var publishSubject: PublishSubject<String>
 
@@ -89,20 +95,25 @@ class BrowserFragmentTest {
     val uiRule = InjectedFragmentTestRule<BrowserFragment> {
         it.mainActivity = mainActivity
         it.appUtil = appUtil
+        it.viewModelFactory = viewModelFactory
     }
 
     @Before
     fun setup() {
         mainActivity = mock()
         appUtil = mock()
+        mainViewModel = mock()
         browserViewModel = mock()
         publishSubject = PublishSubject.create()
-        doReturn(browserViewModel).`when`(mainActivity).browserViewModel
+
+        doReturn(mainViewModel).`when`(mainActivity).mainViewModel
+        doReturn(downloadVideoEvent).`when`(mainViewModel).downloadVideoEvent
+        doReturn(pressBackBtnEvent).`when`(mainViewModel).pressBackBtnEvent
+
+        viewModelFactory = ViewModelUtil.createFor(browserViewModel)
         doReturn(publishSubject).`when`(browserViewModel).publishSubject
         doReturn(changeFocusEvent).`when`(browserViewModel).changeFocusEvent
-        doReturn(pressBackBtnEvent).`when`(browserViewModel).pressBackBtnEvent
         doReturn(showDownloadDialogEvent).`when`(browserViewModel).showDownloadDialogEvent
-        doReturn(downloadVideoEvent).`when`(browserViewModel).downloadVideoEvent
 
         suggestions = listOf(Suggestion(content = "https://video1"), Suggestion(content = "https://video2"))
         pageInfo1 = PageInfo(name = "Facebook", link = "https://facebook.com")

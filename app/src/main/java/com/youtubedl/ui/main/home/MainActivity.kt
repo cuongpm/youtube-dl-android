@@ -1,7 +1,6 @@
 package com.youtubedl.ui.main.home
 
 import android.Manifest
-import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProvider
 import android.arch.lifecycle.ViewModelProviders
 import android.content.pm.PackageManager
@@ -16,8 +15,6 @@ import com.youtubedl.R
 import com.youtubedl.databinding.ActivityMainBinding
 import com.youtubedl.ui.component.adapter.MainAdapter
 import com.youtubedl.ui.main.base.BaseActivity
-
-import com.youtubedl.ui.main.progress.ProgressViewModel
 import javax.inject.Inject
 
 @OpenForTesting
@@ -26,11 +23,7 @@ class MainActivity : BaseActivity() {
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
-    lateinit var browserViewModel: BrowserViewModel
-
-    lateinit var progressViewModel: ProgressViewModel
-
-    private lateinit var mainViewModel: MainViewModel
+    lateinit var mainViewModel: MainViewModel
 
     private lateinit var dataBinding: ActivityMainBinding
 
@@ -41,8 +34,6 @@ class MainActivity : BaseActivity() {
 
         dataBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
-        browserViewModel = ViewModelProviders.of(this, viewModelFactory).get(BrowserViewModel::class.java)
-        progressViewModel = ViewModelProviders.of(this, viewModelFactory).get(ProgressViewModel::class.java)
         mainViewModel = ViewModelProviders.of(this, viewModelFactory).get(MainViewModel::class.java)
         mainAdapter = MainAdapter(supportFragmentManager)
 
@@ -51,31 +42,24 @@ class MainActivity : BaseActivity() {
         dataBinding.bottomBarListener = onTabSelectListener
         dataBinding.viewModel = mainViewModel
 
-        handleUIEvents()
+        grantPermissions()
     }
 
     override fun onBackPressed() {
         if (mainViewModel.currentItem.get() != 0) {
             mainViewModel.currentItem.set(0)
         } else {
-            browserViewModel.pressBackBtnEvent.call()
+            mainViewModel.pressBackBtnEvent.call()
         }
     }
 
-    private fun handleUIEvents() {
-        // Grant permission
+    private fun grantPermissions() {
+        // Grant permissions
         if (ContextCompat.checkSelfPermission(
-                this,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE
+                this, Manifest.permission.WRITE_EXTERNAL_STORAGE
             ) != PackageManager.PERMISSION_GRANTED
         ) {
             ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), 0)
-        }
-
-        browserViewModel.apply {
-            downloadVideoEvent.observe(this@MainActivity, Observer { videoInfo ->
-                progressViewModel.downloadVideo(videoInfo)
-            })
         }
     }
 
@@ -95,11 +79,7 @@ class MainActivity : BaseActivity() {
         when (tabId) {
             R.id.tab_browser -> mainViewModel.currentItem.set(0)
             R.id.tab_progress -> mainViewModel.currentItem.set(1)
-            R.id.tab_video -> {
-                mainViewModel.currentItem.set(2)
-                //                getPresenter().setTabVideoBadge(0)
-                //                mBinding.bottomBar.getTabWithId(tabId).removeBadge()
-            }
+            R.id.tab_video -> mainViewModel.currentItem.set(2)
             else -> mainViewModel.currentItem.set(3)
         }
     }
