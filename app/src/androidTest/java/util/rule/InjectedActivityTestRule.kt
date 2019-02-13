@@ -20,6 +20,8 @@ class InjectedActivityTestRule<T : Activity>(
     false
 ) {
 
+
+
     override fun beforeActivityLaunched() {
         super.beforeActivityLaunched()
 
@@ -28,9 +30,9 @@ class InjectedActivityTestRule<T : Activity>(
 
     private fun setActivityInjector() {
         val testApp = InstrumentationRegistry.getTargetContext().applicationContext as HasTestInjectors
-        testApp.activityInjector = AndroidInjector { instance ->
+        testApp.activityInjector = AndroidInjector {
             @Suppress("UNCHECKED_CAST")
-            activityInjector(instance as T)
+            activityInjector(it as T)
         }
     }
 }

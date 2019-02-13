@@ -14,8 +14,8 @@ import android.support.test.espresso.matcher.ViewMatchers.withId
 import com.nhaarman.mockito_kotlin.mock
 import com.youtubedl.R
 import com.youtubedl.ui.main.home.MainActivity
-import junit.framework.Assert.assertTrue
 import org.hamcrest.CoreMatchers.not
+import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test

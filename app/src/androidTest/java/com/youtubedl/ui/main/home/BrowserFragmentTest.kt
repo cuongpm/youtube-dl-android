@@ -19,8 +19,8 @@ import com.youtubedl.data.local.room.entity.VideoInfo
 import com.youtubedl.util.AppUtil
 import com.youtubedl.util.SingleLiveEvent
 import io.reactivex.subjects.PublishSubject
-import junit.framework.Assert.*
 import org.hamcrest.CoreMatchers.not
+import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Ignore
 import org.junit.Rule
