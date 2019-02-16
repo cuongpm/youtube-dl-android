@@ -6,6 +6,8 @@ import com.youtubedl.di.FragmentScoped
 import com.youtubedl.ui.main.progress.ProgressFragment
 import com.youtubedl.ui.main.settings.SettingsFragment
 import com.youtubedl.ui.main.video.VideoFragment
+import com.youtubedl.util.fragment.FragmentFactory
+import com.youtubedl.util.fragment.FragmentFactoryImpl
 import dagger.Binds
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
@@ -36,4 +38,8 @@ abstract class MainModule {
     @ActivityScoped
     @Binds
     abstract fun bindMainActivity(mainActivity: MainActivity): Activity
+
+    @ActivityScoped
+    @Binds
+    abstract fun bindFragmentFactory(fragmentFactory: FragmentFactoryImpl): FragmentFactory
 }

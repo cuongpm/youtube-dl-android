@@ -7,7 +7,6 @@ import android.content.pm.PackageManager
 import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.v4.app.ActivityCompat
-import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import android.support.v4.view.ViewPager
 import com.roughike.bottombar.OnTabSelectListener
@@ -17,12 +16,10 @@ import com.youtubedl.databinding.ActivityMainBinding
 import com.youtubedl.ui.component.adapter.MainAdapter
 import com.youtubedl.ui.main.base.BaseActivity
 import com.youtubedl.util.fragment.FragmentFactory
-import dagger.android.AndroidInjector
-import dagger.android.support.HasSupportFragmentInjector
 import javax.inject.Inject
 
 @OpenForTesting
-class MainActivity : BaseActivity(), HasSupportFragmentInjector {
+class MainActivity : BaseActivity() {
 
     @Inject
     lateinit var fragmentFactory: FragmentFactory
@@ -58,10 +55,6 @@ class MainActivity : BaseActivity(), HasSupportFragmentInjector {
         } else {
             mainViewModel.pressBackBtnEvent.call()
         }
-    }
-
-    override fun supportFragmentInjector(): AndroidInjector<Fragment> {
-        return AndroidInjector { }
     }
 
     private fun grantPermissions() {
