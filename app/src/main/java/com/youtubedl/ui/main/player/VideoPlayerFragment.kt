@@ -7,8 +7,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.youtubedl.OpenForTesting
 import com.youtubedl.databinding.FragmentPlayerBinding
-import com.youtubedl.di.ActivityScoped
 import com.youtubedl.ui.main.base.BaseFragment
 import com.youtubedl.util.TimeUtil
 import javax.inject.Inject
@@ -17,8 +17,8 @@ import javax.inject.Inject
  * Created by cuongpm on 1/6/19.
  */
 
-@ActivityScoped
-class VideoPlayerFragment @Inject constructor() : BaseFragment() {
+@OpenForTesting
+class VideoPlayerFragment : BaseFragment() {
 
     companion object {
         const val VIDEO_URL = "video_url"

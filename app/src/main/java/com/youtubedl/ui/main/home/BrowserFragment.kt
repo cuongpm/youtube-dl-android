@@ -21,7 +21,6 @@ import android.webkit.WebViewClient
 import android.widget.EditText
 import com.youtubedl.OpenForTesting
 import com.youtubedl.databinding.FragmentBrowserBinding
-import com.youtubedl.di.ActivityScoped
 import com.youtubedl.ui.component.adapter.SuggestionAdapter
 import com.youtubedl.ui.component.adapter.TopPageAdapter
 import com.youtubedl.ui.component.dialog.DownloadVideoListener
@@ -38,8 +37,7 @@ import javax.inject.Inject
  */
 
 @OpenForTesting
-@ActivityScoped
-class BrowserFragment @Inject constructor() : BaseFragment() {
+class BrowserFragment : BaseFragment() {
 
     companion object {
         fun newInstance() = BrowserFragment()

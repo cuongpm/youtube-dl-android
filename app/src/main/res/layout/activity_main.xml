@@ -18,10 +18,6 @@
                 name="bottomBarListener"
                 type="com.roughike.bottombar.OnTabSelectListener"/>
 
-        <variable
-                name="adapter"
-                type="android.support.v4.view.PagerAdapter"/>
-
     </data>
 
     <android.support.constraint.ConstraintLayout
@@ -32,7 +28,6 @@
                 android:id="@+id/view_pager"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:adapter="@{adapter}"
                 app:currentItem="@{viewModel.currentItem}"
                 app:offScreenPageLimit="@{4}"
                 app:onPageChangeListener="@{viewPagerListener}"

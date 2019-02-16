@@ -13,9 +13,10 @@ import com.nhaarman.mockito_kotlin.mock
 import com.youtubedl.R
 import com.youtubedl.data.local.room.entity.VideoInfo
 import com.youtubedl.util.SingleLiveEvent
+import com.youtubedl.util.fragment.FragmentFactory
+import com.youtubedl.util.fragment.StubbedFragmentFactory
 import org.hamcrest.CoreMatchers.not
 import org.junit.Before
-import org.junit.Ignore
 import org.junit.Rule
 import org.junit.Test
 import util.ViewModelUtil
@@ -26,6 +27,8 @@ import util.rule.InjectedActivityTestRule
  */
 
 class MainActivityTest {
+
+    private lateinit var fragmentFactory: FragmentFactory
 
     private lateinit var viewModelFactory: ViewModelProvider.Factory
 
@@ -43,10 +46,12 @@ class MainActivityTest {
     @get:Rule
     val uiRule = InjectedActivityTestRule(MainActivity::class.java) {
         it.viewModelFactory = viewModelFactory
+        it.fragmentFactory = fragmentFactory
     }
 
     @Before
     fun setup() {
+        fragmentFactory = StubbedFragmentFactory()
         mainViewModel = mock()
         viewModelFactory = ViewModelUtil.createFor(mainViewModel)
         doReturn(downloadVideoEvent).`when`(mainViewModel).downloadVideoEvent
@@ -54,7 +59,6 @@ class MainActivityTest {
     }
 
     @Test
-    @Ignore
     fun initial_ui() {
         screen.start()
         screen.hasBottomBar(true)

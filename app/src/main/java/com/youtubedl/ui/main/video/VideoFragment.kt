@@ -16,7 +16,6 @@ import com.youtubedl.OpenForTesting
 import com.youtubedl.R
 import com.youtubedl.data.local.model.LocalVideo
 import com.youtubedl.databinding.FragmentVideoBinding
-import com.youtubedl.di.ActivityScoped
 import com.youtubedl.ui.component.adapter.VideoAdapter
 import com.youtubedl.ui.component.adapter.VideoListener
 import com.youtubedl.ui.component.dialog.showRenameVideoDialog
@@ -34,8 +33,7 @@ import javax.inject.Inject
  */
 
 @OpenForTesting
-@ActivityScoped
-class VideoFragment @Inject constructor() : BaseFragment() {
+class VideoFragment : BaseFragment() {
 
     companion object {
         fun newInstance() = VideoFragment()

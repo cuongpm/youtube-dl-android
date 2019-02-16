@@ -9,7 +9,6 @@ import android.view.View
 import android.view.ViewGroup
 import com.youtubedl.OpenForTesting
 import com.youtubedl.databinding.FragmentSettingsBinding
-import com.youtubedl.di.ActivityScoped
 import com.youtubedl.ui.main.base.BaseFragment
 import com.youtubedl.util.FileUtil
 import com.youtubedl.util.IntentUtil
@@ -21,8 +20,7 @@ import javax.inject.Inject
  */
 
 @OpenForTesting
-@ActivityScoped
-class SettingsFragment @Inject constructor() : BaseFragment() {
+class SettingsFragment : BaseFragment() {
 
     companion object {
         fun newInstance() = SettingsFragment()

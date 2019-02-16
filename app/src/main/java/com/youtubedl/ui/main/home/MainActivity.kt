@@ -7,6 +7,7 @@ import android.content.pm.PackageManager
 import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.v4.app.ActivityCompat
+import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import android.support.v4.view.ViewPager
 import com.roughike.bottombar.OnTabSelectListener
@@ -15,10 +16,16 @@ import com.youtubedl.R
 import com.youtubedl.databinding.ActivityMainBinding
 import com.youtubedl.ui.component.adapter.MainAdapter
 import com.youtubedl.ui.main.base.BaseActivity
+import com.youtubedl.util.fragment.FragmentFactory
+import dagger.android.AndroidInjector
+import dagger.android.support.HasSupportFragmentInjector
 import javax.inject.Inject
 
 @OpenForTesting
-class MainActivity : BaseActivity() {
+class MainActivity : BaseActivity(), HasSupportFragmentInjector {
+
+    @Inject
+    lateinit var fragmentFactory: FragmentFactory
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
@@ -35,9 +42,9 @@ class MainActivity : BaseActivity() {
         dataBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
         mainViewModel = ViewModelProviders.of(this, viewModelFactory).get(MainViewModel::class.java)
-        mainAdapter = MainAdapter(supportFragmentManager)
+        mainAdapter = MainAdapter(supportFragmentManager, fragmentFactory)
 
-        dataBinding.adapter = mainAdapter
+        dataBinding.viewPager.adapter = mainAdapter
         dataBinding.viewPagerListener = onPageChangeListener
         dataBinding.bottomBarListener = onTabSelectListener
         dataBinding.viewModel = mainViewModel
@@ -51,6 +58,10 @@ class MainActivity : BaseActivity() {
         } else {
             mainViewModel.pressBackBtnEvent.call()
         }
+    }
+
+    override fun supportFragmentInjector(): AndroidInjector<Fragment> {
+        return AndroidInjector { }
     }
 
     private fun grantPermissions() {

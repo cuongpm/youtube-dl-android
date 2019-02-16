@@ -20,8 +20,6 @@ class InjectedActivityTestRule<T : Activity>(
     false
 ) {
 
-
-
     override fun beforeActivityLaunched() {
         super.beforeActivityLaunched()
 

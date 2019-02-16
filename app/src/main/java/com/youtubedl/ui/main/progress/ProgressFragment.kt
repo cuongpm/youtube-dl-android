@@ -10,7 +10,6 @@ import android.view.View
 import android.view.ViewGroup
 import com.youtubedl.OpenForTesting
 import com.youtubedl.databinding.FragmentProgressBinding
-import com.youtubedl.di.ActivityScoped
 import com.youtubedl.ui.component.adapter.ProgressAdapter
 import com.youtubedl.ui.main.base.BaseFragment
 import com.youtubedl.ui.main.home.MainActivity
@@ -22,8 +21,7 @@ import javax.inject.Inject
  */
 
 @OpenForTesting
-@ActivityScoped
-class ProgressFragment @Inject constructor() : BaseFragment() {
+class ProgressFragment : BaseFragment() {
 
     companion object {
         fun newInstance() = ProgressFragment()
