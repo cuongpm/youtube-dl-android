@@ -1,5 +1,6 @@
 package com.youtubedl.ui.main.progress
 
+import android.arch.core.executor.testing.InstantTaskExecutorRule
 import android.arch.lifecycle.ViewModelProvider
 import android.databinding.ObservableArrayList
 import android.support.test.espresso.Espresso.onView
@@ -50,6 +51,9 @@ class ProgressFragmentTest {
     private val screen = Screen()
 
     @get:Rule
+    val instantExecutorRule = InstantTaskExecutorRule()
+
+    @get:Rule
     val uiRule = InjectedFragmentTestRule<ProgressFragment> {
         it.mainActivity = mainActivity
         it.viewModelFactory = viewModelFactory
@@ -86,6 +90,16 @@ class ProgressFragmentTest {
         screen.verifyListSize(2)
         screen.verifyListProgressInfos()
         screen.hasEmptyLayout(false)
+    }
+
+    @Test
+    fun observe_download_video_event() {
+        progressInfos.addAll(listOf(progressInfo1, progressInfo2))
+        doReturn(progressInfos).`when`(progressViewModel).progressInfos
+        val videoInfo = VideoInfo(id = "id", downloadUrl = "url")
+        screen.start()
+        downloadVideoEvent.value = videoInfo
+        verify(progressViewModel).downloadVideo(videoInfo)
     }
 
     inner class Screen {

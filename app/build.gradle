@@ -147,7 +147,8 @@ task jacocoTestReport(type: JacocoReport, dependsOn: 'testDebugUnitTest') {
                       '**/*Component*.*', '**/*Module*.*',
 
                       '**/component/widget/*.*', '**/component/binding/*.*', '**/util/ext/*.*',
-                      '**/util/scheduler/*.*', '**/DLApplication.*']
+                      '**/util/scheduler/*.*', '**/util/fragment/*.*', '**/DLApplication.*',
+                      '**/ViewModelFactory.*', '**/RoomConverter.*', '**/AppDatabase.*']
 
     def javaClasses = fileTree(dir: "$project.buildDir/intermediates/javac/debug", excludes: fileFilter)
     def kotlinClasses = fileTree(dir: "$project.buildDir/tmp/kotlin-classes/debug", excludes: fileFilter)
