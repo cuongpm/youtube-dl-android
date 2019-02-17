@@ -1,6 +1,7 @@
 package com.youtubedl.ui.main.player
 
 import android.databinding.ObservableField
+import com.youtubedl.OpenForTesting
 import com.youtubedl.ui.main.base.BaseViewModel
 import javax.inject.Inject
 
@@ -8,6 +9,7 @@ import javax.inject.Inject
  * Created by cuongpm on 1/6/19.
  */
 
+@OpenForTesting
 class VideoPlayerViewModel @Inject constructor() : BaseViewModel() {
 
     val videoName = ObservableField("")

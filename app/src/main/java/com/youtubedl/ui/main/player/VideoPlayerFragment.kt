@@ -4,6 +4,7 @@ import android.arch.lifecycle.ViewModelProvider
 import android.arch.lifecycle.ViewModelProviders
 import android.media.MediaPlayer
 import android.os.Bundle
+import android.support.annotation.VisibleForTesting
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -33,15 +34,16 @@ class VideoPlayerFragment : BaseFragment() {
 
     private lateinit var dataBinding: FragmentPlayerBinding
 
-    private var mediaPlayer: MediaPlayer? = null
+    @VisibleForTesting
+    internal var mediaPlayer: MediaPlayer? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         videoPlayerViewModel = ViewModelProviders.of(this, viewModelFactory).get(VideoPlayerViewModel::class.java)
 
         dataBinding = FragmentPlayerBinding.inflate(inflater, container, false).apply {
             this.viewModel = videoPlayerViewModel
-            this.navigationListener = navigationIconClickListener
-            this.onPreparedListener = onPreparedVideoListener
+            this.toolbar.setNavigationOnClickListener(navigationIconClickListener)
+            this.videoView.setOnPreparedListener(onPreparedVideoListener)
         }
 
         return dataBinding.root

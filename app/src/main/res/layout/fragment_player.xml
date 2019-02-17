@@ -9,15 +9,6 @@
         <variable
                 name="viewModel"
                 type="com.youtubedl.ui.main.player.VideoPlayerViewModel"/>
-
-        <variable
-                name="navigationListener"
-                type="android.view.View.OnClickListener"/>
-
-        <variable
-                name="onPreparedListener"
-                type="android.media.MediaPlayer.OnPreparedListener"/>
-
     </data>
 
     <android.support.constraint.ConstraintLayout
@@ -31,8 +22,7 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:scaleType="center"
-                app:videoURI="@{viewModel.videoUrl}"
-                app:onPreparedListener="@{onPreparedListener}"/>
+                app:videoURI="@{viewModel.videoUrl}"/>
 
         <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
@@ -41,7 +31,6 @@
                 android:background="@color/black_15"
                 app:navigationIcon="@drawable/ic_arrow_back_white_24dp"
                 app:title="@{viewModel.videoName}"
-                app:navigationOnClickListener="@{navigationListener}"
                 app:titleTextColor="@android:color/white"
                 app:layout_constraintTop_toTopOf="parent"/>
 
