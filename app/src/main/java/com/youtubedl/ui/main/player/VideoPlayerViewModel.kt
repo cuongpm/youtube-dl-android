@@ -26,12 +26,13 @@ class VideoPlayerViewModel @Inject constructor() : BaseViewModel() {
     }
 
     fun pressPrev() {
-
     }
 
-    fun pressPauseOrPlay() {}
+    fun pressPauseOrPlay() {
+    }
 
-    fun pressNext() {}
+    fun pressNext() {
+    }
 
     fun getVolume(): Float {
         val amount = if (isVolumeOn) 100 else 0
