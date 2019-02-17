@@ -8,7 +8,6 @@ import com.youtubedl.data.local.room.entity.ProgressInfo
 import com.youtubedl.data.local.room.entity.VideoInfo
 import io.reactivex.Flowable
 import org.junit.Before
-import org.junit.Ignore
 import org.junit.Test
 
 /**
@@ -41,14 +40,12 @@ class ProgressLocalDataSourceTest {
     }
 
     @Test
-    @Ignore
     fun `test get save downloading video`() {
         progressLocalDataSource.saveProgressInfo(progressInfo)
         verify(progressDao).insertProgressInfo(progressInfo)
     }
 
     @Test
-    @Ignore
     fun `test delete downloading video`() {
         progressLocalDataSource.deleteProgressInfo(progressInfo)
         verify(progressDao).deleteProgressInfo(progressInfo)

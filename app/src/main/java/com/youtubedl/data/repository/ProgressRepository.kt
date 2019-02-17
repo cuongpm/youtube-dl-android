@@ -3,8 +3,6 @@ package com.youtubedl.data.repository
 import com.youtubedl.data.local.room.entity.ProgressInfo
 import com.youtubedl.di.qualifier.LocalData
 import io.reactivex.Flowable
-import io.reactivex.Single
-import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -31,14 +29,10 @@ class ProgressRepositoryImpl @Inject constructor(
     }
 
     override fun saveProgressInfo(progressInfo: ProgressInfo) {
-        Single.just(progressInfo)
-            .subscribeOn(Schedulers.io())
-            .subscribe { it -> localDataSource.saveProgressInfo(it) }
+        localDataSource.saveProgressInfo(progressInfo)
     }
 
     override fun deleteProgressInfo(progressInfo: ProgressInfo) {
-        Single.just(progressInfo)
-            .subscribeOn(Schedulers.io())
-            .subscribe { it -> localDataSource.deleteProgressInfo(it) }
+        localDataSource.deleteProgressInfo(progressInfo)
     }
 }
