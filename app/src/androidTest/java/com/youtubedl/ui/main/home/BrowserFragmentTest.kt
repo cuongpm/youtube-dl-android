@@ -1,5 +1,7 @@
 package com.youtubedl.ui.main.home
 
+import android.app.Activity
+import android.app.Instrumentation
 import android.arch.core.executor.testing.InstantTaskExecutorRule
 import android.arch.lifecycle.ViewModelProvider
 import android.databinding.ObservableArrayList
@@ -8,7 +10,13 @@ import android.databinding.ObservableField
 import android.databinding.ObservableInt
 import android.support.test.espresso.Espresso.onView
 import android.support.test.espresso.action.ViewActions.*
+import android.support.test.espresso.assertion.ViewAssertions.doesNotExist
 import android.support.test.espresso.assertion.ViewAssertions.matches
+import android.support.test.espresso.intent.Intents.intended
+import android.support.test.espresso.intent.Intents.intending
+import android.support.test.espresso.intent.matcher.IntentMatchers.hasComponent
+import android.support.test.espresso.intent.matcher.IntentMatchers.hasExtra
+import android.support.test.espresso.matcher.RootMatchers.isDialog
 import android.support.test.espresso.matcher.RootMatchers.isPlatformPopup
 import android.support.test.espresso.matcher.ViewMatchers.*
 import com.nhaarman.mockito_kotlin.*
@@ -16,13 +24,15 @@ import com.youtubedl.R
 import com.youtubedl.data.local.model.Suggestion
 import com.youtubedl.data.local.room.entity.PageInfo
 import com.youtubedl.data.local.room.entity.VideoInfo
+import com.youtubedl.ui.main.player.VideoPlayerActivity
+import com.youtubedl.ui.main.player.VideoPlayerFragment
 import com.youtubedl.util.AppUtil
 import com.youtubedl.util.SingleLiveEvent
 import io.reactivex.subjects.PublishSubject
+import org.hamcrest.CoreMatchers.allOf
 import org.hamcrest.CoreMatchers.not
 import org.junit.Assert.*
 import org.junit.Before
-import org.junit.Ignore
 import org.junit.Rule
 import org.junit.Test
 import util.RecyclerViewMatcher.Companion.recyclerViewWithId
@@ -57,6 +67,8 @@ class BrowserFragmentTest {
     private lateinit var pageInfo1: PageInfo
 
     private lateinit var pageInfo2: PageInfo
+
+    private lateinit var videoInfo: VideoInfo
 
     private val listPages = ObservableArrayList<PageInfo>()
 
@@ -115,6 +127,7 @@ class BrowserFragmentTest {
         doReturn(changeFocusEvent).`when`(browserViewModel).changeFocusEvent
         doReturn(showDownloadDialogEvent).`when`(browserViewModel).showDownloadDialogEvent
 
+        videoInfo = VideoInfo(title = "title", ext = "ext", downloadUrl = "https://download_url")
         suggestions = listOf(Suggestion(content = "https://video1"), Suggestion(content = "https://video2"))
         pageInfo1 = PageInfo(name = "Facebook", link = "https://facebook.com")
         pageInfo2 = PageInfo(name = "Youtube", link = "https://youtube.com")
@@ -192,36 +205,38 @@ class BrowserFragmentTest {
     }
 
     @Test
-    fun test_webview() {
-
-    }
-
-    @Test
-    fun test_show_fab_button() {
-
-    }
-
-    @Test
-    fun test_download_video() {
-
-    }
-
-    @Test
-    @Ignore
-    fun webview_loaded_multiple_pages_then_press_back_button_should_open_previous_page() {
-        val link1 = "https://facebook.com"
-        val link2 = "https://google.com"
+    fun show_download_video_dialog_and_preview_video() {
         screen.start()
-        screen.loadPage(link1)
-        screen.loadPage(link2)
-        Thread.sleep(100000)
-        pressBackBtnEvent.call()
+        screen.loadPage("https://facebook.com")
+        showDownloadDialogEvent.value = videoInfo
 
-        waitUntil("Wait for updating data", Callable {
-            assertTrue(isShowPage.get())
-            verify(browserViewModel).startPage(link1)
-            true
-        }, 500)
+        screen.hasDownloadVideoDialog()
+        screen.previewVideo()
+        screen.checkDownloadVideoDialogIsDismissed()
+        screen.verifyOpenVideoPlayerScreen(videoInfo)
+    }
+
+    @Test
+    fun show_download_video_dialog_and_download_video() {
+        screen.start()
+        screen.loadPage("https://facebook.com")
+        showDownloadDialogEvent.value = videoInfo
+
+        screen.hasDownloadVideoDialog()
+        screen.downloadVideo()
+        screen.checkDownloadVideoDialogIsDismissed()
+        assertEquals(videoInfo, mainViewModel.downloadVideoEvent.value)
+    }
+
+    @Test
+    fun show_download_video_dialog_and_cancel_dialog() {
+        screen.start()
+        screen.loadPage("https://facebook.com")
+        showDownloadDialogEvent.value = videoInfo
+
+        screen.hasDownloadVideoDialog()
+        screen.cancelDownloadVideoDialog()
+        screen.checkDownloadVideoDialogIsDismissed()
     }
 
     @Test
@@ -296,6 +311,48 @@ class BrowserFragmentTest {
 
         fun typeKeywordAndPressDoneButton(keyword: String) {
             onView(withId(R.id.et_search)).perform(typeText(keyword), pressImeActionButton())
+        }
+
+        fun hasDownloadVideoDialog() {
+            onView(withId(R.id.tv_title)).inRoot(isDialog())
+                .check(matches(allOf(withText(R.string.dialog_video_title), isDisplayed())))
+            onView(withId(R.id.tv_preview)).inRoot(isDialog())
+                .check(matches(allOf(withText(R.string.dialog_preview_video), isDisplayed())))
+            onView(withId(R.id.tv_download)).inRoot(isDialog())
+                .check(matches(allOf(withText(R.string.dialog_download_video), isDisplayed())))
+            onView(withId(R.id.tv_cancel)).inRoot(isDialog())
+                .check(matches(allOf(withText(R.string.dialog_download_cancel), isDisplayed())))
+        }
+
+        fun checkDownloadVideoDialogIsDismissed() {
+            onView(withText(R.string.dialog_video_title)).check(doesNotExist())
+            onView(withText(R.string.dialog_preview_video)).check(doesNotExist())
+            onView(withText(R.string.dialog_download_video)).check(doesNotExist())
+            onView(withText(R.string.dialog_download_cancel)).check(doesNotExist())
+        }
+
+        fun previewVideo() {
+            intending(hasComponent(VideoPlayerActivity::class.java.name))
+                .respondWith(Instrumentation.ActivityResult(Activity.RESULT_CANCELED, null))
+            onView(withId(R.id.tv_preview)).inRoot(isDialog()).perform(click())
+        }
+
+        fun downloadVideo() {
+            onView(withId(R.id.tv_download)).inRoot(isDialog()).perform(click())
+        }
+
+        fun cancelDownloadVideoDialog() {
+            onView(withId(R.id.tv_cancel)).inRoot(isDialog()).perform(click())
+        }
+
+        fun verifyOpenVideoPlayerScreen(videoInfo: VideoInfo) {
+            intended(
+                allOf(
+                    hasComponent(VideoPlayerActivity::class.java.name),
+                    hasExtra(VideoPlayerFragment.VIDEO_URL, videoInfo.downloadUrl),
+                    hasExtra(VideoPlayerFragment.VIDEO_NAME, videoInfo.name)
+                )
+            )
         }
 
         fun loadPage(url: String) {

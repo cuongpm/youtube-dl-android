@@ -9,6 +9,7 @@
     <string name="dialog_video_title">Video found:</string>
     <string name="dialog_preview_video">Preview Video</string>
     <string name="dialog_download_video">Download Video</string>
+    <string name="dialog_download_cancel">Cancel</string>
 
     <string name="video_empty_message">You have not downloaded any video yet.</string>
     <string name="video_menu_rename">Rename</string>

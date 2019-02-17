@@ -122,26 +122,28 @@ class BrowserFragment : BaseFragment() {
 
     private fun handleDownloadVideoEvent() {
         browserViewModel.showDownloadDialogEvent.observe(this@BrowserFragment, Observer { videoInfo ->
-            showDownloadVideoDialog(activity as MainActivity, object : DownloadVideoListener {
-                override fun onPreviewVideo(dialog: BottomSheetDialog) {
-                    dialog.dismiss()
-                    videoInfo?.let {
-                        val intent = Intent(context, VideoPlayerActivity::class.java)
-                        intent.putExtra(VIDEO_URL, it.downloadUrl)
-                        intent.putExtra(VIDEO_NAME, it.name)
-                        startActivity(intent)
+            activity?.runOnUiThread {
+                showDownloadVideoDialog(requireActivity(), object : DownloadVideoListener {
+                    override fun onPreviewVideo(dialog: BottomSheetDialog) {
+                        dialog.dismiss()
+                        videoInfo?.let {
+                            val intent = Intent(context, VideoPlayerActivity::class.java)
+                            intent.putExtra(VIDEO_URL, it.downloadUrl)
+                            intent.putExtra(VIDEO_NAME, it.name)
+                            startActivity(intent)
+                        }
                     }
-                }
 
-                override fun onDownloadVideo(dialog: BottomSheetDialog) {
-                    mainViewModel.downloadVideoEvent.value = videoInfo
-                    dialog.dismiss()
-                }
+                    override fun onDownloadVideo(dialog: BottomSheetDialog) {
+                        mainViewModel.downloadVideoEvent.value = videoInfo
+                        dialog.dismiss()
+                    }
 
-                override fun onCancel(dialog: BottomSheetDialog) {
-                    dialog.dismiss()
-                }
-            })
+                    override fun onCancel(dialog: BottomSheetDialog) {
+                        dialog.dismiss()
+                    }
+                })
+            }
         })
     }
 

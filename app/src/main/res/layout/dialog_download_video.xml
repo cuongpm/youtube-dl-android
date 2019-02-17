@@ -26,7 +26,9 @@
                 android:background="?attr/selectableItemBackground"
                 android:padding="@dimen/padding_normal"
                 android:text="@string/dialog_video_title"
-                android:textSize="@dimen/text_xxxlarge"/>
+                android:textSize="@dimen/text_xxxlarge"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"/>
 
         <TextView
                 android:id="@+id/tv_preview"
@@ -39,6 +41,7 @@
                 android:text="@string/dialog_preview_video"
                 android:textSize="@dimen/text_medium"
                 android:onClick="@{() -> listener.onPreviewVideo(dialog)}"
+                app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_title"/>
 
         <android.support.v7.widget.AppCompatTextView
@@ -52,6 +55,7 @@
                 android:text="@string/dialog_download_video"
                 android:textSize="@dimen/text_medium"
                 android:onClick="@{() -> listener.onDownloadVideo(dialog)}"
+                app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_preview"/>
 
         <android.support.v7.widget.AppCompatTextView
@@ -62,9 +66,10 @@
                 android:drawableLeft="@drawable/ic_cancel_gray_24dp"
                 android:drawablePadding="@dimen/padding_small"
                 android:padding="@dimen/padding_normal"
-                android:text="Cancel"
+                android:text="@string/dialog_download_cancel"
                 android:textSize="@dimen/text_medium"
                 android:onClick="@{() -> listener.onCancel(dialog)}"
+                app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_download"/>
 
     </android.support.constraint.ConstraintLayout>
