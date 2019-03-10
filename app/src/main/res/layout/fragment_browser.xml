@@ -24,7 +24,8 @@
     <android.support.design.widget.CoordinatorLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:alpha="@{viewModel.isLoadingVideoInfo ? 0.6f : 1.0f}">
 
         <android.support.design.widget.AppBarLayout
                 android:id="@+id/app_bar"
@@ -118,7 +119,8 @@
                     android:background="@android:color/transparent"
                     android:progressDrawable="@drawable/progress_load_data"
                     android:progress="@{viewModel.progress}"
-                    android:visibility="@{viewModel.isShowProgress ? View.VISIBLE : View.GONE}"/>
+                    android:visibility="@{viewModel.isShowProgress ? View.VISIBLE : View.GONE}"
+                    app:layout_constraintTop_toTopOf="parent"/>
 
             <android.support.v7.widget.RecyclerView
                     android:id="@+id/rv_top_pages"
@@ -126,6 +128,15 @@
                     android:layout_height="match_parent"
                     android:visibility="@{viewModel.isShowPage ? View.GONE : View.VISIBLE}"
                     app:items="@{viewModel.listPages}"/>
+
+            <ProgressBar
+                    android:layout_width="@dimen/browser_loading_size"
+                    android:layout_height="@dimen/browser_loading_size"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    android:visibility="@{viewModel.isLoadingVideoInfo ? View.VISIBLE : View.GONE}"/>
 
         </android.support.constraint.ConstraintLayout>
 

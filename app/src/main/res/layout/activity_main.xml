@@ -43,7 +43,6 @@
                 app:defaultTabPosition="@{viewModel.currentItem}"
                 app:onTabSelectListener="@{bottomBarListener}"
                 app:bb_activeTabColor="@color/colorPrimary"
-                app:bb_behavior="underNavbar"
                 app:bb_inActiveTabColor="@color/color_gray"
                 app:bb_showShadow="true"
                 app:bb_tabXmlResource="@xml/bottom_bar_tabs"

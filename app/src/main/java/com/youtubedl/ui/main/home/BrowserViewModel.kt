@@ -46,6 +46,7 @@ class BrowserViewModel @Inject constructor(
 
     val textInput = ObservableField<String>("")
     val isFocus = ObservableBoolean(false)
+    val isLoadingVideoInfo = ObservableBoolean(false)
 
     val pageUrl = ObservableField<String>("")
     val isShowPage = ObservableBoolean(false)
@@ -158,6 +159,8 @@ class BrowserViewModel @Inject constructor(
     fun getVideoInfo() {
         textInput.get()?.let { url ->
             videoRepository.getVideoInfo(url)
+                .doOnSubscribe { isLoadingVideoInfo.set(true) }
+                .doAfterTerminate { isLoadingVideoInfo.set(false) }
                 .subscribeOn(baseSchedulers.io)
                 .observeOn(baseSchedulers.mainThread)
                 .firstOrError()
