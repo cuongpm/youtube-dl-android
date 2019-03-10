@@ -15,6 +15,7 @@ import com.youtubedl.ui.main.base.BaseViewModel
 import com.youtubedl.util.FileUtil
 import com.youtubedl.util.FileUtil.Companion.FOLDER_NAME
 import com.youtubedl.util.scheduler.BaseSchedulers
+import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
 import java.util.concurrent.TimeUnit
@@ -71,9 +72,41 @@ class ProgressViewModel @Inject constructor(
             val downloadId = downloadManager.enqueue(request)
             val progressInfo = ProgressInfo(downloadId = downloadId, videoInfo = videoInfo)
 
-            progressRepository.saveProgressInfo(progressInfo)
+            saveProgressInfo(progressInfo)
             downloadProgress(progressInfo)
         }
+    }
+
+    private fun saveProgressInfo(progressInfo: ProgressInfo) {
+        Completable.create { emitter ->
+            try {
+                progressRepository.saveProgressInfo(progressInfo)
+                emitter.onComplete()
+            } catch (e: Exception) {
+                emitter.onError(e)
+            }
+        }.subscribeOn(baseSchedulers.io)
+            .observeOn(baseSchedulers.mainThread)
+            .subscribe({
+            }, { error ->
+                error.printStackTrace()
+            })
+    }
+
+    private fun deleteProgressInfo(progressInfo: ProgressInfo) {
+        Completable.create { emitter ->
+            try {
+                progressRepository.deleteProgressInfo(progressInfo)
+                emitter.onComplete()
+            } catch (e: Exception) {
+                emitter.onError(e)
+            }
+        }.subscribeOn(baseSchedulers.io)
+            .observeOn(baseSchedulers.mainThread)
+            .subscribe({
+            }, { error ->
+                error.printStackTrace()
+            })
     }
 
     @VisibleForTesting
@@ -84,7 +117,7 @@ class ProgressViewModel @Inject constructor(
             .doOnComplete {
                 progressInfos.find { it.downloadId == progressInfo.downloadId }?.let {
                     progressInfos.remove(progressInfo)
-                    progressRepository.deleteProgressInfo(progressInfo)
+                    deleteProgressInfo(progressInfo)
                 }
             }
             .subscribe({ progressInfo ->

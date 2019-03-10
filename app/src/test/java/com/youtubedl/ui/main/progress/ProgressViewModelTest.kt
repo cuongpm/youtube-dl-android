@@ -156,6 +156,7 @@ class ProgressViewModelTest {
 
         waitUntil("Wait for emitting progress status", Callable {
             assertEquals(0, progressViewModel.progressInfos.size)
+            verify(progresRepository).deleteProgressInfo(progressInfo1)
             true
         }, 2000)
     }
