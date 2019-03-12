@@ -8,7 +8,8 @@ import android.support.test.espresso.Espresso.onView
 import android.support.test.espresso.action.ViewActions.click
 import android.support.test.espresso.action.ViewActions.swipeLeft
 import android.support.test.espresso.assertion.ViewAssertions.matches
-import android.support.test.espresso.matcher.ViewMatchers.*
+import android.support.test.espresso.matcher.ViewMatchers.isDisplayed
+import android.support.test.espresso.matcher.ViewMatchers.withId
 import com.nhaarman.mockito_kotlin.doReturn
 import com.nhaarman.mockito_kotlin.mock
 import com.youtubedl.R
@@ -113,10 +114,10 @@ class MainActivityTest {
 
         fun hasBottomBar() {
             onView(withId(R.id.bottom_bar)).check(matches(isDisplayed()))
-            onView(withText("Browser")).check(matches(isDisplayed()))
-            onView(withText("Progress")).check(matches(isDisplayed()))
-            onView(withText("Video")).check(matches(isDisplayed()))
-            onView(withText("Settings")).check(matches(isDisplayed()))
+            onView(withId(R.id.tab_browser)).check(matches(isDisplayed()))
+            onView(withId(R.id.tab_progress)).check(matches(isDisplayed()))
+            onView(withId(R.id.tab_video)).check(matches(isDisplayed()))
+            onView(withId(R.id.tab_settings)).check(matches(isDisplayed()))
         }
 
         fun swipeLeftViewPager() {
@@ -124,19 +125,19 @@ class MainActivityTest {
         }
 
         fun openBrowserTab() {
-            onView(withText("Browser")).perform(click())
+            onView(withId(R.id.tab_browser)).perform(click())
         }
 
         fun openProgressTab() {
-            onView(withText("Progress")).perform(click())
+            onView(withId(R.id.tab_progress)).perform(click())
         }
 
         fun openVideoTab() {
-            onView(withText("Video")).perform(click())
+            onView(withId(R.id.tab_video)).perform(click())
         }
 
         fun openSettingsTab() {
-            onView(withText("Settings")).perform(click())
+            onView(withId(R.id.tab_settings)).perform(click())
         }
     }
 }

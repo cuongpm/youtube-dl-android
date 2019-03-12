@@ -10,14 +10,6 @@
                 name="viewModel"
                 type="com.youtubedl.ui.main.home.MainViewModel"/>
 
-        <variable
-                name="viewPagerListener"
-                type="android.support.v4.view.ViewPager.OnPageChangeListener"/>
-
-        <variable
-                name="bottomBarListener"
-                type="com.roughike.bottombar.OnTabSelectListener"/>
-
     </data>
 
     <android.support.constraint.ConstraintLayout
@@ -29,23 +21,19 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 app:currentItem="@{viewModel.currentItem}"
-                app:offScreenPageLimit="@{4}"
-                app:onPageChangeListener="@{viewPagerListener}"
+                app:offScreenPageLimit="@{viewModel.offScreenPageLimit}"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toTopOf="@id/bottom_bar"/>
 
-        <com.roughike.bottombar.BottomBar
+        <android.support.design.widget.BottomNavigationView
                 android:id="@+id/bottom_bar"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/home_bottom_bar_size"
-                android:layout_alignParentBottom="true"
-                android:background="@android:color/white"
-                app:defaultTabPosition="@{viewModel.currentItem}"
-                app:onTabSelectListener="@{bottomBarListener}"
-                app:bb_activeTabColor="@color/colorPrimary"
-                app:bb_inActiveTabColor="@color/color_gray"
-                app:bb_showShadow="true"
-                app:bb_tabXmlResource="@xml/bottom_bar_tabs"
+                android:layout_height="wrap_content"
+                android:background="@color/colorPrimary"
+                app:menu="@menu/menu_bottom_bar"
+                app:selectedItemId="@{viewModel.currentItem}"
+                app:itemIconTint="@drawable/item_bottom_bar_background"
+                app:itemTextColor="@drawable/item_bottom_bar_background"
                 app:layout_constraintBottom_toBottomOf="parent"/>
 
     </android.support.constraint.ConstraintLayout>

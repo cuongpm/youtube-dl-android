@@ -16,6 +16,8 @@ class MainViewModel @Inject constructor() : BaseViewModel() {
 
     val currentItem = ObservableField<Int>()
 
+    val offScreenPageLimit = ObservableField(4)
+
     val pressBackBtnEvent = SingleLiveEvent<Void>()
 
     val downloadVideoEvent = SingleLiveEvent<VideoInfo>()

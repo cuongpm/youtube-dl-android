@@ -118,9 +118,6 @@ dependencies {
     // Glide
     implementation deps.glide.runtime
     annotationProcessor deps.glide.compiler
-
-    // Others
-    implementation deps.others.bottom_bar
 }
 
 tasks.coveralls {

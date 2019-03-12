@@ -2,9 +2,9 @@ package com.youtubedl.di.module
 
 import com.youtubedl.di.ActivityScoped
 import com.youtubedl.ui.main.home.MainActivity
-import com.youtubedl.ui.main.home.MainModule
+import com.youtubedl.di.module.activity.MainModule
 import com.youtubedl.ui.main.player.VideoPlayerActivity
-import com.youtubedl.ui.main.player.VideoPlayerModule
+import com.youtubedl.di.module.activity.VideoPlayerModule
 import com.youtubedl.ui.main.splash.SplashActivity
 import dagger.Module
 import dagger.android.ContributesAndroidInjector

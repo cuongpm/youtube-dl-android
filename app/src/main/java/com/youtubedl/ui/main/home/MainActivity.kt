@@ -6,10 +6,10 @@ import android.arch.lifecycle.ViewModelProviders
 import android.content.pm.PackageManager
 import android.databinding.DataBindingUtil
 import android.os.Bundle
+import android.support.design.widget.BottomNavigationView
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
 import android.support.v4.view.ViewPager
-import com.roughike.bottombar.OnTabSelectListener
 import com.youtubedl.OpenForTesting
 import com.youtubedl.R
 import com.youtubedl.databinding.ActivityMainBinding
@@ -42,8 +42,8 @@ class MainActivity : BaseActivity() {
         mainAdapter = MainAdapter(supportFragmentManager, fragmentFactory)
 
         dataBinding.viewPager.adapter = mainAdapter
-        dataBinding.viewPagerListener = onPageChangeListener
-        dataBinding.bottomBarListener = onTabSelectListener
+        dataBinding.viewPager.addOnPageChangeListener(onPageChangeListener)
+        dataBinding.bottomBar.setOnNavigationItemSelectedListener(itemSelectedListener)
         dataBinding.viewModel = mainViewModel
 
         grantPermissions()
@@ -79,12 +79,13 @@ class MainActivity : BaseActivity() {
         }
     }
 
-    private val onTabSelectListener = OnTabSelectListener { tabId ->
-        when (tabId) {
+    private val itemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { menuItem ->
+        when (menuItem.itemId) {
             R.id.tab_browser -> mainViewModel.currentItem.set(0)
             R.id.tab_progress -> mainViewModel.currentItem.set(1)
             R.id.tab_video -> mainViewModel.currentItem.set(2)
             else -> mainViewModel.currentItem.set(3)
         }
+        true
     }
 }

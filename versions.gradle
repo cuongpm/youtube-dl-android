@@ -20,7 +20,6 @@ versions.retrofit = "2.3.0"
 versions.okhttp = "3.11.0"
 versions.stetho = "1.5.0"
 versions.glide = "4.8.0"
-versions.bottom_bar = "2.3.1"
 versions.coveralls = "2.8.1"
 versions.google_services = "4.0.1"
 versions.firebase = "16.0.1"
@@ -113,10 +112,6 @@ deps.google_services = google_services
 def firebase = [:]
 firebase.core = "com.google.firebase:firebase-core:$versions.firebase"
 deps.firebase = firebase
-
-def others = [:]
-others.bottom_bar = "com.roughike:bottom-bar:$versions.bottom_bar"
-deps.others = others
 
 ext.deps = deps
 

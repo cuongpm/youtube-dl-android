@@ -1,8 +1,10 @@
-package com.youtubedl.ui.main.home
+package com.youtubedl.di.module.activity
 
 import android.app.Activity
 import com.youtubedl.di.ActivityScoped
 import com.youtubedl.di.FragmentScoped
+import com.youtubedl.ui.main.home.BrowserFragment
+import com.youtubedl.ui.main.home.MainActivity
 import com.youtubedl.ui.main.progress.ProgressFragment
 import com.youtubedl.ui.main.settings.SettingsFragment
 import com.youtubedl.ui.main.video.VideoFragment
