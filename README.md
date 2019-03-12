@@ -10,8 +10,9 @@
 - Architecture: MVVM
 - Android architecture components: ViewModel, LiveData, Room
 - Dependency injection: Dagger2
-- Network: Retrofit, RxJava
+- Network: Retrofit, Okhttp
 - Testing: JUnit, Espresso, Mockito
+- Data layer with repository pattern and RxJava
 - Continuous integration with [CircleCI](https://circleci.com/)
 - Test report and coverage with [Coveralls](https://coveralls.io/)
 - Run instrumented tests with [Firebase Test Lab](https://firebase.google.com/docs/test-lab/)
@@ -24,6 +25,10 @@
 - Play videos offline with the built-in player
 - Save your favorite videos online and watch them later without downloading them
 - Save bookmark and history as a real browser
+
+## Screenshots
+
+<img src="screenshots/screenshot_1.png" width="170"> <img src="screenshots/screenshot_2.png" width="170"> <img src="screenshots/screenshot_3.png" width="170"> <img src="screenshots/screenshot_4.png" width="170"> <img src="screenshots/screenshot_5.png" width="170">
 
 ## License
 
