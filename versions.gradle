@@ -21,8 +21,6 @@ versions.okhttp = "3.11.0"
 versions.stetho = "1.5.0"
 versions.glide = "4.8.0"
 versions.coveralls = "2.8.1"
-versions.google_services = "4.0.1"
-versions.firebase = "16.0.1"
 def deps = [:]
 
 def android = [:]
@@ -104,14 +102,6 @@ deps.stetho = stetho
 def coveralls = [:]
 coveralls.plugin = "org.kt3k.gradle.plugin:coveralls-gradle-plugin:$versions.coveralls"
 deps.coveralls = coveralls
-
-def google_services = [:]
-google_services.plugin = "com.google.gms:google-services:$versions.google_services"
-deps.google_services = google_services
-
-def firebase = [:]
-firebase.core = "com.google.firebase:firebase-core:$versions.firebase"
-deps.firebase = firebase
 
 ext.deps = deps
 

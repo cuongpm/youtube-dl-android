@@ -10,7 +10,6 @@ buildscript {
         classpath deps.kotlin.plugin
         classpath deps.kotlin.allopen
         classpath deps.coveralls.plugin
-        classpath deps.google_services.plugin
     }
 }
 
