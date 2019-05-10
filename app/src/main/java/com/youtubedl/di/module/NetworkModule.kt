@@ -25,7 +25,7 @@ class NetworkModule {
 
     companion object {
         private const val DATA_URL = "https://generaldata-79d9b.firebaseapp.com/youtube-dl/"
-        private const val YTDL_URL = "http://youtube-dl55.herokuapp.com/api/"
+        private const val YTDL_URL = "http://youtube-dl-android.herokuapp.com/api/"
     }
 
     private fun buildOkHttpClient(application: Application): OkHttpClient =
